@@ -1,15 +1,21 @@
 @extends('layout.default')
 
 @section('title', 'Book Your Photography Session')
+@section('assets')
+    @vite('css.bookingform')
+    @vite('js.bookingform')
+@endsection
 
 @section('content')
-    <section id="booking" class="booking-section section-title fade-in" style="padding-top: 100px">
-        <div class="container">
+    {{-- Booking Section --}}
+    <section id="booking" class="booking-section" style="margin-top: 100px;">
+        <div class="container text-center">
             <h2 class="section-title">Book Your Photography Session</h2>
-            <p>Fill out the form below to schedule your photography session with us.</p>
+            <p class="lead">Fill out the form below to schedule your photography session with us.</p>
         </div>
     </section>
-    
+
+    {{-- Booking Form --}}
     @livewire('booking-form')
     
     <section id="testimonials" class="testimonials-section">
