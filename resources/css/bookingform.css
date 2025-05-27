@@ -249,7 +249,7 @@ body {
 }
 
 .alert-success::before {
-    content: '\f00c';
+    content: '✅';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     margin-right: 0.75rem;

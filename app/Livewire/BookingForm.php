@@ -12,8 +12,6 @@ class BookingForm extends Component
     public $phone;
     public $date;
     public $time; 
-
-    protected $fillable = ['name', 'email', 'phone', 'date', 'time'];
     
     public $rules = [
         'name' => 'required|string|max:255',
@@ -25,7 +23,6 @@ class BookingForm extends Component
 
     public function submitForm()
     {
-        sleep(10);
         $this->validate();
 
         // Here you would typically save the booking to the database
