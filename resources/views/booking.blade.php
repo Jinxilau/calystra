@@ -1,18 +1,23 @@
 @extends('layout.default')
 
 @section('title', 'Book Your Photography Session')
+@section('assets')
+    @vite('resources\css\bookingform.css')
+@endsection
 
 @section('content')
-    <section id="booking" class="booking-section section-title fade-in" style="padding-top: 100px">
-        <div class="container">
+    {{-- Booking Section --}}
+    <section id="booking" class="booking-section" style="margin-top: 100px;">
+        <div class="container text-center">
             <h2 class="section-title">Book Your Photography Session</h2>
-            <p>Fill out the form below to schedule your photography session with us.</p>
+            <p class="lead">Fill out the form below to schedule your photography session with us.</p>
         </div>
     </section>
-    
+
+    {{-- Booking Form --}}
     @livewire('booking-form')
     
-    <section id="testimonials" class="testimonials-section">
+    {{-- <section id="testimonials" class="testimonials-section">
         <div class="container">
             <h2 class="section-title">What Our Clients Say</h2>
             <div class="testimonial-card fade-in">
@@ -44,5 +49,5 @@
             <p>If you have any questions or need assistance, feel free to reach out to us.</p>
             <p>Email:<a href="mailto:jinxilau9@gmail.com">jinxilau9@gmail.com</a>
         </div>
-    </section>
+    </section> --}}
 @endsection

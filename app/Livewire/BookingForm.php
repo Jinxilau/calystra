@@ -8,34 +8,46 @@ use Livewire\Component;
 class BookingForm extends Component
 {
     public $name;
-    public $event_type; 
-    public $event_date;
+    public $email;
+    public $phone;
+    public $date;
+    public $time; 
+
+    protected $fillable = ['name', 'email', 'phone', 'date', 'time'];
     
     public $rules = [
         'name' => 'required|string|max:255',
-        'event_type' => 'required|string|max:255',
-        'event_date' => 'required|date',
+        'email' => 'required|email|max:255',
+        'phone' => 'required|string|max:20',
+        'date' => 'required|date',
+        'time' => 'required|string|max:10',
     ];
 
-    public function submit()
+    public function submitForm()
     {
+        sleep(10);
         $this->validate();
 
         // Here you would typically save the booking to the database
         Booking::create([
             'name' => $this->name,
-            'event_type' => $this->event_type,
-            'event_date' => $this->event_date,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'date' => $this->date,
+            'time' => $this->time,
         ]);
 
-        session()->flash('message', 'Booking successfully created.');
-
         // Reset form fields
-        $this->reset(['name', 'event_type', 'event_date']);
+        $this->reset(['name', 'email', 'phone', 'date', 'time']);
+        
+        session()->flash('success', 'Booking successfully created.');
     }
     
     public function render()
     {
-        return view('livewire.booking-form');
+        $bookings = Booking::all();
+        return view('livewire.booking-form', [
+            'bookings' => $bookings,
+        ]);
     }
 }
