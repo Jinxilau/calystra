@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Photographer extends Model
+{
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class, 'photographer_id', 'user_id');
+    }
+    //
+}
