@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create('add_ons', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
-            $table->string('email');
-            $table->string('phone');
-            $table->date('date');
-            $table->time('time');
+            $table->text('description');
+            $table->decimal('price', 8, 2);
+            $table->string('type'); // extra_hour, prints, album, etc.
+            $table->boolean('is_active')->default(true);
+
+
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bookings');
+        Schema::dropIfExists('add_ons');
     }
 };
