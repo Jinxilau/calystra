@@ -2,6 +2,10 @@
 
 @section('title', 'Calystra Studio - Professional Photography in Malaysia')
 
+@section('assets')
+    @vite('resources\css\home.css')
+@endsection
+
 @section('content')
 <!-- Hero Section -->
 <section id="home" class="hero">
@@ -25,19 +29,21 @@
             <p>Professional photography tailored to your needs with easy online booking</p>
         </div>
         <div class="services-grid">
-            <div class="service-card fade-in">
-                <img src="{{asset('images/wedding.png')}}" class="service-image" alt="">
-                <div class="service-icon">💒</div>
-                <h3>Wedding Photography</h3>
-                <p>Capture your special day with our expert wedding photographers. From intimate ceremonies to grand celebrations.</p>
-                <ul class="service-features">
-                    <li>Pre-wedding consultation</li>
-                    <li>Full-day coverage</li>
-                    <li>Professional editing</li>
-                    <li>Online gallery delivery</li>
-                    <li>Customizable packages</li>
-                </ul>
-            </div>
+                <a href="{{ route('wedding') }}" class="link">
+                    <div class="service-card fade-in">
+                        <img src="{{asset('images/wedding.png')}}" class="service-image" alt="">
+                        <div class="service-icon">💒</div>
+                        <h3>Wedding Photography</h3>
+                        <p>Capture your special day with our expert wedding photographers. From intimate ceremonies to grand celebrations.</p>
+                        <ul class="service-features">
+                            <li>Pre-wedding consultation</li>
+                            <li>Full-day coverage</li>
+                            <li>Professional editing</li>
+                            <li>Online gallery delivery</li>
+                            <li>Customizable packages</li>
+                        </ul>
+                    </div>
+                </a>
             <div class="service-card fade-in">
                 <img src="{{asset('images/event.png')}}" class="service-image" alt="">
                 <div class="service-icon">🏢</div>
