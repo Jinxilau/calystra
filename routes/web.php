@@ -4,6 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ImageController;
 use Livewire\Volt\Volt;
 
+Route::view('/', 'welcome');
+
+Route::view('dashboard', 'dashboard')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
+Route::view('profile', 'profile')
+    ->middleware(['auth'])
+    ->name('profile');
+
+require __DIR__.'/auth.php';
+
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -11,6 +24,14 @@ Route::get('/', function () {
 Route::get('/booking', function () {
     return view('booking');
 })->name('booking');
+
+Route::get('/wedding', function () {
+    return view('wedding');
+})->name('wedding');
+
+// Route::get('/upload_image', function () {
+//     return view('upload_image');
+// })->name('upload_image');
 
 Route::get('/wedding', function () {
     return view('wedding');
