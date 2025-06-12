@@ -20,35 +20,52 @@ class ImageController extends Controller
     {
         $validated = $request->validate([
             'imageType' => 'required|string|max:50',
-            'title' => 'required|string|max:255',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Store the image file
-        $path = $request->file('image')->store('public/images');
+        $path = $request->file('image')->store('images', 'public');
         $filename = basename($path);
 
         // Store in database    
         $image = Image::create([
             'image_type' => $validated['imageType'],
-            'title' => $validated['title'],
             'filename' => $filename,
         ]);
 
-        // return redirect()->route('images.index')->with('success', 'Image uploaded successfully!');
+        return redirect()->route('images.index')->with('success', 'Image uploaded successfully!');
     }
 
-    public function destroy ($id)
+    public function destroy($id)
     {
         $image = Image::findOrFail($id);
 
-        if(Storage::exists(''))
+        if (Storage::exists('public/images/' . $image->filename)) {
+            Storage::delete('public/images/' . $image->filename);
+        }
+
+        $image->delete();
+
+        return redirect()->back()->with('success', 'Image deleted successfully.');
     }
 
-    // // Display images to users
-    // public function index()
-    // {
-    //     $images = Image::latest()->get();
-    //     return view('images.index', compact('images'));
-    // }
+    // Display images to users
+    public function index(Request $request)
+    {   
+        $filterType = $request->get('type'); // Get type from dropdown
+
+        $types = Image::select('image_type')->distinct()->pluck('image_type'); // For dropdown
+
+        $images = Image::when($filterType, function ($query, $filterType) {
+            return $query->where('image_type', $filterType);
+        })->get();
+
+        return view('admin.upload_image', compact('images', 'filterType', 'types'));
+    }
+
+    public function showWeddingGallery()
+    {
+        $weddingImages = Image::where('image_type', 'wedding')->get();
+        return view('wedding', compact('weddingImages')); // ⬅️ this makes $images available in the view
+    }
 }

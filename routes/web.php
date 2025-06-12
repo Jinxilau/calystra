@@ -51,25 +51,13 @@ Route::post('/logout', function () {
 // Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
 
-// // Route::get('/', function () {
-// //     return view('home');
-// // })->name('home');
+ Route::get('/', function () {
+    return view('home');
+ })->name('home');
 
-// Route::get('/booking', function () {
-//     return view('booking');
-// })->name('booking');
-
-// Route::get('/wedding', function () {
-//     return view('wedding');
-// })->name('wedding');
-
-// Route::get('/upload_image', function () {
-//     return view('upload_image');
-// })->name('upload_image');
-
-Route::get('/wedding', function () {
-    return view('wedding');
-})->name('wedding');
+Route::get('/booking', function () {
+    return view('booking');
+})->name('booking');
 
 Route::get('/admin/manageBooking', function () {
     return view('admin.manageBooking');
@@ -88,7 +76,14 @@ Route::get('/admin/manageUser', function () {
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-Route::get('/admin/upload_image', [ImageController::class, 'create'])->name('images.create');
-Route::post('admin/upload_image', [ImageController::class, 'store'])->name('images.store');
+Route::get('/admin/upload_image/create', [ImageController::class, 'create'])->name('images.create');
+Route::post('/admin/upload_image/index', [ImageController::class, 'store'])->name('images.store');
+
+Route::get('/admin/upload_image', [ImageController::class, 'index'])->name('images.index');
+Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
 // });require __DIR__.'/auth.php';
+
+//show wedding image to user
+Route::get('/wedding', [ImageController::class, 'showWeddingGallery'])->name('wedding');
+
 require __DIR__ . '/auth.php';
