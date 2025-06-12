@@ -92,6 +92,5 @@ Route::get('/admin/manageUser', function () {
 
 Route::get('/admin/upload_image', [ImageController::class, 'create'])->name('images.create');
 Route::post('admin/upload_image', [ImageController::class, 'store'])->name('images.store');
-// });
-
+// });require __DIR__.'/auth.php';
 require __DIR__ . '/auth.php';

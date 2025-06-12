@@ -38,12 +38,12 @@ class ImageController extends Controller
         // return redirect()->route('images.index')->with('success', 'Image uploaded successfully!');
     }
 
-    // public function destroy ($id)
-    // {
-    //     $image = Image::findOrFail($id);
+    public function destroy ($id)
+    {
+        $image = Image::findOrFail($id);
 
-    //     if(Storage::exists(''))
-    // }
+        if(Storage::exists(''))
+    }
 
     // // Display images to users
     // public function index()
