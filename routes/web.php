@@ -19,13 +19,20 @@ Route::get('/dashboard', function () {
     };
 })->middleware('auth')->name('dashboard');
 
-Route::get('/', function () {
-    return redirect('/dashboard');
-})->middleware('auth');
+// Route::get('/', function () {
+//     return redirect('/dashboard');
+// })->middleware('auth');
 
-Route::get('/login', function () {
-    return view('/login');
-})->name('login');
+Route::get('/booking', function () {
+    return view('booking');
+})->middleware('auth')->name('booking');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->middleware('auth')->name('logout');
+
+Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
 // Admin-only routes
 Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
@@ -39,35 +46,24 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
     // Add more user routes here
 });
 
-
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/login');
-})->middleware('auth')->name('logout');
-
 // Route::view('dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
 Route::get('/settings/profile', function () {
     return view('settings.profile');
 })->name('settings.profile');
 
-Route::get('/home', function () {
+// Guest routes
+Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/booking', function () {
-    return view('booking');
-})->name('booking');
+Route::get('/login', function () {
+    return view('/login');
+})->name('login');
 
- Route::get('/', function () {
-    return view('home');
- })->name('home');
+////////////////////////////////
 
-Route::get('/booking', function () {
-    return view('booking');
-})->name('booking');
 
 Route::get('/admin/manageBooking', function () {
     return view('admin.manageBooking');
