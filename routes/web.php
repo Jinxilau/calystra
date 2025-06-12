@@ -8,7 +8,7 @@ use Livewire\Volt\Volt;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\User\Dashboard as UserDashboard;
 
-Route::view('/', 'welcome')->name('welcome'); // Public welcome page
+// Route::view('/', 'welcome')->name('welcome'); // Public welcome page
 
 // Role-based redirection after login
 Route::get('/dashboard', function () {
@@ -17,26 +17,25 @@ Route::get('/dashboard', function () {
         'user' => redirect('/user/dashboard'),
         default => abort(403),
     };
-})->middleware('auth');
+})->middleware('auth')->name('dashboard');
 
 Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
 
+Route::get('/login', function () {
+    return view('/login');
+})->name('login');
 
 // Admin-only routes
-Route::middleware(['auth', RoleMiddleware::class . ':admin',])
-    ->group(function () {
-        Route::get('/admin/dashboard', AdminDashboard::class);
-        // Add more admin routes here
+Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
+    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
+    // Add more admin routes here
 });
 
 // Normal user routes
-Route::middleware([
-    'auth',
-    RoleMiddleware::class . ':user',
-])->group(function () {
-    Route::get('/user/dashboard', UserDashboard::class);
+Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
+    Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
     // Add more user routes here
 });
 
@@ -44,12 +43,23 @@ Route::middleware([
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
-})->middleware('auth');
+})->middleware('auth')->name('logout');
 
 // Route::view('dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
+Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
+Route::get('/settings/profile', function () {
+    return view('settings.profile');
+})->name('settings.profile');
+
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
+Route::get('/booking', function () {
+    return view('booking');
+})->name('booking');
 
  Route::get('/', function () {
     return view('home');

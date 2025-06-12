@@ -37,9 +37,9 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
     /**
      * Real-time validation for better UX
      */
-    public function updated($propertyName): void
+    public function updated($propertyName): void // This method is called whenever a property is updated wire:model
     {
-        $this->validateOnly($propertyName);
+        $this->validateOnly($propertyName);  // Validate only the changed property
     }
 
     /**
@@ -47,7 +47,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
      */
     public function register(): void
     {
-        $validated = $this->validate();
+        $validated = $this->validate(); // rule()
 
         // Remove terms_accepted from validated data before creating user
         unset($validated['terms_accepted']);
@@ -56,19 +56,20 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
 
         event(new Registered($user = User::create($validated)));
 
-        Auth::login($user);
+        // Auth::login($user); // Login the user after registration
 
         session()->flash('registered', true);
         
-        $this->redirect(route('dashboard', absolute: false), navigate: true);
+        $this->redirect(route('login', absolute: false), navigate: true);
     }
 
     /**
      * Check if password meets requirements
      */
-    public function getPasswordStrengthProperty(): array
-    {
+    public function getPasswordStrengthProperty(): array // Computed property, automatically recalculated when $this->password changes
+    { // This method is accessed when $this->passwordStrength is referenced in the view
         $password = $this->password;
+
         $strength = [
             'length' => strlen($password) >= 8,
             'uppercase' => preg_match('/[A-Z]/', $password),
@@ -76,10 +77,18 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
             'number' => preg_match('/[0-9]/', $password),
             'special' => preg_match('/[^A-Za-z0-9]/', $password),
         ];
+
+        /*[
+            'length' => false, // 3 chars < 8
+            'uppercase' => true, // has "A"
+            'lowercase' => true, // has "b"
+            'number' => true, // has "1"
+        ] */
         
         return $strength;
     }
-}; ?>
+}; 
+?>
 
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">

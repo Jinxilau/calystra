@@ -18,7 +18,7 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->form->authenticate();
 
-        Session::regenerate();
+        Session::regenerate(); // Regenerate session to prevent session fixation attacks
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
@@ -36,9 +36,25 @@ new #[Layout('layouts.guest')] class extends Component
 }; 
 ?>
 
-<div>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    @if(session('registered'))
+        <p class="text-green-500">You have successfully registered! Please log in.</p>
+    @endif
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="text-center">
+            <h2 class="text-3xl font-bold tracking-tight text-gray-900">
+                {{ __('Sign in to your account') }}
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                {{ __('Welcome back! Please enter your credentials.') }}
+            </p>
+        </div>
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10 border border-gray-200">
+            <!-- Session Status -->
+            <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form wire:submit="login">
         <!-- Email Address -->
