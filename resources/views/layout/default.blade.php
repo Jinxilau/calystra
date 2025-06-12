@@ -28,7 +28,52 @@
                     <span></span>
                     <span></span>
                 </div>
-                <a href="#booking" class="cta-button">Book Now</a>
+                <a href="{{ route('booking') }}" class="cta-button">Book Now</a>
+
+                @auth
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" 
+                                type="button" 
+                                id="userDropdown" 
+                                data-bs-toggle="dropdown" 
+                                aria-expanded="false"
+                                style="position: relative; z-index: 1050;">
+                            {{ auth()->user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" 
+                            aria-labelledby="userDropdown"
+                            style="position: absolute; z-index: 1051;">
+                            <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('settings.profile') }}">
+                                    Profile
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button class="dropdown-item text-danger" type="submit">
+                                        Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <div class="auth-buttons">
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Login</a>
+                        @if(Route::has('register'))
+                            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+                        @endif
+                    </div>
+                @endauth
             </div>
         </div>
     </nav>
