@@ -19,7 +19,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 
         $this->form->authenticate();
 
-        Session::regenerate();
+        Session::regenerate(); // Regenerate session to prevent session fixation attacks
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
@@ -38,6 +38,9 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 ?>
 
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    @if(session('registered'))
+        <p class="text-green-500">You have successfully registered! Please log in.</p>
+    @endif
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <div class="text-center">
             <h2 class="text-3xl font-bold tracking-tight text-gray-900">
