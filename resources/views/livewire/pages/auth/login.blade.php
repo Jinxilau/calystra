@@ -22,7 +22,19 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
-}; ?>
+
+    /**
+     * Mount the component with any flash messages
+     */
+    public function mount(): void
+    {
+        // Handle any registration success messages
+        if (session('registered')) {
+            $this->dispatch('show-success', message: __('Registration successful! Please log in.'));
+        }
+    }
+}; 
+?>
 
 <div>
     <!-- Session Status -->

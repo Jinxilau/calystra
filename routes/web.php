@@ -8,29 +8,27 @@ use Livewire\Volt\Volt;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\User\Dashboard as UserDashboard;
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->name('welcome'); // Public welcome page
+
+// Role-based redirection after login
+Route::get('/dashboard', function () {
+    return match (Auth::user()->role) {
+        'admin' => redirect('/admin/dashboard'),
+        'user' => redirect('/user/dashboard'),
+        default => abort(403),
+    };
+})->middleware('auth');
 
 Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
 
 
-// Role-based redirection after login
-Route::get('/dashboard', function () {
-    $role = Auth::user()->role;
-
-    return $role === 'admin'
-        ? redirect('/admin/dashboard')
-        : redirect('/user/dashboard');
-})->middleware('auth');
-
 // Admin-only routes
-Route::middleware([
-    'auth',
-    RoleMiddleware::class . ':admin',
-])->group(function () {
-    Route::get('/admin/dashboard', AdminDashboard::class);
-    // Add more admin routes here
+Route::middleware(['auth', RoleMiddleware::class . ':admin',])
+    ->group(function () {
+        Route::get('/admin/dashboard', AdminDashboard::class);
+        // Add more admin routes here
 });
 
 // Normal user routes
