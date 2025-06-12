@@ -34,7 +34,8 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
             $this->dispatch('show-success', message: __('Registration successful! Please log in.'));
         }
     }
-}; ?>
+}; 
+?>
 
 <div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
