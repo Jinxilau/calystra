@@ -3,7 +3,7 @@
 @section('title', 'Calystra Studio - Professional Photography in Malaysia')
 
 @section('assets')
-    @vite('resources\css\home.css')
+@vite('resources\css\home.css')
 @endsection
 
 @section('content')
@@ -29,34 +29,36 @@
             <p>Professional photography tailored to your needs with easy online booking</p>
         </div>
         <div class="services-grid">
-                <a href="{{ route('wedding') }}" class="link">
-                    <div class="service-card fade-in">
-                        <img src="{{asset('images/wedding.png')}}" class="service-image" alt="">
-                        <div class="service-icon">💒</div>
-                        <h3>Wedding Photography</h3>
-                        <p>Capture your special day with our expert wedding photographers. From intimate ceremonies to grand celebrations.</p>
-                        <ul class="service-features">
-                            <li>Pre-wedding consultation</li>
-                            <li>Full-day coverage</li>
-                            <li>Professional editing</li>
-                            <li>Online gallery delivery</li>
-                            <li>Customizable packages</li>
-                        </ul>
-                    </div>
-                </a>
-            <div class="service-card fade-in">
-                <img src="{{asset('images/event.png')}}" class="service-image" alt="">
-                <div class="service-icon">🏢</div>
-                <h3>Corporate Events</h3>
-                <p>Professional event photography for corporate functions, conferences, and business gatherings.</p>
-                <ul class="service-features">
-                    <li>Event planning support</li>
-                    <li>Multiple photographers</li>
-                    <li>Quick turnaround</li>
-                    <li>High-resolution images</li>
-                    <li>Commercial licensing</li>
-                </ul>
-            </div>
+            <a href="{{ route('wedding') }}" class="link">
+                <div class="service-card fade-in">
+                    <img src="{{asset('images/wedding.png')}}" class="service-image" alt="">
+                    <div class="service-icon">💒</div>
+                    <h3>Wedding Photography</h3>
+                    <p>Capture your special day with our expert wedding photographers. From intimate ceremonies to grand celebrations.</p>
+                    <ul class="service-features">
+                        <li>Pre-wedding consultation</li>
+                        <li>Full-day coverage</li>
+                        <li>Professional editing</li>
+                        <li>Online gallery delivery</li>
+                        <li>Customizable packages</li>
+                    </ul>
+                </div>
+            </a>
+            <a href="{{ route('corporate') }}" class="link">
+                <div class="service-card fade-in">
+                    <img src="{{asset('images/event.png')}}" class="service-image" alt="">
+                    <div class="service-icon">🏢</div>
+                    <h3>Corporate Events</h3>
+                    <p>Professional event photography for corporate functions, conferences, and business gatherings.</p>
+                    <ul class="service-features">
+                        <li>Event planning support</li>
+                        <li>Multiple photographers</li>
+                        <li>Quick turnaround</li>
+                        <li>High-resolution images</li>
+                        <li>Commercial licensing</li>
+                    </ul>
+                </div>
+            </a>
             <div class="service-card fade-in">
                 <div class="service-icon">👠</div>
                 <img src="{{asset('images/fashion.png')}}" class="service-image" alt="">

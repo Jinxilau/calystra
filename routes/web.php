@@ -95,5 +95,7 @@ Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->
 
 //show wedding image to user
 Route::get('/wedding', [ImageController::class, 'showWeddingGallery'])->name('wedding');
+//Show event image to user
+Route::get('/corporate', [ImageController::class, 'showEventGallery'])->name('corporate');
 
 require __DIR__ . '/auth.php';

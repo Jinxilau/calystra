@@ -68,4 +68,10 @@ class ImageController extends Controller
         $weddingImages = Image::where('image_type', 'wedding')->get();
         return view('wedding', compact('weddingImages')); // ⬅️ this makes $images available in the view
     }
+
+    public function showEventGallery()
+    {
+        $eventImages = Image::where('image_type', 'event')->get();
+        return view('corporate', compact('eventImages')); // ⬅️ this makes $images available in the view
+    }
 }
