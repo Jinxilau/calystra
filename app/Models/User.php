@@ -69,10 +69,10 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public function profile()
-    {
-        return $this->hasOne(UserProfile::class);
-    }
+    // public function profile()
+    // {
+    //     return $this->hasOne(UserProfile::class);
+    // }
 
     public function bookings()
     {

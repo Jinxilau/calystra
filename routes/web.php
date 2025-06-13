@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
 // })->middleware('auth');
 
 Route::get('/booking', function () {
-    return view('booking');
+    return view('user.booking');
 })->middleware('auth')->name('booking');
 
 Route::post('/logout', function () {
@@ -59,7 +59,7 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/login', function () {
+Route::post('/login', function () {
     return view('resources\views\livewire\pages\auth\login.blade.php');
 })->name('login');
 
