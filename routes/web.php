@@ -29,10 +29,14 @@ Route::get('/booking', function () {
 
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/login');
+    return redirect('/');
 })->middleware('auth')->name('logout');
 
 Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
+
+Route::get('/settings/profile', function () {
+    return view('livewire.settings.profile');
+})->middleware('auth')->name('settings.profile');
 
 // Admin-only routes
 Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
@@ -49,9 +53,6 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
 // Route::view('dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/settings/profile', function () {
-    return view('settings.profile');
-})->name('settings.profile');
 
 // Guest routes
 Route::get('/', function () {
@@ -59,7 +60,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/login', function () {
-    return view('/login');
+    return view('resources\views\livewire\pages\auth\login.blade.php');
 })->name('login');
 
 ////////////////////////////////

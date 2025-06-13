@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
 
-            $table->string('booking_number')->unique();
+            // $table->string('booking_number')->unique();
             $table->foreignId('user_id')->constrained(); // client
             $table->foreignId('service_id')->constrained();
             $table->foreignId('photographer_id')->nullable()->constrained('users');
