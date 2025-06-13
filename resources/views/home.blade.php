@@ -59,32 +59,36 @@
                     </ul>
                 </div>
             </a>
-            <div class="service-card fade-in">
-                <div class="service-icon">👠</div>
-                <img src="{{asset('images/fashion.png')}}" class="service-image" alt="">
-                <h3>Fashion & Style</h3>
-                <p>Stylish fashion and personal style photoshoots available in-studio or at curated outdoor locations.</p>
-                <ul class="service-features">
-                    <li>Studio or on-location fashion shoots</li>
-                    <li>Wardrobe styling and fashion props included</li>
-                    <li>Multiple outfit changes encouraged</li>
-                    <li>High-end professional retouching</li>
-                    <li>Portfolio and print packages available</li>
-                </ul>
-            </div>
-            <div class="service-card fade-in">
-                <img src="{{asset('images/convo.png')}}" class="service-image" alt="">
-                <div class="service-icon">👨‍🎓</div>
-                <h3>Convocation</h3>
-                <p>Celebrate your academic achievement with professional convocation photoshoots in-studio or at meaningful locations.</p>
-                <ul class="service-features">
-                    <li>Studio or on-location convocation shoots</li>
-                    <li>Graduation robes and props provided (optional)</li>
-                    <li>Family and group photo options</li>
-                    <li>Professional editing and retouching</li>
-                    <li>Print and digital packages available</li>
-                </ul>
-            </div>
+            <a href="{{ route('fashion') }}" class="link">
+                <div class="service-card fade-in">
+                    <div class="service-icon">👠</div>
+                    <img src="{{asset('images/fashion.png')}}" class="service-image" alt="">
+                    <h3>Fashion & Style</h3>
+                    <p>Stylish fashion and personal style photoshoots available in-studio or at curated outdoor locations.</p>
+                    <ul class="service-features">
+                        <li>Studio or on-location fashion shoots</li>
+                        <li>Wardrobe styling and fashion props included</li>
+                        <li>Multiple outfit changes encouraged</li>
+                        <li>High-end professional retouching</li>
+                        <li>Portfolio and print packages available</li>
+                    </ul>
+                </div>
+            </a>
+            <a href="{{ route('convo') }}" class="link">
+                <div class="service-card fade-in">
+                    <img src="{{asset('images/convo.png')}}" class="service-image" alt="">
+                    <div class="service-icon">👨‍🎓</div>
+                    <h3>Convocation</h3>
+                    <p>Celebrate your academic achievement with professional convocation photoshoots in-studio or at meaningful locations.</p>
+                    <ul class="service-features">
+                        <li>Studio or on-location convocation shoots</li>
+                        <li>Graduation robes and props provided (optional)</li>
+                        <li>Family and group photo options</li>
+                        <li>Professional editing and retouching</li>
+                        <li>Print and digital packages available</li>
+                    </ul>
+                </div>
+            </a>
         </div>
     </div>
 </section>

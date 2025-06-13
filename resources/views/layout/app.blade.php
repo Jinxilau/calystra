@@ -3,6 +3,7 @@
 <head>
     <title>@yield('title', 'My App')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
@@ -16,7 +17,7 @@
                     <a class="nav-link {{ request()->is('admin/manageBooking') ? 'active' : '' }}" href="{{ route('managebooking') }}">Manage Booking</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('admin/upload_image') ? 'active' : '' }}" href="{{ route('manageimage') }}">Manage Image</a>
+                    <a class="nav-link {{ request()->is('admin/upload_image') ? 'active' : '' }}" href="{{ route('images.index') }}">Manage Image</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->is('admin/manageUser') ? 'active' : '' }}" href="{{ route('manageuser') }}">Manage User</a>

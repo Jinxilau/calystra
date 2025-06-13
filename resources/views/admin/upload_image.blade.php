@@ -1,6 +1,25 @@
 @extends('layout.app')
 
 @section('content')
+
+@if (session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert" id="success-alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
+<script>
+    // Automatically fade out after 3 seconds
+    setTimeout(function() {
+        let alert = document.getElementById('success-alert');
+        if (alert) {
+            let bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close(); // Triggers Bootstrap's dismiss animation
+        }
+    }, 3000); // 3 seconds
+</script>
+@endif
+
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card mb-5">
@@ -10,7 +29,6 @@
             <div class="card-body">
                 <form method="POST" action="{{ route('images.store') }}" enctype="multipart/form-data">
                     @csrf
-
                     <div class="mb-3">
                         <label for="imageType" class="form-label">Image Type</label>
                         <select class="form-control" id="imageType" name="imageType" required>

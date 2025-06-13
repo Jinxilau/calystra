@@ -12,7 +12,7 @@ class ImageController extends Controller
     // Admin upload form
     public function create()
     {
-        return view('admin.upload_image');
+        return view('admin.upload_image');  
     }
 
     // Store uploaded image
@@ -64,7 +64,7 @@ class ImageController extends Controller
     }
 
     public function showWeddingGallery()
-    {
+    {   
         $weddingImages = Image::where('image_type', 'wedding')->get();
         return view('wedding', compact('weddingImages')); // ⬅️ this makes $images available in the view
     }
@@ -73,5 +73,17 @@ class ImageController extends Controller
     {
         $eventImages = Image::where('image_type', 'event')->get();
         return view('corporate', compact('eventImages')); // ⬅️ this makes $images available in the view
+    }
+
+    public function showFashionGallery()
+    {
+        $fashionImages = Image::where('image_type', 'fashion')->get();
+        return view('fashion', compact('fashionImages')); // ⬅️ this makes $images available in the view
+    }
+
+    public function showConvoGallery()
+    {
+        $convoImages = Image::where('image_type', 'convo')->get();
+        return view('convo', compact('convoImages')); // ⬅️ this makes $images available in the view
     }
 }

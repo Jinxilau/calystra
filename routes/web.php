@@ -7,6 +7,7 @@ use App\Http\Controllers\ImageController;
 use Livewire\Volt\Volt;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\User\Dashboard as UserDashboard;
+use App\Http\Controllers\FavoriteController;
 
 // Route::view('/', 'welcome')->name('welcome'); // Public welcome page
 
@@ -69,9 +70,9 @@ Route::get('/admin/manageBooking', function () {
     return view('admin.manageBooking');
 })->name('managebooking');
 
-Route::get('/admin/manage_image', function () {
-    return view('admin.upload_image');
-})->name('manageimage');
+// Route::get('/admin/upload_image', function () {
+//     return view('admin.upload_image');
+// })->name('manageimage');
 
 Route::get('/admin/manageUser', function () {
     return view('admin.manageUser');
@@ -83,7 +84,7 @@ Route::get('/admin/manageUser', function () {
 //     ->name('dashboard');
 
 Route::get('/admin/upload_image/create', [ImageController::class, 'create'])->name('images.create');
-Route::post('/admin/upload_image/index', [ImageController::class, 'store'])->name('images.store');
+Route::post('/admin/upload_image', [ImageController::class, 'store'])->name('images.store');
 
 Route::get('/admin/upload_image', [ImageController::class, 'index'])->name('images.index');
 Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
@@ -93,5 +94,16 @@ Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->
 Route::get('/wedding', [ImageController::class, 'showWeddingGallery'])->name('wedding');
 //Show event image to user
 Route::get('/corporate', [ImageController::class, 'showEventGallery'])->name('corporate');
+//Show fashion image to user
+Route::get('/fashion', [ImageController::class, 'showFashionGallery'])->name('fashion');
+//Show convo image to user
+Route::get('/convo', [ImageController::class, 'showConvoGallery'])->name('convo');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'myFavorites'])->name('favorites.index');
+    Route::post('/favorite/{id}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+});
+
 
 require __DIR__ . '/auth.php';
