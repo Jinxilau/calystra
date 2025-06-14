@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Container\Attributes\Log;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
@@ -35,8 +36,8 @@ class BookingForm extends Component
     #[Validate('required|string|max:100')]
     public $event_name = '';
 
-    #[Validate('nullable|integer|min:1|max:1000')]
-    public $guest_count = '';
+    #[Validate('nullable|integer|min:0|max:1000')]
+    public $guest_count = 0;
 
     #[Validate('required|string|in:pending,paid,partial')]
     public $deposit_status = 'pending';
@@ -44,6 +45,48 @@ class BookingForm extends Component
     #[Validate('nullable|string|max:1000')]
     public $notes = '';
 
+    // Form state
+    public $currentStep = 1;
+    public $totalSteps = 3;
+    public $showSuccessMessage = false;
+
+    public function nextStep()
+    {
+        $this->validateCurrentStep();
+        
+        if ($this->currentStep < $this->totalSteps) {
+            $this->currentStep++;
+        }
+    }
+
+    public function previousStep()
+    {
+        if ($this->currentStep > 1) {
+            $this->currentStep--;
+        }
+    }
+
+    private function validateCurrentStep()
+    {
+        switch ($this->currentStep) {
+            case 1:
+                $this->validate([
+                    'event_type' => 'required|string',
+                    'event_date' => 'required|date|after:today',
+                    'start_time' => 'required|date_format:H:i',
+                    'event_location' => 'nullable|string|max:1000',
+                ]);
+                break;
+            case 2:
+                $this->validate([
+                    'contact_name' => 'required|string|max:255',
+                    'contact_email' => 'required|email|max:255',
+                    'contact_phone' => 'required|string|max:20',
+                ]);
+                break;
+        }
+    }
+    
     public function mount() // Initialize component
     {
         if (Auth::check()) {
@@ -62,7 +105,7 @@ class BookingForm extends Component
                 'user_id' => Auth::id(), // Associate with logged-in user if available
                 'event_type' => $this->event_type,
                 'event_date' => $this->event_date,
-                'event_time' => $this->event_time,
+                'start_time' => $this->event_time,
                 'event_location' => $this->event_location,
                 'event_name' => $this->event_name,
                 'guest_count' => $this->guest_count,
@@ -71,6 +114,12 @@ class BookingForm extends Component
                 'status' => 'pending', // Default booking status
             ]);
 
+            User::where('id', Auth::id())->update([
+                'fullname' => $this->customer_name,
+                'phone' => $this->customer_phone,
+            ]);
+            
+            // Optionally, you can send a notification or email to the user here
             // Reset form fields after successful submission
             $this->resetForm();
 
@@ -91,7 +140,7 @@ class BookingForm extends Component
     {
         $this->reset([
             'customer_name',
-            'customer_email', 
+            // 'customer_email', 
             'customer_phone',
             'event_type',
             'event_date',

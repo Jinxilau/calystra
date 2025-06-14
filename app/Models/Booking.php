@@ -12,7 +12,7 @@ class Booking extends Model
         'photographer_id',
         'event_type',
         'event_date',
-        'event_time',
+        'start_time',
         'event_location',
         'event_name',
         'guest_count',
