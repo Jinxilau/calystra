@@ -55,6 +55,11 @@
                                     Profile
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('favorites.index') }}">
+                                    My favourites
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">

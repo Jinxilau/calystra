@@ -102,7 +102,8 @@ Route::get('/convo', [ImageController::class, 'showConvoGallery'])->name('convo'
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'myFavorites'])->name('favorites.index');
-    Route::post('/favorite/{id}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::post('/favorites/add/{id}', [FavoriteController::class, 'addFavorite'])->name('favorites.add');
+    Route::post('/favorites/delete/{id}', [FavoriteController::class, 'deleteFavorite'])->name('favorites.delete');
 });
 
 
