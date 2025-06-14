@@ -7,10 +7,10 @@
 
 @section('content')
     {{-- Booking Section --}}
-    <section id="booking" class="booking-section" style="margin-top: 100px;">
+    <section id="booking" class="booking-section" style="margin-top: 110px;">
         <div class="container text-center">
             <h2 class="section-title">Book Your Photography Session</h2>
-            <p class="lead">Fill out the form below to schedule your photography session with us.</p>
+            <p class="lead" style="font-size: clamp(8px, 1vw + 0.5rem, 25px)">Fill out the form below to schedule your photography session with us.</p>
         </div>
     </section>
 

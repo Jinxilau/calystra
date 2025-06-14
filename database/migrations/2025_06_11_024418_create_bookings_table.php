@@ -17,7 +17,7 @@ return new class extends Migration
             // $table->string('booking_number')->unique();
             $table->foreignId('user_id')->constrained(); // client
             // $table->foreignId('service_id')->constrained();
-            $table->foreignId('photographer_id')->nullable()->constrained('users');
+            // $table->foreignId('photographer_id')->nullable()->constrained('users');
 
             // Event Details
             $table->string('event_type'); // e.g., wedding, corporate, etc.

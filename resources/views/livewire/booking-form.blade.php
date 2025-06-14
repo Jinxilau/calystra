@@ -1,4 +1,44 @@
-<div class="container py-5">
+<div class="container mb-3">
+    {{-- Progress Indicator --}}
+    @if(!$showSuccessMessage)
+    <div class="container mb-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 d-flex justify-content-center">
+                <ul class="list-unstyled p-0 m-0 position-relative stepper-vertical d-inline-flex justify-content-center">
+                    @for($i = 1; $i <= $totalSteps; $i++)
+                    <li class="position-relative pb-1 {{ $currentStep >= $i ? 'active' : '' }} d-inline-flex">
+                        {{-- Stepper Head --}}
+                        <div class="d-flex flex-column align-items-center justify-content-center align-items-center position-relative text-center">
+                            <span class="stepper-head-icon d-flex align-items-center justify-content-center fw-bold text-white rounded-circle {{ $currentStep >= $i ? 'bg-primary' : 'bg-secondary' }}">
+                                {{ $i }}
+                            </span>
+                            <div class="stepper-content py-0">
+                                <p class="text-muted small mb-0">
+                                    @if($i == 1) Event Details
+                                    @elseif($i == 2) Contact Information
+                                    @else Package & Review
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                        {{-- Stepper Line --}}
+                        @if($i < $totalSteps)
+                        <span class="stepper-head-line"></span>
+                        @endif
+                    </li>
+                    @endfor
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<div class="text-center mb-4">
+    <p class="text-muted small">
+        Step {{ $currentStep }} of {{ $totalSteps }}
+    </p>
+</div>
+@endif
+    {{-- Booking Form --}}
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card shadow-lg booking-form-container">
@@ -32,7 +72,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="customer_name" class="form-label custom-name">Full Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('customer_name') is-invalid @enderror" id="customer_name" wire:model="customer_name" placeholder="Enter your full name">
+                                    <input type="text" class="form-control @error('customer_name') is-invalid @enderror" id="customer_name" wire:model="customer_name" placeholder="Enter your full name" value="{{ old('customer_name') }}">
                                     @error('customer_name')
                                     <div class="invalid-feedback alert-danger">{{ $message }}</div>
                                     @enderror

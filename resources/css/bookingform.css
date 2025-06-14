@@ -12,9 +12,10 @@
 }
 
 .section-title {
-    font-size: 3rem;
+    font-size: clamp(1rem, 5vw, 3rem);
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+    /* margin-bottom: 1rem; */
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -37,7 +38,7 @@ body {
     border: 1px solid black;
 }
 
-.booking-form-container::before {
+/* .booking-form-container::before {
     content: '';
     position: absolute;
     top: -2px;
@@ -48,7 +49,7 @@ body {
     border-radius: 22px;
     z-index: -1;
     opacity: 0.1;
-}
+} */
 
 .booking-form h2 {
     color: var(--primary-color);
@@ -425,4 +426,27 @@ body {
     to {
         transform: rotate(1turn);
     }
+}
+
+.stepper-head-icon {
+    width: 2rem;
+    height: 2rem;
+}
+
+.stepper-content {
+    /* margin-left: 3rem; */
+    margin-top: -0.2rem;
+}
+
+.stepper-head-line {
+    margin-top: 20px;
+    flex-grow: 1;
+    width: 12vw;
+    height: 2px;
+    background-color: #dee2e6;
+    /* margin-right: 1rem; */
+}
+
+.stepper-step.active .stepper-head-line {
+    background-color: #0d6efd;
 }
