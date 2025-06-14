@@ -28,9 +28,10 @@
                     <span></span>
                     <span></span>
                 </div>
-                <a href="{{ route('booking') }}" class="cta-button">Book Now</a>
-
-                @auth
+                <div class="d-flex align-items-center justify-content-end gap-2">
+                    <a href="{{ route('booking') }}" class="cta-button">Book Now</a>
+    
+                    @auth
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" 
                                 type="button" 
@@ -46,12 +47,12 @@
                             <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                <a class="dropdown-item" wire:navigate href="{{ route('dashboard') }}">
                                     Dashboard
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('settings.profile') }}">
+                                <a class="dropdown-item" wire:navigate href="{{ route('settings.profile') }}">
                                     Profile
                                 </a>
                             </li>
@@ -71,14 +72,16 @@
                             </li>
                         </ul>
                     </div>
-                @else
+                    @else
                     <div class="auth-buttons">
-                        <a href="{{ route('login') }}" class="btn btn-outline-primary me-2">Login</a>
+                        <a href="{{ route('login') }}" class="btn btn-outline-primary me-2" wire:navigate>Login</a>
                         @if(Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary" wire:navigate>Register</a>
                         @endif
                     </div>
-                @endauth
+                    @endauth
+
+                </div>
             </div>
         </div>
     </nav>

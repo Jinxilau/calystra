@@ -14,31 +14,30 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
 
-            $table->string('booking_number')->unique();
+            // $table->string('booking_number')->unique();
             $table->foreignId('user_id')->constrained(); // client
             $table->foreignId('service_id')->constrained();
             $table->foreignId('photographer_id')->nullable()->constrained('users');
 
             // Event Details
+            $table->string('event_type'); // e.g., wedding, corporate, etc.
             $table->date('event_date');
             $table->time('start_time');
-            $table->time('end_time');
-            $table->string('event_type');
-            $table->text('event_location');
+            $table->text('event_location')->nullable();
+            $table->string('event_name')->nullable(); // Optional name for the event
             $table->integer('guest_count')->nullable();
             $table->text('special_requirements')->nullable();
 
             // Pricing
-            $table->decimal('service_price', 10, 2);
-            $table->decimal('addons_total', 10, 2)->default(0);
-            $table->decimal('total_amount', 10, 2);
+            // $table->decimal('service_price', 10, 2);
+            // $table->decimal('addons_total', 10, 2)->default(0);
+            // $table->decimal('total_amount', 10, 2);
 
             // Status
             $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
-            $table->enum('payment_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
+            $table->enum('deposit_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
 
             $table->text('notes')->nullable();
-
 
             $table->timestamps();
         });

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('role')->default('user'); // 'user' or 'admin'
+            $table->string('name')->nullable(); // Optional phone number
+            $table->string('phone')->nullable(); // Optional phone number
+            $table->boolean('is_active')->default(true); // Active status
+            $table->string('profile_picture')->nullable(); // Optional profile picture
         });
     }
 
