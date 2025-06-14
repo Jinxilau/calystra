@@ -66,7 +66,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
     /**
      * Check if password meets requirements
      */
-    public function getPasswordStrengthProperty(): array // Computed property, automatically recalculated when $this->password changes
+    public function getPasswordStrengthProperty(): array // Computed property get(name)Property
     { // This method is accessed when $this->passwordStrength is referenced in the view
         $password = $this->password;
 

@@ -1,15 +1,10 @@
-:root {
+/* :root {
     --primary-color: #2c3e50;
     --secondary-color: #e74c3c;
     --accent-color: #f39c12;
     --light-bg: #f8f9fa;
     --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: var(--light-bg);
-}
+} */
 
 .booking-section .container {
     position: relative;
@@ -23,13 +18,13 @@ body {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 }
 
-:root {
+/* :root {
     --primary-color: #2c3e50;
     --secondary-color: #e74c3c;
     --accent-color: #f39c12;
     --light-bg: #f8f9fa;
     --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
+} */
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -37,14 +32,9 @@ body {
 }
 
 .booking-form-container {
-    background: white;
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-    padding: 3rem;
-    margin: 50px auto;
-    position: relative;
-    max-width: 600px;
-    border: 1px solid #e9ecef;
+    border: 1px solid black;
 }
 
 .booking-form-container::before {
@@ -99,8 +89,8 @@ body {
 }
 
 /* Form Controls */
-.form-control {
-    height: 3.2rem;
+.form-control, .form-select {
+    /* height: 3.2rem; */
     border: 2px solid #e9ecef;
     border-radius: 12px;
     padding: 0.75rem 1rem;
@@ -131,8 +121,7 @@ body {
 }
 
 /* Add icons to form fields */
-.form-group:nth-child(1) .form-label::before,
-.mb-3:nth-child(1) .form-label::before {
+.custom-name::before {
     content: '👤';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -142,7 +131,7 @@ body {
     color: var(--secondary-color);
 }
 
-.form-group:nth-child(2) .form-label::before {
+.custom-email::before {
     content: '📧';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -152,7 +141,7 @@ body {
     color: var(--secondary-color);
 }
 
-.form-group:nth-child(3) .form-label::before {
+.custom-phone::before {
     content: '☎';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -162,7 +151,7 @@ body {
     color: var(--secondary-color);
 }
 
-.form-group:nth-child(4) .form-label::before {
+.custom-date::before {
     content: '📆';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -172,8 +161,28 @@ body {
     color: var(--secondary-color);
 }
 
-.form-group:nth-child(5) .form-label::before {
+.custom-time::before {
     content: '🕓';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    width: auto;
+    height: auto;
+    background: none;
+    color: var(--secondary-color);
+}
+
+.custom-location::before {
+    content: '📍 ';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    width: auto;
+    height: auto;
+    background: none;
+    color: var(--secondary-color);
+}
+
+.custom-count::before {
+    content: '🔢';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
     width: auto;
@@ -191,7 +200,7 @@ body {
     color: var(--secondary-color) !important;
 }
 
-.text-danger::before {
+.alert-danger::before {
     content: '⚠️';
     font-family: 'Font Awesome 6 Free';
     font-weight: 900;
@@ -199,7 +208,7 @@ body {
 }
 
 /* Submit Button */
-.submit-button {
+/* .submit-button {
     background: linear-gradient(45deg, var(--secondary-color), #c0392b);
     border: none;
     padding: 1rem 3rem;
@@ -213,7 +222,7 @@ body {
     width: 100%;
     position: relative;
     overflow: hidden;
-}
+} */
 
 .submit-button::before {
     content: '📸';
@@ -222,11 +231,11 @@ body {
     margin-right: 0.75rem;
 }
 
-.submit-button:hover {
+/* .submit-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 35px rgba(231, 76, 60, 0.4);
     background: linear-gradient(45deg, #c0392b, var(--secondary-color));
-}
+} */
 
 .submit-button:focus {
     box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);

@@ -16,7 +16,7 @@ return new class extends Migration
 
             // $table->string('booking_number')->unique();
             $table->foreignId('user_id')->constrained(); // client
-            $table->foreignId('service_id')->constrained();
+            // $table->foreignId('service_id')->constrained();
             $table->foreignId('photographer_id')->nullable()->constrained('users');
 
             // Event Details
@@ -26,7 +26,6 @@ return new class extends Migration
             $table->text('event_location')->nullable();
             $table->string('event_name')->nullable(); // Optional name for the event
             $table->integer('guest_count')->nullable();
-            $table->text('special_requirements')->nullable();
 
             // Pricing
             // $table->decimal('service_price', 10, 2);
@@ -37,7 +36,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
             $table->enum('deposit_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
 
-            $table->text('notes')->nullable();
+            $table->text('notes')->nullable(); // special requests or notes
 
             $table->timestamps();
         });

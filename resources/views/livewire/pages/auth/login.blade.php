@@ -27,7 +27,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
     /**
      * Mount the component with any flash messages
      */
-    public function mount(): void
+    public function mount(): void // This function is called when the component is initialized
     {
         // Handle any registration success messages
         if (session('registered')) {

@@ -24,7 +24,7 @@ Route::get('/dashboard', function () {
 //     return redirect('/dashboard');
 // })->middleware('auth');
 
-Route::get('/booking', function () {
+Route::get('/user/booking', function () {
     return view('user.booking');
 })->middleware('auth')->name('booking');
 
