@@ -66,7 +66,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
+                    <th scope="col"></th>
                     <th scope="col">Preview</th>
                     <th scope="col">File Name</th>
                     <th scope="col">Category</th>
@@ -76,7 +76,7 @@
             <tbody>
                 @foreach ($images as $image)
                 <tr>
-                    <td>{{ $image->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td><img src="{{ asset('storage/images/'. $image->filename) }}" width="100" alt="Image"></td>
                     <td>{{ $image->filename }}</td>
                     <td>{{$image->image_type }}</td>
