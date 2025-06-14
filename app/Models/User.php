@@ -65,11 +65,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    // app/Models/User.php
-    public function roles()
-    {
-        return $this->belongsTo(Role::class);
-    }
+    // // app/Models/User.php
+    // public function roles()
+    // {
+    //     return $this->belongsTo(Role::class);
+    // }
 
     // public function profile()
     // {
