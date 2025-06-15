@@ -1,15 +1,25 @@
 <div class="container mb-3">
+    {{-- Success Message --}}
+    @if($showSuccessMessage)
+    <div class="text-center py-5">
+        <div class="mx-auto mb-4 bg-success bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+            <i class="fas fa-check text-success fs-3"></i>
+        </div>
+        <h2 class="h3 fw-bold mb-3">Booking Submitted Successfully!</h2>
+        <p class="text-muted mb-4">Thank you for choosing Calystra Studio. We'll contact you within 24 hours to confirm your booking.</p>
+        <button wire:click="resetForm" class="btn btn-primary px-4">Make Another Booking</button>
+    </div>
+    @else
     {{-- Progress Indicator --}}
-    @if(!$showSuccessMessage)
-    <div class="container mb-4">
+    <div class="container mb-2">
         <div class="row justify-content-center">
             <div class="col-lg-8 d-flex justify-content-center">
-                <ul class="list-unstyled p-0 m-0 position-relative stepper-vertical d-inline-flex justify-content-center">
+                <ul class="steper-step list-unstyled p-0 m-0 position-relative stepper-vertical d-inline-flex justify-content-center">
                     @for($i = 1; $i <= $totalSteps; $i++)
-                    <li class="position-relative pb-1 {{ $currentStep >= $i ? 'active' : '' }} d-inline-flex">
+                    <li class="stepper position-relative pb-1 {{ $currentStep >= $i ? 'actived' : '' }} {{ $i < $currentStep ? 'completed' : '' }} d-inline-flex">
                         {{-- Stepper Head --}}
                         <div class="d-flex flex-column align-items-center justify-content-center align-items-center position-relative text-center">
-                            <span class="stepper-head-icon d-flex align-items-center justify-content-center fw-bold text-white rounded-circle {{ $currentStep >= $i ? 'bg-primary' : 'bg-secondary' }}">
+                            <span class="stepper-head-icon d-flex align-items-center justify-content-center fw-bold rounded-circle">
                                 {{ $i }}
                             </span>
                             <div class="stepper-content py-0">
@@ -31,44 +41,97 @@
             </div>
         </div>
     </div>
+    
+    {{-- Current Step Indicator --}}
+    <div class="text-center mb-1">
+        <p class="text-muted small">
+            Step {{ $currentStep }} of {{ $totalSteps }}
+        </p>
+    </div>
+    @endif
 
-<div class="text-center mb-4">
-    <p class="text-muted small">
-        Step {{ $currentStep }} of {{ $totalSteps }}
-    </p>
-</div>
-@endif
+    @if(!$showSuccessMessage)
     {{-- Booking Form --}}
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card shadow-lg booking-form-container">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0">
-                        <i class="fas fa-camera me-2"></i> Book Your Photography Session
-                    </h3>
+                    <h3 class="card-title mb-0"><i class="fas fa-camera me-2"></i> @if($currentStep == 1)Event Details @endif @if ($currentStep == 2)Customer Information @endif @if($currentStep == 3) Final Details @endif</h3>
                 </div>
                 <div class="card-body p-4">
-                    <!-- Success/Error Messages -->
-                    @if (session()->has('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    @endif
-
-                    @if (session()->has('error'))
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <i class="fas fa-exclamation-circle me-2"></i> {{ session('error') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    @endif
-
                     <form wire:submit="submitForm">
-                        <!-- Customer Information Section -->
+                        {{-- Step 1: Event Details --}}
+                        @if($currentStep == 1)
                         <div class="mb-4">
                             <h5 class="text-primary border-bottom pb-2">
-                                <i class="fas fa-user me-2"></i>Customer Information
+                                <i class="fas fa-calendar-alt me-2"></i>Event Details
                             </h5>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="event_type" class="form-label">Event Type <span class="text-danger">*</span></label>
+                                    <select class="form-select @error('event_type') is-invalid @enderror" id="event_type" wire:model="event_type">
+                                        <option value="">Select event type...</option>
+                                        {{-- Using the argument passed --}}
+                                        @foreach($eventTypes as $key => $label) 
+                                            <option value="{{ $key }}">{{ $label }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('event_type')
+                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="event_name" class="form-label">Event Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control @error('event_name') is-invalid @enderror" id="event_name" wire:model="event_name" placeholder="e.g., Sarah & John's Wedding" value="{{ old('event_name') }}">
+                                    @error('event_name')
+                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="event_date" class="form-label custom-date">Event Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control @error('event_date') is-invalid @enderror" id="event_date" wire:model="event_date" min="{{ date('Y-m-d', strtotime('+1 day')) }}">
+                                    @error('event_date')
+                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="start_time" class="form-label custom-time">Event Time <span class="text-danger">*</span></label>
+                                    <input type="time" class="form-control @error('start_time') is-invalid @enderror" id="start_time" wire:model="start_time">
+                                    @error('start_time')
+                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    <label for="event_location" class="col-form-label custom-location">Event Location</label> <span class="form-text text-secondary">(Optional)</span>
+                                    <input type="text" class="form-control @error('event_location') is-invalid @enderror" id="event_location" wire:model="event_location" placeholder="Venue name, address, or location">
+                                    @error('event_location')
+                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    <label for="guest_count" class="col-form-label custom-count">Guest Count</label> <span class="form-text text-secondary">(Optional)</span>
+                                    <input type="number" class="form-control @error('guest_count') is-invalid @enderror" id="guest_count" wire:model="guest_count" min="1" max="1000" placeholder="1" value="1">
+                                    @error('guest_count')
+                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+
+                        {{-- Step 2: Contact Information --}}
+                        @if($currentStep == 2)
+                        <div class="mb-4">
+                            <h5 class="text-primary border-bottom pb-2"><i class="fas fa-user me-2"></i>Customer Information</h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="customer_name" class="form-label custom-name">Full Name <span class="text-danger">*</span></label>
@@ -99,134 +162,89 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
 
-                        <!-- Event Details Section -->
-                        <div class="mb-4">
-                            <h5 class="text-primary border-bottom pb-2">
-                                <i class="fas fa-calendar-alt me-2"></i>Event Details
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="event_type" class="form-label">Event Type <span class="text-danger">*</span></label>
-                                    <select class="form-select @error('event_type') is-invalid @enderror" id="event_type" wire:model="event_type">
-                                        <option value="">Select event type...</option>
-                                        {{-- Using the argument passed --}}
-                                        @foreach($eventTypes as $key => $label) 
-                                            <option value="{{ $key }}">{{ $label }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('event_type')
-                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
+                        {{-- Step 3: Package & Review --}}
+                        @if($currentStep == 3)
+                        <div class="space-y-6">
+                            {{-- <h2 class="text-xl font-semibold text-gray-800 mb-4">Final Details</h2> --}}
+                            <!-- Additional Information Section -->
+                            <div class="mb-4">
+                                <h5 class="text-primary border-bottom pb-2"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
+                                <div class="mb-3">
+                                    <label for="notes" class="col-form-label">Special Notes</label> <span class="form-text text-secondary">(Optional)</span>
+                                    <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" wire:model="notes" rows="4" placeholder="Any special requirements, preferences, or additional information..."></textarea>
+                                    @error('notes')
+                                    <div class="invalid-feedback alert-danger">{{ $message }}</div>
                                     @enderror
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="event_name" class="form-label">Event Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control @error('event_name') is-invalid @enderror" id="event_name" wire:model="event_name" placeholder="e.g., Sarah & John's Wedding">
-                                    @error('event_name')
-                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
-                                    @enderror
+                                    <div class="form-text">Share any specific requirements or preferences for your event.</div>
                                 </div>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="event_date" class="form-label custom-date">Event Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control @error('event_date') is-invalid @enderror" id="event_date" wire:model="event_date" min="{{ date('Y-m-d', strtotime('+1 day')) }}">
-                                    @error('event_date')
-                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="event_time" class="form-label custom-time">Event Time <span class="text-danger">*</span></label>
-                                    <input type="time" 
-                                           class="form-control @error('event_time') is-invalid @enderror" 
-                                           id="event_time"
-                                           wire:model="event_time">
-                                    @error('event_time')
-                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-8 mb-3">
-                                    <label for="event_location" class="col-form-label custom-location">Event Location</label> <span class="form-text text-secondary">(Optional)</span>
-                                    <input type="text" class="form-control @error('event_location') is-invalid @enderror" id="event_location" wire:model="event_location" placeholder="Venue name, address, or location">
-                                    @error('event_location')
-                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                
-                                <div class="col-md-4 mb-3">
-                                    <label for="guest_count" class="col-form-label custom-count">Guest Count</label> <span class="form-text text-secondary">(Optional)</span>
-                                    <input type="number" class="form-control @error('guest_count') is-invalid @enderror" id="guest_count" wire:model="guest_count" min="1" max="1000" placeholder="1" value="1">
-                                    @error('guest_count')
-                                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
-                                    @enderror
+
+                            {{-- Booking Summary --}}
+                            <div class="card bg-light p-3 mb-4 rounded">
+                                <h3 class="h5 fw-bold text-dark mb-3">Booking Summary</h3>
+                                <div class="list-group list-group-flush">
+                                    <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2 border-0">
+                                        <span class="text-muted">Name:</span>
+                                        <span class="fw-medium">{{ $this->customer_name }}</span>
+                                    </div>
+                                    <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2 border-0">
+                                        <span class="text-muted">Phone Number:</span>
+                                        <span class="fw-medium">{{ $this->customer_phone }}</span>
+                                    </div>
+                                    <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2 border-0">
+                                        <span class="text-muted">Event:</span>
+                                        <span class="fw-medium">{{ $this->eventTypes[$event_type] ?? 'Not selected' }}</span>
+                                    </div>
+                                    <div class="list-group-item bg-transparent d-flex justify-content-between px-0 py-2 border-0">
+                                        <span class="text-muted">Date & Time:</span>
+                                        <span class="fw-medium">{{ $event_date }} at {{ $start_time }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        @endif
+                        
+                        {{-- Navigation Buttons --}}
+                        <div class="d-flex justify-content-around mt-4 pt-3 border-top">
+                            @if($currentStep > 1)
+                                <button type="button" wire:click="previousStep" class="btn btn-outline-secondary px-4">Previous</button>
+                                <div></div>
+                            @endif
 
-                        <!-- Additional Information Section -->
-                        <div class="mb-4">
-                            <h5 class="text-primary border-bottom pb-2"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
-                            {{-- <div class="mb-3">
-                                <label for="deposit_status" class="form-label">Deposit Status <span class="text-danger">*</span></label>
-                                <select class="form-select @error('deposit_status') is-invalid @enderror" id="deposit_status" wire:model="deposit_status">
-                                    <option value="pending">Pending</option>
-                                    <option value="partial">Partial Payment</option>
-                                    <option value="paid">Fully Paid</option>
-                                </select>
-                                @error('deposit_status')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div> --}}
-                            
-                            <div class="mb-3">
-                                <label for="notes" class="col-form-label">Special Notes</label> <span class="form-text text-secondary">(Optional)</span>
-                                <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" wire:model="notes" rows="4" placeholder="Any special requirements, preferences, or additional information..."></textarea>
-                                @error('notes')
-                                <div class="invalid-feedback alert-danger">{{ $message }}</div>
-                                @enderror
-                                <div class="form-text">Share any specific requirements or preferences for your event.</div>
+                            @if($currentStep < $totalSteps)
+                                <div></div>
+                                <button type="button" wire:click="nextStep" class="btn btn-primary px-4">Next Step</button>
+                            @else
+                            <!-- Submit Button -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg text-white" wire:loading.attr="disabled">
+                                    <span wire:loading.remove wire:target="submitForm" class="submit-button"></i>Submit Booking Request</span>
+                                    <span wire:loading wire:target="submitForm"><span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...</span>
+                                </button>
                             </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg text-white" wire:loading.attr="disabled" wire:target="submitForm">
-                                <span wire:loading.remove wire:target="submitForm" class="submit-button"></i>Submit Booking Request</span>
-                                <span wire:loading wire:target="submitForm"><span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...</span>
-                            </button>
+                            @endif
                         </div>
                     </form>
+                    <!-- Error Messages -->
+                    @if (session()->has('error'))
+                    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    @endif
                 </div>
                 
                 <div class="card-footer bg-light">
                     <div class="row text-center">
                         <div>
-                            <small class="text-muted">
-                                <i class="fas fa-shield-alt me-1"></i>
-                                These Information are Secure & Confidential
-                            </small>
+                            <small class="text-muted"><i class="fas fa-shield-alt me-1"></i>These Information are Secure & Confidential</small>
                         </div>
-                        {{-- <div class="col-md-4">
-                            <small class="text-muted">
-                                <i class="fas fa-clock me-1"></i>
-                                Quick Response Time
-                            </small>
-                        </div>
-                        <div class="col-md-4">
-                            <small class="text-muted">
-                                <i class="fas fa-star me-1"></i>
-                                Professional Service
-                            </small> --}}
-                        {{-- </div> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    @endif
 </div>

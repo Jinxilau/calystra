@@ -14,12 +14,15 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('booking_id')->constrained();
+            $table->foreignId('booking_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
-            $table->string('payment_method'); // card, bank_transfer, cash
-            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
-            $table->text('notes')->nullable();
-            $table->timestamp('paid_at')->nullable();
+            $table->enum('payment_type', ['deposit', 'full_payment', 'remaining_balance']);
+            $table->enum('payment_method', ['bank_transfer', 'online_banking', 'cash', 'credit_card']);
+            $table->string('receipt_path')->nullable();
+            
+            $table->enum('status', ['pending_verification', 'verified', 'rejected'])->default('pending_verification');
+            $table->text('customer_notes')->nullable();
+            $table->text('admin_notes')->nullable();
 
             $table->timestamps();
         });

@@ -19,16 +19,16 @@ class BookingForm extends Component
 
     #[Validate('required|string|max:20')]
     public $customer_phone = '';
-    
+
     // Event Details
     #[Validate('required|string|in:wedding,corporate,family,portrait,event,other')]
-    public $event_type = '';
+    public $event_type;
 
     #[Validate('required|date|after:today')]
-    public $event_date = '';
+    public $event_date;
 
     #[Validate('required|date_format:H:i')]
-    public $event_time = '';
+    public $start_time;
 
     #[Validate('nullable|string|max:255')]
     public $event_location = '';
@@ -53,7 +53,7 @@ class BookingForm extends Component
     public function nextStep()
     {
         $this->validateCurrentStep();
-        
+
         if ($this->currentStep < $this->totalSteps) {
             $this->currentStep++;
         }
@@ -71,68 +71,36 @@ class BookingForm extends Component
         switch ($this->currentStep) {
             case 1:
                 $this->validate([
+                    'event_name' => 'required|string|max:100',
                     'event_type' => 'required|string',
                     'event_date' => 'required|date|after:today',
                     'start_time' => 'required|date_format:H:i',
                     'event_location' => 'nullable|string|max:1000',
+                    'guest_count' => 'nullable|integer|min:0|max:1000',
                 ]);
                 break;
             case 2:
                 $this->validate([
-                    'contact_name' => 'required|string|max:255',
-                    'contact_email' => 'required|email|max:255',
-                    'contact_phone' => 'required|string|max:20',
+                    'customer_name' => 'required|string|max:255',
+                    // 'contact_email' => 'required|email|max:255',
+                    'customer_phone' => 'required|string|max:20',
+                ]);
+                break;
+            case 3:
+                $this->validate([
+                    'notes' => 'nullable|string|max:1000',
+                    'deposit_status' => 'required|string|in:pending,paid,partial',
                 ]);
                 break;
         }
     }
-    
+
     public function mount() // Initialize component
     {
         if (Auth::check()) {
             $user = Auth::user();
             $this->customer_name = $user->name;
-        }
-    }
-
-    public function submitForm()
-    {
-        $validatedData = $this->validate();
-
-        try {
-            // Create the booking with validated data
-            Booking::create([
-                'user_id' => Auth::id(), // Associate with logged-in user if available
-                'event_type' => $this->event_type,
-                'event_date' => $this->event_date,
-                'start_time' => $this->event_time,
-                'event_location' => $this->event_location,
-                'event_name' => $this->event_name,
-                'guest_count' => $this->guest_count,
-                'deposit_status' => $this->deposit_status,
-                'notes' => $this->notes,
-                'status' => 'pending', // Default booking status
-            ]);
-
-            User::where('id', Auth::id())->update([
-                'fullname' => $this->customer_name,
-                'phone' => $this->customer_phone,
-            ]);
-            
-            // Optionally, you can send a notification or email to the user here
-            // Reset form fields after successful submission
-            $this->resetForm();
-
-            // Flash success message
-            session()->flash('success', 'Booking request submitted successfully! We will contact you shortly.');
-
-            // Optionally dispatch browser event for additional frontend handling
-            $this->dispatch('booking-created');
-
-        } catch (\Exception $e) {
-            // Handle any errors during booking creation
-            session()->flash('error', 'Something went wrong. Please try again.');
-            
+            $this->customer_phone = $user->phone ?? ''; // Optional, if phone is available
         }
     }
 
@@ -144,15 +112,18 @@ class BookingForm extends Component
             'customer_phone',
             'event_type',
             'event_date',
-            'event_time',
+            'start_time',
             'event_location',
             'event_name',
             'guest_count',
             'notes'
         ]);
-        
+
+        $this->mount(); // Reinitialize component state
         // Keep deposit_status as pending
         $this->deposit_status = 'pending';
+        $this->currentStep = 1; // Reset to first step
+        $this->showSuccessMessage = false; // Reset success message state
     }
 
     public function getEventTypesProperty() // Computed property for event types and no parameters
@@ -167,11 +138,52 @@ class BookingForm extends Component
         ];
     }
 
+    public function submitForm()
+    {
+        $validatedData = $this->validate();
+
+        try {
+            // Create the booking with validated data
+            Booking::create([
+                'user_id' => Auth::id(), // Associate with logged-in user if available
+                'event_type' => $this->event_type,
+                'event_date' => $this->event_date,
+                'start_time' => $this->start_time,
+                'event_location' => $this->event_location,
+                'event_name' => $this->event_name,
+                'guest_count' => $this->guest_count,
+                'deposit_status' => $this->deposit_status,
+                'notes' => $this->notes,
+                'status' => 'pending', // Default booking status
+            ]);
+
+            User::where('id', Auth::id())->update([
+                'fullname' => $this->customer_name,
+                'phone' => $this->customer_phone,
+            ]);
+
+            // Optionally, you can send a notification or email to the user here
+            // Reset form fields after successful submission
+            $this->resetForm();
+
+            // Flash success message
+            session()->flash('success', 'Booking request submitted successfully! We will contact you shortly.');
+
+            $this->showSuccessMessage = true;
+            $this->currentStep = $this->totalSteps + 1; // Move to success step
+
+            // Optionally dispatch browser event for additional frontend handling
+            $this->dispatch('booking-created');
+        } catch (\Exception $e) {
+            // Handle any errors during booking creation
+            session()->flash('error', 'Something went wrong. Please try again.');
+        }
+    }
+
     public function render()
     {
         return view('livewire.booking-form', [
             'eventTypes' => $this->eventTypes, // Use computed property for event types
         ]);
     }
-
 }
