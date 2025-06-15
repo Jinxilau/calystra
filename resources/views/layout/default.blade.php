@@ -31,7 +31,7 @@
                     <span></span>
                 </div>
                 <div class="d-flex align-items-center justify-content-end gap-2">
-                    <a href="{{ route('booking') }}" class="cta-button">Book Now</a>
+                    <a href="{{ route('booking') }}" class="cta-button px-1 py-1 px-md-3 py-md-1">Book Now</a>
     
                     @auth
                     <div class="dropdown">

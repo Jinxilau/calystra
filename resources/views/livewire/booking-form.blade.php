@@ -18,7 +18,8 @@
                     @for($i = 1; $i <= $totalSteps; $i++)
                     <li class="stepper position-relative pb-1 {{ $currentStep >= $i ? 'actived' : '' }} {{ $i < $currentStep ? 'completed' : '' }} d-inline-flex">
                         {{-- Stepper Head --}}
-                        <div class="d-flex flex-column align-items-center justify-content-center align-items-center position-relative text-center">
+                        <div class="d-flex flex-column align-items-center justify-content-center align-items-center position-relative text-center" style="width: 12vw; min-width: 70px;">
+                            {{-- Stepper Icon --}}
                             <span class="stepper-head-icon d-flex align-items-center justify-content-center fw-bold rounded-circle">
                                 {{ $i }}
                             </span>
@@ -26,7 +27,8 @@
                                 <p class="text-muted small mb-0">
                                     @if($i == 1) Event Details
                                     @elseif($i == 2) Contact Information
-                                    @else Package & Review
+                                    @elseif($i == 3) Add-ons Selection
+                                    @else Review & Deposit Payment
                                     @endif
                                 </p>
                             </div>
@@ -43,7 +45,7 @@
     </div>
     
     {{-- Current Step Indicator --}}
-    <div class="text-center mb-1">
+    <div class="text-center mt-4 mt-lg-0 mb-1 d-none d-md-block">
         <p class="text-muted small">
             Step {{ $currentStep }} of {{ $totalSteps }}
         </p>
@@ -52,11 +54,11 @@
 
     @if(!$showSuccessMessage)
     {{-- Booking Form --}}
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
+    <div class="row justify-content-center mt-5 mt-md-0">
+        <div class="col-lg-10">
             <div class="card shadow-lg booking-form-container">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0"><i class="fas fa-camera me-2"></i> @if($currentStep == 1)Event Details @endif @if ($currentStep == 2)Customer Information @endif @if($currentStep == 3) Final Details @endif</h3>
+                    <h3 class="card-title mb-0"><i class="fas fa-camera me-2"></i> @if($currentStep == 1)Event Details @elseif($currentStep == 2) Customer Information @elseif($currentStep == 3) Add-ons Selection @elseif($currentStep == 4)Review & Deposit Payment @endif</h3>
                 </div>
                 <div class="card-body p-4">
                     <form wire:submit="submitForm">
@@ -164,10 +166,19 @@
                         </div>
                         @endif
 
-                        {{-- Step 3: Package & Review --}}
                         @if($currentStep == 3)
+                        {{-- Step 3: Add-ons Selection --}}
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Enhance Your Photography Experience</h3>
+                        <p class="text-gray-600 mb-6">Select additional services to make your photoshoot even more special.</p>
+                        @foreach($availableAddOns as $availableAddOn)
+                        <div class="grid lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2">
+                        @endforeach
+                        @endif
+
+                        {{-- Step 4: Review & Deposit Payment --}}
+                        @if($currentStep == 4)
                         <div class="space-y-6">
-                            {{-- <h2 class="text-xl font-semibold text-gray-800 mb-4">Final Details</h2> --}}
                             <!-- Additional Information Section -->
                             <div class="mb-4">
                                 <h5 class="text-primary border-bottom pb-2"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
@@ -201,6 +212,90 @@
                                         <span class="text-muted">Date & Time:</span>
                                         <span class="fw-medium">{{ $event_date }} at {{ $start_time }}</span>
                                     </div>
+                                </div>
+                            </div>
+
+                            {{-- Deposit Payment Section --}}
+                            <div class="mt-4 p-3 bg-primary bg-opacity-10 rounded">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="h5 text-primary">Deposit Required</span>
+                                    <span class="h4 fw-bold text-primary">RM {{ number_format($depositAmount, 2) }}</span>
+                                </div>
+                            </div>
+                            <!-- Payment Method Selection -->
+                            {{-- <div class="mb-4">
+                                <label class="form-label mb-2">Payment Method</label>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" value="bank_transfer" id="bankTransfer">
+                                        <label class="form-check-label" for="bankTransfer">Bank Transfer</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" value="online_banking" id="onlineBanking">
+                                        <label class="form-check-label" for="onlineBanking">Online Banking</label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" value="cash" id="cashDeposit">
+                                        <label class="form-check-label" for="cashDeposit">Cash Deposit</label>
+                                    </div>
+                                </div>
+                                @error('paymentMethod') 
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                            </div> --}}
+                            <!-- Receipt Upload -->
+                            <div class="mb-4">
+                                <label for="receipt" class="form-label">Upload Payment Receipt <span class="text-danger">*</span></label>
+                                <div class="d-flex justify-content-center w-100">
+                                    <label for="receipt" class="d-flex flex-column align-items-center justify-content-center w-100 rounded-3 bg-light hover-bg-light p-4" style="height: 8rem;">
+                                        @if($receipt)
+                                        <div class="d-flex flex-column align-items-center justify-content-center">
+                                            <i class="bi bi-check-circle-fill text-success fs-3 mb-2"></i>
+                                            <p class="text-success small fw-medium mb-1">{{ $receipt->getClientOriginalName() }}</p>
+                                            <p class="text-muted small">Click to change file</p>
+                                        </div>
+                                        @else
+                                        <div class="d-flex flex-column align-items-center justify-content-center">
+                                            <i class="bi bi-cloud-arrow-up text-muted fs-3 mb-2"></i>
+                                            <p class="text-muted small mb-1"><span class="fw-semibold">Click to upload</span> receipt</p>
+                                            <p class="text-muted xsmall">PNG, JPG or JPEG (MAX. 2MB)</p>
+                                        </div>
+                                        @endif
+                                        <input id="receipt" type="file" wire:model="receipt" class="d-none" accept="image/*">
+                                    </label>
+                                </div>
+                                @error('receipt')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
+                                
+                                <div wire:loading wire:target="receipt" class="mt-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                                        <span class="text-primary small">Uploading receipt...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Important Notes -->
+                            <div class="mb-4 p-3 bg-warning bg-opacity-10 border border-warning rounded">
+                                <h3 class="h6 fw-medium text-warning mb-2">Important Notes:</h3>
+                                <ul class=" small text-warning-emphasis mb-0">
+                                    <li class="mb-1">Please ensure the payment amount matches exactly: RM {{ number_format($depositAmount, 2) }}</li>
+                                    <li class="mb-1">Your booking will be confirmed within 24 hours after payment verification</li>
+                                    <li class="mb-1">Keep your payment receipt for records</li>
+                                    <li>Contact us at +60 12-345 6789 if you need assistance</li>
+                                </ul>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="mt-5 text-center">
+                                <p class="text-muted">Need help? Contact us:</p>
+                                <div class="d-flex justify-content-center gap-3 mt-2">
+                                    <span class="text-dark"><i class="bi bi-telephone me-1"></i> +60 12-345 6789</span>
+                                    <span class="text-dark"><i class="bi bi-envelope me-1"></i> calystrastudio@gmail.com</span>
                                 </div>
                             </div>
                         </div>

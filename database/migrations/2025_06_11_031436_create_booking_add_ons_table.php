@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('booking_id')->constrained()->onDelete('cascade');
-            $table->foreignId('add_on_id')->constrained();
+            $table->foreignId('add_on_id')->constrained()->onDelete('cascade');
             $table->integer('quantity')->default(1);
-            $table->decimal('unit_price', 8, 2);
-            $table->decimal('total_price', 8, 2);
+            // $table->decimal('unit_price', 10, 2);
+            // $table->decimal('total_price', 10, 2);
 
             $table->timestamps();
         });

@@ -35,13 +35,18 @@ class Booking extends Model
     public function addOns()
     {
         return $this->belongsToMany(AddOn::class, 'booking_add_ons')
-            ->withPivot('quantity', 'unit_price', 'total_price')
+            ->withPivot('quantity', 'unit_price')
             ->withTimestamps();
+    }
+
+    public function bookingAddOns()
+    {
+        return $this->hasMany(BookingAddOn::class);
     }
 
     public function payments()
     {
-        return $this->hasMany(Payment::class);
+        return $this->hasOne(Payment::class);
     }
 
     // public function gallery()
@@ -50,13 +55,10 @@ class Booking extends Model
     // }
 
     // Helper methods
-    public function getTotalPaidAttribute()
-    {
-        return $this->payments()->where('status', 'completed')->sum('amount');
-    }
+    // public function getTotalPaidAttribute()
+    // {
+    //     return $this->payments()->where('status', 'completed')->sum('amount');
+    // }
 
-    public function getBalanceAttribute()
-    {
-        return $this->total_amount - $this->total_paid;
-    }
+
 }

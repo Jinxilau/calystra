@@ -34,7 +34,7 @@ return new class extends Migration
 
             // Status
             $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
-            $table->enum('deposit_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
+            // $table->enum('deposit_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
 
             $table->text('notes')->nullable(); // special requests or notes
 
