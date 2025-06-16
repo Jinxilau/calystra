@@ -53,6 +53,7 @@ class BookingForm extends Component
     // Add-ons
     public $selectedAddOns = [];
     public $availableAddOns;
+    public $addonQuantities = []; // To track quantities of selected add-ons
 
     public $categories = [
         'time_extension' => 'Time Extensions',
@@ -64,7 +65,7 @@ class BookingForm extends Component
     ];
 
     // Form state
-    public $currentStep = 3;
+    public $currentStep = 1;
     public $totalSteps = 4;
     public $showSuccessMessage = false;
 
@@ -76,7 +77,7 @@ class BookingForm extends Component
             $this->customer_phone = $user->phone ?? ''; // Optional, if phone is available
         }
         $this->loadAvailableAddOns();
-        $this->loadSelectedAddOns();
+        // $this->loadSelectedAddOns();
     }
 
     public function nextStep()
@@ -181,8 +182,32 @@ class BookingForm extends Component
         } else {
             // Add addon
             $this->selectedAddOns[] = $addonId;
-            // $this->addonQuantities[$addonId] = 1;
+            $this->addonQuantities[$addonId] = 1;
         }
+    }
+
+    public function incrementQuantity($addonId)
+    {
+        $this->addonQuantities[$addonId] = ($this->addonQuantities[$addonId] ?? 0) + 1;
+        // $this->calculateTotal();
+    }
+
+    public function decrementQuantity($addonId)
+    {
+        if($this->addonQuantities[$addonId] > 1) {
+            $this->addonQuantities[$addonId]--;
+            // $this->calculateTotal();
+        }
+    }
+
+    public function updateQuantity($addonId, $quantity)
+    {
+        if ($quantity <= 0) {
+            $this->toggleAddon($addonId);
+            return;
+        }
+        
+        $this->addonQuantities[$addonId] = max(1, $quantity);
     }
 
     public function submitForm()
@@ -215,17 +240,14 @@ class BookingForm extends Component
                 'status' => 'pending_verification',
             ]);
 
-            // Add new add-ons
-            foreach ($this->selectedAddOns as $addOnId => $details) {
+            // Add new booking & add-ons
+            foreach ($this->selectedAddOns as $addOnId) {
                 $addOn = $this->availableAddOns->find($addOnId);
                 if ($addOn) {
-                    \App\Models\BookingAddOn::create([
+                    BookingAddOn::create([
                         'booking_id' => $booking->id,
                         'add_on_id' => $addOnId,
-                        // 'quantity' => $details['quantity'],
-                        // 'notes' => $details['notes']
-                        // 'unit_price' => $addOn->price,
-                        // 'total_price' => $addOn->price * $details['quantity'],
+                        'quantity' => $this->addonQuantities[$addOnId] ?? 1, // Default to 1 if not set
                     ]);
                 }
             }

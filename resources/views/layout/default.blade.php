@@ -19,7 +19,7 @@
         <div class="container">
             <div class="nav-container">
                 <div class="logo">Calystra Studio</div>
-                <ul class="nav-links">
+                <ul class="nav-links pe-md-3 pe-lg-0 pe-0">
                     <li><a href="{{ route('home') }}">Home</a></li>
                     <li><a href="{{ url('/') }}#services">Services</a></li>
                     <li><a href="###">About</a></li>
@@ -31,45 +31,24 @@
                     <span></span>
                 </div>
                 <div class="d-flex align-items-center justify-content-end gap-2">
-                    <a href="{{ route('booking') }}" class="cta-button px-1 py-1 px-md-3 py-md-1">Book Now</a>
+                    <a href="{{ route('booking') }}" class="cta-button px-2 py-2 px-md-3 py-md-2" style="width:max-content">Book Now</a>
     
                     @auth
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" 
-                                type="button" 
-                                id="userDropdown" 
-                                data-bs-toggle="dropdown" 
-                                aria-expanded="false"
-                                style="position: relative; z-index: 1050;">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; z-index: 1050;">
                             {{ auth()->user()->name }}
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end" 
-                            aria-labelledby="userDropdown"
-                            style="position: absolute; z-index: 1051;">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="position: absolute; z-index: 1051;">
                             <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item" wire:navigate href="{{ route('dashboard') }}">
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" wire:navigate href="{{ route('settings.profile') }}">
-                                    Profile
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('favorites.index') }}">
-                                    My favourites
-                                </a>
-                            </li>
+                            <li><a class="dropdown-item" wire:navigate href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li><a class="dropdown-item" wire:navigate href="{{ route('settings.profile') }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('favorites.index') }}">My favourites</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button class="dropdown-item text-danger" type="submit">
-                                        Logout
-                                    </button>
+                                    <button class="dropdown-item text-danger" type="submit">Logout</button>
                                 </form>
                             </li>
                         </ul>

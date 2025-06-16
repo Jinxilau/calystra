@@ -167,15 +167,63 @@
                         @endif
 
                         @if($currentStep == 3)
-                        {{-- Step 3: Add-ons Selection --}}
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Enhance Your Photography Experience</h3>
-                        <p class="text-gray-600 mb-6">Select additional services to make your photoshoot even more special.</p>
-                        @foreach($availableAddOns as $availableAddOn)
-                        <div class="grid lg:grid-cols-3 gap-8">
-                            <div class="lg:col-span-2">
-                        @endforeach
-                        @endif
+                        <!-- Step 3: Add-ons Selection -->
+                        <div class="mb-4">
+                            <h3 class="h4 fw-semibold text-dark my-0">Enhance Your Photography Experience</h3>
+                            <p class="text-muted mb-4">Select additional services to make your photoshoot even more special.</p>
+                            
+                            @foreach($availableAddOns->groupBy('type') as $type => $addOns)
+                            <div class="card mb-2 overflow-hidden">
+                                <div class="card-header bg-gradient bg-primary text-white py-1">
+                                    <h4 class="h5 mb-0">{{ $categories[$type] ?? ucfirst(str_replace('_', ' ', $type)) }}</h4>
+                                </div>
+                                
+                                <div class="card-body p-2 pt-4">
+                                    <div class="row g-3">
+                                        @foreach($addOns as $addon)
+                                        <div class="col-12 col-md-6 col-lg-4 mt-0">
+                                            <div class="border rounded px-3 {{ in_array($addon->id, $selectedAddOns) ? 'border-primary bg-primary bg-opacity-10' : 'border-light-subtle' }}">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="addon-{{ $addon->id }}" wire:click="toggleAddon({{ $addon->id }})" {{ in_array($addon->id, $selectedAddOns) ? 'checked' : '' }}>
+                                                    <label class="form-check-label fw-semibold" for="addon-{{ $addon->id }}">{{ $addon->name }}</label>
+                                                    
+                                                    @if($addon->description)
+                                                    <p class="text-muted small m-0">{{ $addon->description }}</p>
+                                                    @endif
 
+                                                    @if($addon->price)
+                                                    <span class="text-primary fw-bold" style="margin: ">RM {{ number_format($addon->price, 2) }}</span>
+                                                    @endif
+                                                    
+                                                </div>
+                                                @if(in_array($addon->id, $selectedAddOns))
+                                                @if(!is_null($addon->quantity))
+                                                <div class="d-flex align-items-center justify-content-center my-2">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <!-- Quantity controls (commented out as in original) -->
+                                                        <button class="btn btn-sm btn-outline-primary rounded-circle p-0" wire:click="decrementQuantity({{ $addon->id }})" style="width: 24px; height: 24px;">
+                                                            <i class="bi bi-dash"></i>
+                                                        </button>
+                                                        
+                                                        <input type="number" readonly wire:model="addonQuantities.{{ $addon->id }}" wire:change="updateQuantity({{ $addon->id }}, $event.target.value)" class="form-control form-control-sm text-center" style="width: 60px;">
+                                                        
+                                                        <button class="btn btn-sm btn-outline-primary rounded-circle p-0" wire:click="incrementQuantity({{ $addon->id }})" style="width: 24px; height: 24px;">
+                                                            <i class="bi bi-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+                        
                         {{-- Step 4: Review & Deposit Payment --}}
                         @if($currentStep == 4)
                         <div class="space-y-6">
@@ -213,10 +261,29 @@
                                         <span class="fw-medium">{{ $event_date }} at {{ $start_time }}</span>
                                     </div>
                                 </div>
+                                <div class="border-t pt-6">
+                                    <h6 class="text-gray-900 mb-4 mt-2">{{ (sizeof($selectedAddOns) > 0) ? 'You have selected the following add-ons:' : 'No add-ons selected.' }}</h6>
+                                    @if(sizeof($selectedAddOns) > 0)
+                                    @foreach($selectedAddOns as $addon)
+                                    @php
+                                        $addOn = $availableAddOns->find($addon)
+                                    @endphp
+                                    <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                                        <div>
+                                            <span class="font-medium">{{ $addOn->name }}</span>
+                                            @if(($addonQuantities[$addon] ?? 1) > 1)
+                                            <span class="text-sm text-gray-600 ml-2">x{{ $addonQuantities[$addon] }}</span>
+                                            @endif
+                                        </div>
+                                        <span class="font-medium">RM {{ number_format($addOn->price, 2) }}</span>
+                                    </div>
+                                    @endforeach
+                                    @endif
+                                </div>
                             </div>
 
                             {{-- Deposit Payment Section --}}
-                            <div class="mt-4 p-3 bg-primary bg-opacity-10 rounded">
+                            <div class="mt-4 p-3 bg-primary bg-opacity-10 rounded border border-primary">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="h5 text-primary">Deposit Required</span>
                                     <span class="h4 fw-bold text-primary">RM {{ number_format($depositAmount, 2) }}</span>
