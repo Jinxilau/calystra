@@ -16,7 +16,8 @@ return new class extends Migration
 
             $table->string('name');
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 10, 2)->nullable(); // For items like prints or albums
+            $table->boolean('quantity')->nullable(); // For items like prints or albums
             $table->string('type'); // extra_hour, prints, album, etc.
             $table->boolean('is_active')->default(true);
 

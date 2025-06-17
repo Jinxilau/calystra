@@ -90,128 +90,97 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
 }; 
 ?>
 
-<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+<div class="d-flex flex-column justify-content-start px-2 pt-4 px-lg-4 mb-2" style="height: 88vh">
+    <div class="mx-auto w-100" style="max-width: 480px;">
         <div class="text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-900">
-                {{ __('Create your account') }}
-            </h2>
-            <p class="mt-2 text-sm text-gray-600">
-                {{ __('Join us today and get started in minutes.') }}
-            </p>
+            <h2 class="h3 mb-2 fw-bold text-dark">{{ __('Create your account') }}</h2>
+            <p class="text-muted">{{ __('Join us today and get started in minutes.') }}</p>
         </div>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10 border border-gray-200">
-            <form wire:submit="register" class="space-y-6">
+    <div class=" mx-auto w-100" style="max-width: 420px;">
+        <div class="bg-white px-4 py-2 border-top">
+            <form wire:submit="register" class="needs-validation" novalidate>
                 <!-- Name -->
-                <div>
-                    <x-input-label for="name" :value="__('Full Name')" class="block text-sm font-medium text-gray-700" />
-                    <div class="mt-1 relative">
-                        <x-text-input 
-                            wire:model.live.debounce.300ms="name" 
-                            id="name" 
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                            type="text" 
-                            name="name" 
-                            placeholder="{{ __('Enter your full name') }}"
-                            required 
-                            autofocus 
-                            autocomplete="name" 
-                        />
+                <div class="mb-3">
+                    <x-input-label for="name" :value="__('Full Name')" class="form-label" />
+                    <div class="position-relative">
+                        <x-text-input wire:model.live.debounce.300ms="name" id="name" class="form-control" type="text" name="name" placeholder="{{ __('Enter your full name') }}" required autofocus autocomplete="name" />
                         @error('name')
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                            <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                                 </svg>
                             </div>
                         @else
                             @if(strlen($name) > 2)
-                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                    <svg width="20" height="20" fill="#28a745" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                     </svg>
                                 </div>
                             @endif
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('name')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('name')" class="invalid-feedback" />
                 </div>
 
                 <!-- Email Address -->
-                <div>
-                    <x-input-label for="email" :value="__('Email address')" class="block text-sm font-medium text-gray-700" />
-                    <div class="mt-1 relative">
-                        <x-text-input 
-                            wire:model.live.debounce.500ms="email" 
-                            id="email" 
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" 
-                            type="email" 
-                            name="email" 
-                            placeholder="{{ __('Enter your email address') }}"
-                            required 
-                            autocomplete="username" 
-                        />
+                <div class="mb-3">
+                    <x-input-label for="email" :value="__('Email address')" class="form-label" />
+                    <div class="position-relative">
+                        <x-text-input wire:model.live.debounce.500ms="email" id="email" class="form-control" type="email" name="email" placeholder="{{ __('Enter your email address') }}" required autocomplete="username"/>
                         @error('email')
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                            <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                                 </svg>
                             </div>
                         @else
                             @if(filter_var($email, FILTER_VALIDATE_EMAIL) && strlen($email) > 0)
-                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                    <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                    <svg width="20" height="20" fill="#28a745" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                     </svg>
                                 </div>
                             @endif
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('email')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('email')" class="invalid-feedback" />
                 </div>
 
                 <!-- Password -->
                 <div>
-                    <x-input-label for="password" :value="__('Password')" class="block text-sm font-medium text-gray-700" />
-                    <div class="mt-1 relative">
+                    <x-input-label for="password" :value="__('Password')" class="form-label" />
+                    <div class="position-relative">
                         <x-text-input 
-                            wire:model.live.debounce.300ms="password" 
-                            id="password" 
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            type="password"
-                            name="password"
-                            placeholder="{{ __('Create a strong password') }}"
-                            required 
-                            autocomplete="new-password" 
-                        />
-                        @error('password')
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                            wire:model.live.debounce.300ms="password" id="password" class="form-control" type="password" name="password" placeholder="{{ __('Create a strong password') }}" required autocomplete="new-password" />
+                        @if($errors->has('password'))
+                            <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                                <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                                 </svg>
                             </div>
-                        @enderror
+                        @endif
                     </div>
                     
                     <!-- Password Strength Indicator -->
-                    @if(strlen($password) > 0)
+                    {{-- @if(strlen($password) > 0) --}}
                         <div class="mt-2">
-                            <div class="text-xs text-gray-600 mb-1">{{ __('Password strength:') }}</div>
-                            <div class="grid grid-cols-4 gap-1 mb-2">
+                            <div class="small text-muted mb-1">{{ __('Password strength:') }}</div>
+                            <div class="d-flex gap-1 mb-2" style="height: 4px;">
                                 @php
                                     $strength = $this->passwordStrength;
                                     $score = array_sum($strength);
-                                    $colors = ['bg-red-200', 'bg-yellow-200', 'bg-yellow-400', 'bg-green-400', 'bg-green-500'];
+                                    $colors = ['bg-danger', 'bg-warning', 'bg-warning', 'bg-success', 'bg-success'];
                                 @endphp
                                 @for($i = 0; $i < 4; $i++)
-                                    <div class="h-1 rounded {{ $i < $score ? $colors[$score] : 'bg-gray-200' }}"></div>
+                                    <div class="h-1 rounded flex-grow-1 {{ $i < $score ? $colors[$score] : 'bg-light' }}"></div>
                                 @endfor
                             </div>
-                            <div class="text-xs space-y-1">
-                                <div class="flex items-center {{ $strength['length'] ? 'text-green-600' : 'text-gray-400' }}">
-                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <div class="small">
+                                <div class="d-flex align-items-center mb-1 {{ $strength['length'] ? 'text-success' : 'text-muted' }}">
+                                    <svg class="bi flex-shrink-0 me-1" width="18" height="18" fill="currentColor">
                                         @if($strength['length'])
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                         @else
@@ -220,8 +189,8 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                                     </svg>
                                     {{ __('At least 8 characters') }}
                                 </div>
-                                <div class="flex items-center {{ $strength['uppercase'] && $strength['lowercase'] ? 'text-green-600' : 'text-gray-400' }}">
-                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <div class="d-flex align-items-center mb-1 {{ $strength['uppercase'] && $strength['lowercase'] ? 'text-success' : 'text-muted' }}">
+                                    <svg class="bi flex-shrink-0 me-1" width="18" height="18" fill="currentColor">
                                         @if($strength['uppercase'] && $strength['lowercase'])
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                         @else
@@ -230,8 +199,8 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                                     </svg>
                                     {{ __('Mixed case letters') }}
                                 </div>
-                                <div class="flex items-center {{ $strength['number'] ? 'text-green-600' : 'text-gray-400' }}">
-                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <div class="d-flex align-items-center {{ $strength['number'] ? 'text-success' : 'text-muted' }}">
+                                    <svg class="bi flex-shrink-0 me-1" width="18" height="18" fill="currentColor">
                                         @if($strength['number'])
                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                         @else
@@ -242,99 +211,55 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    {{-- @endif --}}
                     
-                    <x-input-error :messages="$errors->get('password')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('password')" class="invalid-feedback" />
                 </div>
 
                 <!-- Confirm Password -->
-                <div>
-                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="block text-sm font-medium text-gray-700" />
-                    <div class="mt-1 relative">
-                        <x-text-input 
-                            wire:model.live.debounce.300ms="password_confirmation" 
-                            id="password_confirmation" 
-                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            type="password"
-                            name="password_confirmation"
-                            placeholder="{{ __('Confirm your password') }}"
-                            required 
-                            autocomplete="new-password" 
-                        />
+                <div class="mb-3 mt-2">
+                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="form-label" />
+                    <div class="position-relative">
+                        <x-text-input wire:model.live.debounce.300ms="password_confirmation" id="password_confirmation" class="form-control" type="password" name="password_confirmation" placeholder="{{ __('Confirm your password') }}" required autocomplete="new-password" />
                         @if(strlen($password_confirmation) > 0)
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
                                 @if($password === $password_confirmation)
-                                    <svg class="h-5 w-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg width="20" height="20" fill="#28a745" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                                     </svg>
                                 @else
-                                    <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                                     </svg>
                                 @endif
                             </div>
                         @endif
                     </div>
-                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="invalid-feedback" />
                 </div>
 
                 <!-- Terms and Conditions -->
-                <div class="flex items-start">
-                    <div class="flex items-center h-5">
-                        <input 
-                            wire:model.live="terms_accepted" 
-                            id="terms" 
-                            type="checkbox" 
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            required
-                        >
-                    </div>
-                    <div class="ml-3 text-sm">
-                        <label for="terms" class="text-gray-700">
-                            {{ __('I agree to the') }}
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                {{ __('Terms and Conditions') }}
-                            </a>
-                            {{ __('and') }}
-                            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                                {{ __('Privacy Policy') }}
-                            </a>
-                        </label>
-                    </div>
+                <div class="mb-3 form-check">
+                    <input wire:model.live="terms_accepted" id="terms" type="checkbox" class="form-check-input" required>
+                    <label for="terms" class="form-check-label">{{ __('I agree to the') }}<a href="#" class="text-decoration-none"> {{ __('Terms and Conditions') }}</a> {{ __('and') }}<a href="#" class="text-decoration-none"> {{ __('Privacy Policy') }}</a></label>
+                    <x-input-error :messages="$errors->get('terms_accepted')" class="invalid-feedback" />
                 </div>
-                <x-input-error :messages="$errors->get('terms_accepted')" class="mt-1" />
 
                 <!-- Submit Button -->
-                <div>
-                    <x-primary-button 
-                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
-                        wire:loading.attr="disabled"
-                        wire:target="register"
-                    >
-                        <span wire:loading.remove wire:target="register">
-                            {{ __('Create Account') }}
+                <div class="mb-3">
+                    <x-primary-button class="w-100 btn btn-primary" wire:loading.attr="disabled" wire:target="register">
+                        <span wire:loading wire:target="register" class="">
+                            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                         </span>
-                        <span wire:loading wire:target="register" class="flex items-center">
-                            <svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            {{ __('Creating account...') }}
-                        </span>
+                        <span>{{ __('Create Account') }}</span>
                     </x-primary-button>
                 </div>
 
                 <!-- Login Link -->
                 <div class="text-center">
-                    <p class="text-sm text-gray-600">
+                    <p class="small text-muted"> 
                         {{ __('Already have an account?') }}
-                        <a 
-                            href="{{ route('login') }}" 
-                            wire:navigate
-                            class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition duration-150 ease-in-out"
-                        >
-                            {{ __('Sign in') }}
-                        </a>
+                        <a href="{{ route('login') }}" wire:navigate class="text-decoration-none">{{ __('Sign in') }}</a>
                     </p>
                 </div>
             </form>

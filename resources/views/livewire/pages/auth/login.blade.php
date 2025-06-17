@@ -37,81 +37,71 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 }; 
 ?>
 
-<div class="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="d-flex flex-column justify-content-center py-2 px-lg-4 px-sm-2 gap-2" style="height: 66vh;">
     @if(session('registered'))
-        <p class="text-green-500">You have successfully registered! Please log in.</p>
+        <p class="text-success text-center">You have successfully registered! Please log in.</p>
     @endif
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="mx-auto w-sm-100" style="max-width: 400px;">
         <div class="text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-900">
+            <h2 class="h3 mb-3 fw-bold text-dark">
                 {{ __('Sign in to your account') }}
             </h2>
-            <p class="mt-2 text-sm text-gray-600">
+            <p class="text-muted mb-0">
                 {{ __('Welcome back! Please enter your credentials.') }}
             </p>
         </div>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 shadow-lg rounded-lg sm:px-10 border border-gray-200">
+    <div class="mx-auto w-100" style="max-width: 400px;">
+        <div class="bg-white p-4 border-top">
             <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
 
-            <form wire:submit="login" class="space-y-6">
+            <form wire:submit="login" class="needs-validation" novalidate>
                 <!-- Email Address -->
-                <div>
-                    <x-input-label for="email" :value="__('Email address')" class="block text-sm font-medium text-gray-700" />
-                    <div class="mt-1 relative">
-                        <x-text-input wire:model.blur="form.email" id="email" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" type="email" name="email" placeholder="{{ __('Enter your email') }}" required autofocus autocomplete="username" />
+                <div class="mb-3">
+                    <x-input-label for="email" :value="__('Email address')" class="form-label" />
+                    <div class="position-relative">
+                        <x-text-input wire:model.blur="form.email" id="email" class="form-control" type="email" name="email" placeholder="{{ __('Enter your email') }}" required autofocus autocomplete="username" />
                         @error('form.email')
-                        <div class="position-absolute top-50 end-0 pe-3 d-flex align-items-center" style="pointer-events: none; transform: translateY(-50%);">
+                        <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
                             <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('form.email')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('form.email')" class="invalid-feedback" />
                 </div>
 
                 <!-- Password -->
-                <div>
-                    <x-input-label for="password" :value="__('Password')" class="block text-sm font-medium text-gray-700" />
-                    <div class="mt-1 relative">
-                        <x-text-input wire:model.blur="form.password" id="password" class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" type="password" name="password" placeholder="{{ __('Enter your password') }}" required autocomplete="current-password" />
+                <div class="mb-3">
+                    <x-input-label for="password" :value="__('Password')" class="form-label" />
+                    <div class="position-relative">
+                        <x-text-input wire:model.blur="form.password" id="password" class="form-control" type="password" name="password" placeholder="{{ __('Enter your password') }}" required autocomplete="current-password" />
                         @error('form.password')
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                            <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                             </svg>
                         </div>
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('form.password')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('form.password')" class="invalid-feedback" />
                 </div>
 
                 <!-- Remember Me & Forgot Password -->
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input 
-                            wire:model="form.remember" 
-                            id="remember" 
-                            type="checkbox" 
-                            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            name="remember"
-                        >
-                        <label for="remember" class="ml-2 block text-sm text-gray-700">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input wire:model="form.remember" id="remember" type="checkbox" class="form-check-input" name="remember">
+                        <label for="remember" class="form-check-label">
                             {{ __('Remember me') }}
                         </label>
                     </div>
 
                     @if (Route::has('password.request'))
-                    <div class="text-sm">
-                        <a 
-                            class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition duration-150 ease-in-out" 
-                            href="{{ route('password.request') }}" 
-                            wire:navigate
-                        >
+                    <div>
+                        <a class="text-decoration-none" href="{{ route('password.request') }}" wire:navigate>
                             {{ __('Forgot password?') }}
                         </a>
                     </div>
@@ -119,16 +109,18 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                 </div>
 
                 <!-- Submit Button -->
-                <div>
-                    <x-primary-button class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out" wire:loading.attr="disabled" wire:target="login">
+                <div class="mb-3">
+                    <x-primary-button class="w-100 btn btn-primary" wire:loading.attr="disabled" wire:target="login">
+                        <!-- Visible when not loading -->
                         <span wire:loading.remove wire:target="login">
                             {{ __('Sign in') }}
                         </span>
-                        <span wire:loading wire:target="login" class="flex items-center">
-                            <svg class="d-inline animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
+                        
+                        <!-- Loading spinner (hidden by default) -->
+                        <span wire:loading wire:target="login">
+                            <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
                             {{ __('Signing in...') }}
                         </span>
                     </x-primary-button>
@@ -136,9 +128,9 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 
                 <!-- Sign Up Link -->
                 <div class="text-center">
-                    <p class="text-sm text-gray-600">
+                    <p class="text-muted">
                         {{ __("Don't have an account?") }}
-                        <a href="{{ route('register') }}" wire:navigate class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition duration-150 ease-in-out">{{ __('Sign up') }}</a>
+                        <a href="{{ route('register') }}" wire:navigate class="text-decoration-none">{{ __('Sign up') }}</a>
                     </p>
                 </div>
             </form>

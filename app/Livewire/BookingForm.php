@@ -53,9 +53,10 @@ class BookingForm extends Component
     // Add-ons
     public $selectedAddOns = [];
     public $availableAddOns;
+    public $addonQuantities = []; // To track quantities of selected add-ons
 
     public $categories = [
-        'time_extension' => 'Time Extensions',
+        'time_extension' => 'Time Extensions', // TODO: asdklj
         'prints' => 'Prints & Albums',
         'digital' => 'Digital Services',
         'equipment' => 'Equipment & Props',
@@ -63,8 +64,22 @@ class BookingForm extends Component
         'location' => 'Location Services'
     ];
 
+    public function getEventTypesProperty() // Computed property for event types and no parameters
+    {
+        return [
+            'wedding' => 'Wedding Photography',
+            'corporate' => 'Corporate Events',
+            'convo' => 'Convocation Photography',
+            'fashion' => 'Fashion & Styles',
+            'family' => 'Family Portraits',
+            'portrait' => 'Individual Portraits',
+            'event' => 'General Events',
+            'other' => 'Other'
+        ];
+    }
+
     // Form state
-    public $currentStep = 3;
+    public $currentStep = 1;
     public $totalSteps = 4;
     public $showSuccessMessage = false;
 
@@ -76,7 +91,7 @@ class BookingForm extends Component
             $this->customer_phone = $user->phone ?? ''; // Optional, if phone is available
         }
         $this->loadAvailableAddOns();
-        $this->loadSelectedAddOns();
+        // $this->loadSelectedAddOns();
     }
 
     public function nextStep()
@@ -125,11 +140,13 @@ class BookingForm extends Component
         case 4:
             $this->validate([
                 'notes' => 'nullable|string|max:1000',
-                'paymentMethod' => 'required|in:bank_transfer,online_banking,cash',
-                'receipt' => 'required|image|max:2048', // 2MB max
-                'paymentReference' => 'required|string|max:100',
-                'customerNotes' => 'nullable|string|max:500'
+                // 'paymentMethod' => 'required|in:bank_transfer,online_banking,cash',
+                'receipt' => 'required|image|max:2048', // TODO: 2MB max
+                // 'paymentReference' => 'required|string|max:100',
+                // 'customerNotes' => 'nullable|string|max:500'
             ]);
+
+            $this->submitForm(); // Submit the form if validation passes
             break;
         }
     }
@@ -140,18 +157,6 @@ class BookingForm extends Component
         'receipt.max' => 'Receipt file size must not exceed 2MB.',
         // 'paymentReference.required' => 'Please enter the payment reference number.'
     ];
-
-    public function getEventTypesProperty() // Computed property for event types and no parameters
-    {
-        return [
-            'wedding' => 'Wedding Photography',
-            'corporate' => 'Corporate Events',
-            'family' => 'Family Portraits',
-            'portrait' => 'Individual Portraits',
-            'event' => 'General Events',
-            'other' => 'Other'
-        ];
-    }
 
     public function loadAvailableAddOns() // Load available add-ons from the database
     {
@@ -181,8 +186,32 @@ class BookingForm extends Component
         } else {
             // Add addon
             $this->selectedAddOns[] = $addonId;
-            // $this->addonQuantities[$addonId] = 1;
+            $this->addonQuantities[$addonId] = 1;
         }
+    }
+
+    public function incrementQuantity($addonId)
+    {
+        $this->addonQuantities[$addonId] = ($this->addonQuantities[$addonId] ?? 0) + 1;
+        // $this->calculateTotal();
+    }
+
+    public function decrementQuantity($addonId)
+    {
+        if($this->addonQuantities[$addonId] > 1) {
+            $this->addonQuantities[$addonId]--;
+            // $this->calculateTotal();
+        }
+    }
+
+    public function updateQuantity($addonId, $quantity)
+    {
+        if ($quantity <= 0) {
+            $this->toggleAddon($addonId);
+            return;
+        }
+        
+        $this->addonQuantities[$addonId] = max(1, $quantity);
     }
 
     public function submitForm()
@@ -215,17 +244,14 @@ class BookingForm extends Component
                 'status' => 'pending_verification',
             ]);
 
-            // Add new add-ons
-            foreach ($this->selectedAddOns as $addOnId => $details) {
+            // Add new booking & add-ons
+            foreach ($this->selectedAddOns as $addOnId) {
                 $addOn = $this->availableAddOns->find($addOnId);
                 if ($addOn) {
-                    \App\Models\BookingAddOn::create([
+                    BookingAddOn::create([
                         'booking_id' => $booking->id,
                         'add_on_id' => $addOnId,
-                        // 'quantity' => $details['quantity'],
-                        // 'notes' => $details['notes']
-                        // 'unit_price' => $addOn->price,
-                        // 'total_price' => $addOn->price * $details['quantity'],
+                        'quantity' => $this->addonQuantities[$addOnId] ?? 1, // Default to 1 if not set
                     ]);
                 }
             }
