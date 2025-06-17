@@ -32,11 +32,6 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function (
     // Add more admin routes here
 });
 
-Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
-    Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
-    // Add more user routes here
-});
-
 // Route::get('/', function () {
 //     return redirect('/dashboard');
 // })->middleware('auth');
@@ -60,7 +55,10 @@ Route::get('/settings/profile', function () {
 
 
 // Normal user routes
-
+Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
+    Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
+    // Add more user routes here
+});
 
 // Route::view('dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 

@@ -131,7 +131,7 @@
         <div class="cta-content fade-in">
             <h2>Ready to Book Your Session?</h2>
             <p>Join hundreds of satisfied clients who trust Calystra Studio for their special moments</p>
-            <a href="#booking" class="btn-primary">Start Your Booking</a>
+            <a href="{{route('booking') }}" class="btn-primary">Start Your Booking</a>
         </div>
     </div>
 </section>
