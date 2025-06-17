@@ -13,7 +13,7 @@
     @livewireStyles
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <!-- Navigation -->
     <nav id="navbar">
         <div class="container">
@@ -70,9 +70,9 @@
     @yield('content')
     
     <!-- Footer -->
-    <footer>
+    <footer class="mt-auto">
         <div class="container">
-            <div class="footer-content">
+            <div class="footer-content flex-grow-1 container">
                 <div class="footer-section">
                     <h3>Calystra Studio</h3>
                     <p>Professional photography services in Malaysia, specializing in weddings, corporate events, and family portraits.</p>

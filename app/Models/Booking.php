@@ -24,7 +24,7 @@ class Booking extends Model
     // app/Models/Booking.php
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // public function service()
@@ -48,6 +48,7 @@ class Booking extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
 
     // public function gallery()
     // {

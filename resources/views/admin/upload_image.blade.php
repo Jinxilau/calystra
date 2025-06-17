@@ -22,6 +22,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-8">
+        <h3>Manage Image</h3>
         <div class="card mb-5">
             <div class="card-header">Upload Image</div>
 

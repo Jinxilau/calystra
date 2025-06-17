@@ -81,7 +81,7 @@ class User extends Authenticatable
 
     public function bookings()
     {
-        return $this->hasMany(Booking::class);
+        return $this->hasMany(Booking::class, 'user_id');
     }
 
     public function hasRole($role)
@@ -89,8 +89,8 @@ class User extends Authenticatable
         return $this->roles()->where('name', $role)->exists();
     }
 
-    public function favorites() {
-    return $this->hasMany(Favorite::class);
-}
-
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }

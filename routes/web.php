@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +15,7 @@ use App\Http\Controllers\FavoriteController;
 // Role-based redirection after login
 Route::get('/dashboard', function () {
     return match (Auth::user()->role) {
-        'admin' => redirect('/admin/dashboard'),
+        'admin' => redirect('/admin/manageBooking'),
         'user' => redirect('/user/dashboard'),
         default => abort(403),
     };
@@ -41,13 +42,32 @@ Route::get('/settings/profile', function () {
 
 // Admin-only routes
 Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
-    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
+    Route::get('/admin/manageBooking', [BookingController::class, 'index'])->name('manageBooking');
+    //Upload Image
+    Route::get('/admin/upload_image/create', [ImageController::class, 'create'])->name('images.create');
+    //Store Image
+    Route::post('/admin/upload_image', [ImageController::class, 'store'])->name('images.store');
+    //Show Image
+    Route::get('/admin/upload_image', [ImageController::class, 'index'])->name('images.index');
+    //Delete Image
+    Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
     // Add more admin routes here
 });
 
 // Normal user routes
 Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
     Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
+    //show wedding image to user
+    Route::get('/wedding', [ImageController::class, 'showWeddingGallery'])->name('wedding');
+    //Show event image to user
+    Route::get('/corporate', [ImageController::class, 'showEventGallery'])->name('corporate');
+    //Show fashion image to user
+    Route::get('/fashion', [ImageController::class, 'showFashionGallery'])->name('fashion');
+    //Show convo image to user
+    Route::get('/convo', [ImageController::class, 'showConvoGallery'])->name('convo');
+    Route::get('/favorites', [FavoriteController::class, 'myFavorites'])->name('favorites.index');
+    Route::post('/favorites/add/{id}', [FavoriteController::class, 'addFavorite'])->name('favorites.add');
+    Route::post('/favorites/delete/{id}', [FavoriteController::class, 'deleteFavorite'])->name('favorites.delete');
     // Add more user routes here
 });
 
@@ -67,45 +87,20 @@ Route::post('/login', function () {
 ////////////////////////////////
 
 
-Route::get('/admin/manageBooking', function () {
-    return view('admin.manageBooking');
-})->name('managebooking');
+
 
 // Route::get('/admin/upload_image', function () {
 //     return view('admin.upload_image');
 // })->name('manageimage');
-
-Route::get('/admin/manageUser', function () {
-    return view('admin.manageUser');
-})->name('manageuser');
 
 
 // Route::view('dashboard', 'dashboard')
 //     ->middleware(['auth', 'verified'])
 //     ->name('dashboard');
 
-Route::get('/admin/upload_image/create', [ImageController::class, 'create'])->name('images.create');
-Route::post('/admin/upload_image', [ImageController::class, 'store'])->name('images.store');
 
-Route::get('/admin/upload_image', [ImageController::class, 'index'])->name('images.index');
-Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
 // });require __DIR__.'/auth.php';
 
-//show wedding image to user
-Route::get('/wedding', [ImageController::class, 'showWeddingGallery'])->name('wedding');
-//Show event image to user
-Route::get('/corporate', [ImageController::class, 'showEventGallery'])->name('corporate');
-//Show fashion image to user
-Route::get('/fashion', [ImageController::class, 'showFashionGallery'])->name('fashion');
-//Show convo image to user
-Route::get('/convo', [ImageController::class, 'showConvoGallery'])->name('convo');
-
-
-Route::middleware(['auth'])->group(function () {
-    Route::get('/favorites', [FavoriteController::class, 'myFavorites'])->name('favorites.index');
-    Route::post('/favorites/add/{id}', [FavoriteController::class, 'addFavorite'])->name('favorites.add');
-    Route::post('/favorites/delete/{id}', [FavoriteController::class, 'deleteFavorite'])->name('favorites.delete');
-});
 
 
 require __DIR__ . '/auth.php';
