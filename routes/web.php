@@ -15,7 +15,7 @@ use App\Http\Controllers\FavoriteController;
 Route::get('/dashboard', function () {
     return match (Auth::user()->role) {
         'admin' => redirect('/admin/dashboard'),
-        'user' => redirect('/user/dashboard'),
+        'user' => redirect('/'),
         default => abort(403),
     };
 })->middleware('auth')->name('dashboard');
@@ -54,7 +54,6 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
 // Route::view('dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
 // Guest routes
 Route::get('/', function () {
     return view('home');
@@ -65,8 +64,6 @@ Route::post('/login', function () {
 })->name('login');
 
 ////////////////////////////////
-
-
 Route::get('/admin/manageBooking', function () {
     return view('admin.manageBooking');
 })->name('managebooking');
