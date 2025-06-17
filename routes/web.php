@@ -11,6 +11,13 @@ use App\Livewire\User\Dashboard as UserDashboard;
 use App\Http\Controllers\FavoriteController;
 
 // Route::view('/', 'welcome')->name('welcome'); // Public welcome page
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
+Route::post('/login', function () {
+    return view('resources\views\livewire\pages\auth\login.blade.php');
+})->name('login');
 
 // Role-based redirection after login
 Route::get('/dashboard', function () {
@@ -20,6 +27,11 @@ Route::get('/dashboard', function () {
         default => abort(403),
     };
 })->middleware('auth')->name('dashboard');
+
+Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
+    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
+    // Add more admin routes here
+});
 
 // Route::get('/', function () {
 //     return redirect('/dashboard');
@@ -79,13 +91,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
 
 
 // Guest routes
-Route::get('/', function () {
-    return view('home');
-})->name('home');
 
-Route::post('/login', function () {
-    return view('resources\views\livewire\pages\auth\login.blade.php');
-})->name('login');
+
+
 
 ////////////////////////////////
 

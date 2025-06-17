@@ -61,7 +61,7 @@
                     <h3 class="card-title mb-0"><i class="fas fa-camera me-2"></i> @if($currentStep == 1)Event Details @elseif($currentStep == 2) Customer Information @elseif($currentStep == 3) Add-ons Selection @elseif($currentStep == 4)Review & Deposit Payment @endif</h3>
                 </div>
                 <div class="card-body p-4">
-                    <form wire:submit="submitForm">
+                    <form wire:submit="nextStep">
                         {{-- Step 1: Event Details --}}
                         @if($currentStep == 1)
                         <div class="mb-4">
@@ -382,8 +382,11 @@
                             <!-- Submit Button -->
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-lg text-white" wire:loading.attr="disabled">
-                                    <span wire:loading.remove wire:target="submitForm" class="submit-button"></i>Submit Booking Request</span>
-                                    <span wire:loading wire:target="submitForm"><span class="spinner-border spinner-border-sm me-2" role="status"></span>Processing...</span>
+                                    <span wire:loading.remove wire:target="nextStep" class="submit-button"></i>Submit Booking Request</span>
+                                    <span wire:loading wire:target="nextStep">
+                                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                                        Processing...
+                                    </span>
                                 </button>
                             </div>
                             @endif

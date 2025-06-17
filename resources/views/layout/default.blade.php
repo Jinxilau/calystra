@@ -18,18 +18,18 @@
     <nav id="navbar">
         <div class="container">
             <div class="nav-container">
-                <div class="logo">Calystra Studio</div>
-                <ul class="nav-links pe-md-3 pe-lg-0 pe-0">
-                    <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ url('/') }}#services">Services</a></li>
-                    <li><a href="###">About</a></li>
-                    <li><a href="###">Contact</a></li>
-                </ul>
                 <div class="mobile-menu">
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
+                <div class="logo">Calystra Studio</div>
+                <ul class="nav-links pe-md-3 pe-lg-0 pe-0 mb-0">
+                    <li><a href="{{ route('home') }}">Home</a></li>
+                    <li><a href="{{ url('/') }}#services">Services</a></li>
+                    <li><a href="###">About</a></li>
+                    <li><a href="###">Contact</a></li>
+                </ul>
                 <div class="d-flex align-items-center justify-content-end gap-2">
                     <a href="{{ route('booking') }}" class="cta-button px-2 py-2 px-md-3 py-md-2" style="width:max-content">Book Now</a>
     
@@ -41,8 +41,8 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="position: absolute; z-index: 1051;">
                             <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" wire:navigate href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li><a class="dropdown-item" wire:navigate href="{{ route('settings.profile') }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
                             <li><a class="dropdown-item" href="{{ route('favorites.index') }}">My favourites</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
