@@ -56,13 +56,27 @@ class BookingForm extends Component
     public $addonQuantities = []; // To track quantities of selected add-ons
 
     public $categories = [
-        'time_extension' => 'Time Extensions',
+        'time_extension' => 'Time Extensions', // TODO: asdklj
         'prints' => 'Prints & Albums',
         'digital' => 'Digital Services',
         'equipment' => 'Equipment & Props',
         'styling' => 'Styling & Makeup',
         'location' => 'Location Services'
     ];
+
+    public function getEventTypesProperty() // Computed property for event types and no parameters
+    {
+        return [
+            'wedding' => 'Wedding Photography',
+            'corporate' => 'Corporate Events',
+            'convo' => 'Convocation Photography',
+            'fashion' => 'Fashion & Styles',
+            'family' => 'Family Portraits',
+            'portrait' => 'Individual Portraits',
+            'event' => 'General Events',
+            'other' => 'Other'
+        ];
+    }
 
     // Form state
     public $currentStep = 1;
@@ -126,11 +140,13 @@ class BookingForm extends Component
         case 4:
             $this->validate([
                 'notes' => 'nullable|string|max:1000',
-                'paymentMethod' => 'required|in:bank_transfer,online_banking,cash',
-                'receipt' => 'required|image|max:2048', // 2MB max
-                'paymentReference' => 'required|string|max:100',
-                'customerNotes' => 'nullable|string|max:500'
+                // 'paymentMethod' => 'required|in:bank_transfer,online_banking,cash',
+                'receipt' => 'required|image|max:2048', // TODO: 2MB max
+                // 'paymentReference' => 'required|string|max:100',
+                // 'customerNotes' => 'nullable|string|max:500'
             ]);
+
+            $this->submitForm(); // Submit the form if validation passes
             break;
         }
     }
@@ -141,18 +157,6 @@ class BookingForm extends Component
         'receipt.max' => 'Receipt file size must not exceed 2MB.',
         // 'paymentReference.required' => 'Please enter the payment reference number.'
     ];
-
-    public function getEventTypesProperty() // Computed property for event types and no parameters
-    {
-        return [
-            'wedding' => 'Wedding Photography',
-            'corporate' => 'Corporate Events',
-            'family' => 'Family Portraits',
-            'portrait' => 'Individual Portraits',
-            'event' => 'General Events',
-            'other' => 'Other'
-        ];
-    }
 
     public function loadAvailableAddOns() // Load available add-ons from the database
     {

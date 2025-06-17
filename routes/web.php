@@ -35,9 +35,9 @@ Route::post('/logout', function () {
 
 Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
-Route::get('/settings/profile', function () {
-    return view('livewire.settings.profile');
-})->middleware('auth')->name('settings.profile');
+// Route::get('/settings/profile', function () {
+//     return view('livewire.settings.profile');
+// })->middleware('auth')->name('settings.profile');
 
 // Admin-only routes
 Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
@@ -48,6 +48,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function (
 // Normal user routes
 Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
     Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
+    Route::get('/user/profile', function() { return view('profile');})->name('profile');
     // Add more user routes here
 });
 
