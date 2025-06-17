@@ -23,7 +23,7 @@ Route::post('/login', function () {
 Route::get('/dashboard', function () {
     return match (Auth::user()->role) {
         'admin' => redirect('/admin/manageBooking'),
-        'user' => redirect('/user/dashboard'),
+        'user' => redirect('/'),
         default => abort(403),
     };
 })->middleware('auth')->name('dashboard');
