@@ -23,7 +23,7 @@ Route::post('/login', function () {
 Route::get('/dashboard', function () {
     return match (Auth::user()->role) {
         'admin' => redirect('/admin/manageBooking'),
-        'user' => redirect('/user/dashboard'),
+        'user' => redirect('/'),
         default => abort(403),
     };
 })->middleware('auth')->name('dashboard');
@@ -42,11 +42,11 @@ Route::post('/logout', function () {
     return redirect('/');
 })->middleware('auth')->name('logout');
 
-Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
+// Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
-Route::get('/settings/profile', function () {
-    return view('livewire.settings.profile');
-})->middleware('auth')->name('settings.profile');
+// Route::get('/settings/profile', function () {
+//     return view('livewire.settings.profile');
+// })->middleware('auth')->name('settings.profile');
 
 // Admin-only routes
 Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
@@ -68,7 +68,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function (
 
 // Normal user routes
 Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
-    Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
+    // Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
     //show wedding image to user
     Route::get('/wedding', [ImageController::class, 'showWeddingGallery'])->name('wedding');
     //Show event image to user
@@ -80,6 +80,8 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
     Route::get('/favorites', [FavoriteController::class, 'myFavorites'])->name('favorites.index');
     Route::post('/favorites/add/{id}', [FavoriteController::class, 'addFavorite'])->name('favorites.add');
     Route::post('/favorites/delete/{id}', [FavoriteController::class, 'deleteFavorite'])->name('favorites.delete');
+    Route::get('/user/profile', function() { return view('profile');})->name('profile');
+
     // Add more user routes here
 });
 
