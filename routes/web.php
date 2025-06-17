@@ -28,10 +28,6 @@ Route::get('/dashboard', function () {
     };
 })->middleware('auth')->name('dashboard');
 
-Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
-    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
-    // Add more admin routes here
-});
 
 // Route::get('/', function () {
 //     return redirect('/dashboard');
@@ -55,8 +51,8 @@ Route::get('/settings/profile', function () {
 // Admin-only routes
 Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
     Route::get('/admin/manageBooking', [BookingController::class, 'index'])->name('manageBooking');
-    Route::delete('/admin/manageBooking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
     Route::put('/admin/manageBooking/{id}', [BookingController::class, 'update'])->name('booking.update');
+    Route::delete('/admin/manageBooking', [BookingController::class, 'destroy'])->name('booking.destroy');
 
     //ManageImage
     //Upload Image
