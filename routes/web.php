@@ -10,15 +10,27 @@ use App\Livewire\User\Dashboard as UserDashboard;
 use App\Http\Controllers\FavoriteController;
 
 // Route::view('/', 'welcome')->name('welcome'); // Public welcome page
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
+Route::post('/login', function () {
+    return view('resources\views\livewire\pages\auth\login.blade.php');
+})->name('login');
 
 // Role-based redirection after login
 Route::get('/dashboard', function () {
     return match (Auth::user()->role) {
         'admin' => redirect('/admin/dashboard'),
-        'user' => redirect('/user/dashboard'),
+        'user' => redirect('/'),
         default => abort(403),
     };
 })->middleware('auth')->name('dashboard');
+
+Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
+    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
+    // Add more admin routes here
+});
 
 // Route::get('/', function () {
 //     return redirect('/dashboard');
@@ -40,10 +52,7 @@ Route::get('/settings/profile', function () {
 })->middleware('auth')->name('settings.profile');
 
 // Admin-only routes
-Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
-    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
-    // Add more admin routes here
-});
+
 
 // Normal user routes
 Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
@@ -54,19 +63,12 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
 // Route::view('dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
 // Guest routes
-Route::get('/', function () {
-    return view('home');
-})->name('home');
 
-Route::post('/login', function () {
-    return view('resources\views\livewire\pages\auth\login.blade.php');
-})->name('login');
+
+
 
 ////////////////////////////////
-
-
 Route::get('/admin/manageBooking', function () {
     return view('admin.manageBooking');
 })->name('managebooking');
