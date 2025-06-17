@@ -8,20 +8,32 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = Booking::with('user:id,fullname')
-            ->select('id', 'user_id', 'event_type', 'event_date', 'start_time', 'event_location', 'guest_count', 'status')->get();
-        return view('admin.manageBooking', compact('bookings'));
+        $query = Booking::with('user:id,fullname')
+            ->select('id', 'user_id', 'event_type', 'event_date', 'start_time', 'event_location', 'guest_count', 'status');
+
+        // Sort by nearest or farthest
+        if ($request->get('sort') == 'nearest') {
+            $query->orderBy('event_date', 'asc');
+        } elseif ($request->get('sort') == 'farthest') {
+            $query->orderBy('event_date', 'desc');
+        }
+
+        // Filter by event type
+        $filterType = $request->get('type');
+        if ($filterType) {
+            $query->where('event_type', $filterType);
+        }
+
+        // Get bookings after applying filters
+        $bookings = $query->get();
+
+        // Get distinct event types for dropdown
+        $events = Booking::select('event_type')->distinct()->pluck('event_type');
+
+        return view('admin.manageBooking', compact('bookings', 'events', 'filterType'));
     }
-
-    // public function destroy()
-    // {
-    //     $booking = Booking::findOrFail($id);
-    //     $booking->delete();
-
-    //     return redirect()->back()->with('success', 'Booking deleted successfully.');
-    // }
 
     public function destroy(Request $request)
     {

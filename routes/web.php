@@ -38,7 +38,7 @@ Route::get('/user/booking', function () {
 })->middleware('auth')->name('booking');
 
 Route::post('/logout', function () {
-    Auth::logout();
+    Auth::logout(); 
     return redirect('/');
 })->middleware('auth')->name('logout');
 
