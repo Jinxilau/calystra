@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             // $table->string('booking_number')->unique();
-            $table->foreignId('user_id')->constrained(); // client
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // client
             // $table->foreignId('service_id')->constrained();
             // $table->foreignId('photographer_id')->nullable()->constrained('users');
 
@@ -33,7 +33,7 @@ return new class extends Migration
             // $table->decimal('total_amount', 10, 2);
 
             // Status
-            $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
+            $table->enum('status', ['approved', 'pending', 'denied'])->default('pending');
             // $table->enum('deposit_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
 
             $table->text('notes')->nullable(); // special requests or notes

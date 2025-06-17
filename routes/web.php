@@ -43,6 +43,10 @@ Route::get('/settings/profile', function () {
 // Admin-only routes
 Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function () {
     Route::get('/admin/manageBooking', [BookingController::class, 'index'])->name('manageBooking');
+    Route::delete('/admin/manageBooking/{id}', [BookingController::class, 'destroy'])->name('booking.destroy');
+    Route::put('/admin/manageBooking/{id}', [BookingController::class, 'update'])->name('booking.update');
+
+    //ManageImage
     //Upload Image
     Route::get('/admin/upload_image/create', [ImageController::class, 'create'])->name('images.create');
     //Store Image
