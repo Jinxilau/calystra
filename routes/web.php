@@ -74,7 +74,6 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
 // Route::view('dashboard', 'dashboard')->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
 // Guest routes
 Route::get('/', function () {
     return view('home');
