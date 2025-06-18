@@ -27,8 +27,8 @@
                 <ul class="nav-links pe-md-3 pe-lg-0 pe-0 mb-0">
                     <li><a href="{{ route('home') }}">Home</a></li>
                     <li><a href="{{ url('/') }}#services">Services</a></li>
-                    <li><a href="###">About</a></li>
-                    <li><a href="###">Contact</a></li>
+                    <li><a href="{{ route('aboutUs')}}">About</a></li>
+                    <li><a href="{{route('contact')}}">Contact</a></li>
                 </ul>
                 <div class="d-flex align-items-center justify-content-end gap-2">
                     <a href="{{ route('booking') }}" class="cta-button px-2 py-2 px-md-3 py-md-2" style="width:max-content">Book Now</a>
@@ -87,14 +87,14 @@
                 <div class="footer-section">
                     <h3>Contact</h3>
                     <p>Email: hello@calystrastudio.com</p>
-                    <p>Phone: +60 12-345-6789</p>
+                    <p>Phone: +60 17-255 1905</p>
                     <p>Location: Kuala Lumpur, Malaysia</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
                     <p><a href="#booking">Book Now</a></p>
-                    <p><a href="#about">About Us</a></p>
-                    <p><a href="#contact">Contact</a></p>
+                    <p><a href="{{route('aboutUs')}}">About Us</a></p>
+                    <p><a href="{{route('contact')}}">Contact</a></p>
                     <p><a href="#gallery">Portfolio</a></p>
                     <p><a href="#gallery">FAQ</a></p>
                 </div>
