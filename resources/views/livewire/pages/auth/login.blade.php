@@ -94,11 +94,11 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                     <x-input-error :messages="$errors->get('form.password')" class="text-danger" />
                 </div>
 
-                @error('form.password')
+                {{-- @error('form.password')
                 <div class="d-block">
                     {{ $message }}
                 </div>
-                @enderror
+                @enderror --}}
 
                 <!-- Remember Me & Forgot Password -->
                 <div class="d-flex justify-content-between align-items-center mb-3">

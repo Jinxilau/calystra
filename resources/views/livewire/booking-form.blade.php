@@ -275,7 +275,10 @@
                                             <span class="text-sm text-gray-600 ml-2">x{{ $addonQuantities[$addon] }}</span>
                                             @endif
                                         </div>
+                                        @if($addOn->price > 0)
+                                        {{-- Display price with quantity if applicable --}}
                                         <span class="font-medium">RM {{ number_format($addOn->price, 2) }}</span>
+                                        @endif
                                     </div>
                                     @endforeach
                                     @endif

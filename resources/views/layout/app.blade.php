@@ -17,7 +17,7 @@
 </style>
 
 <body>
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar bg-body-tertiary" style="position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
         <div class="container-fluid">
             <a class="navbar-brand">Calystra Studio</a>
             <span class="me-3 text-secondary">Welcome back, Admin</span>
@@ -31,7 +31,7 @@
     <div class="container-fluid min-vh-100 ">
         <div class="row min-vh-100">
             <!-- Sidebar -->
-            <div class="col-md-2 bg-light p-3 bg-dark text-white d-flex flex-column">
+            <div class="col-md-2 bg-light p-3 bg-dark text-white d-flex flex-column position-md-fixed" style="position: fixed; start: 0; bottom: 0; height: 93.5vh; box-shadow: 5px 0 10px rgba(0, 0, 0, 0.1);">
                 <h4 class="pb-3">Menu</h4>
                 <div class="d-flex align-items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-circle me-3" viewBox="0 0 16 16">
@@ -60,14 +60,14 @@
                         </a>
                     </li>
                 </ul>
-                <form method="POST" action="{{ route('logout') }}" class="mt-auto pb-5">
+                <form method="POST" action="{{ route('logout') }}" class="mt-auto pb-2">
                     @csrf
                     <button class="dropdown-item text-danger" type="submit">Logout</button>
                 </form>
             </div>
 
             <!-- Content Section -->
-            <div class="col-md-10">
+            <div class="col-md-10" style="margin-left: 16.67%; padding-top: 65px;">
                 @yield('content')
             </div>
         </div>
