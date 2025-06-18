@@ -3,7 +3,7 @@
 @section('title', 'Calystra Studio - Professional Photography in Malaysia')
 
 @section('assets')
-@vite('resources\css\home.css')
+{{-- @vite('resources\css\home.css') --}}
 @endsection
 
 @section('content')

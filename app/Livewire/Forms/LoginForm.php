@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -33,8 +35,18 @@ class LoginForm extends Form
         if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
+            $errorMessage = trans('auth.failed');
+            
+            // Check if email exists to give more specific feedback
+            if (! User::where('email', $this->email)->exists()) {
+                $errorMessage = trans('Email not found');
+            } elseif (! Hash::check($this->password, User::where('email', $this->email)->first()->password)) {
+                $errorMessage = trans('Passwords do not match');
+            }
+
             throw ValidationException::withMessages([
-                'form.email' => trans('auth.failed'),
+                'form.email' => $errorMessage,
+                'form.password' => $errorMessage,
             ]);
         }
 

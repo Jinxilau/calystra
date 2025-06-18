@@ -19,7 +19,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     </head>
-    <body class="font-sans text-body bg-light">
+    <body class="font-sans text-body bg-light" style="padding-top: 0;">
         <div class="min-vh-100 d-flex flex-column justify-content-sm-center align-items-center pt-5 pt-sm-0">
             <div class="">
                 <a href="/" wire:navigate>
