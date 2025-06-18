@@ -20,6 +20,7 @@
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand">Calystra Studio</a>
+            <span class="me-3 text-secondary">Welcome back, Admin</span>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="btn btn-outline-danger ms-3">Logout</button>
@@ -27,10 +28,10 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid min-vh-100 ">
+        <div class="row min-vh-100">
             <!-- Sidebar -->
-            <div class="col-md-2 bg-light p-3 bg-dark text-white d-flex flex-column" style="height: 100vh;">
+            <div class="col-md-2 bg-light p-3 bg-dark text-white d-flex flex-column">
                 <h4 class="pb-3">Menu</h4>
                 <div class="d-flex align-items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-person-circle me-3" viewBox="0 0 16 16">
