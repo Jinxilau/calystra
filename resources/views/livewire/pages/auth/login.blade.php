@@ -75,7 +75,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                         </div>
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('form.email')" class="invalid-feedback" />
+                    <x-input-error :messages="$errors->get('form.email')" class="text-danger" />
                 </div>
 
                 <!-- Password -->
@@ -91,11 +91,11 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                         </div>
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('form.password')" class="invalid-feedback" />
+                    <x-input-error :messages="$errors->get('form.password')" class="text-danger" />
                 </div>
 
                 @error('form.password')
-                <div class="invalid-feedback d-block">
+                <div class="d-block">
                     {{ $message }}
                 </div>
                 @enderror

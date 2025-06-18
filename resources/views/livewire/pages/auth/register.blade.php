@@ -30,7 +30,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
             'name' => ['required', 'string', 'min:2', 'max:255', 'regex:/^[a-zA-Z\s]+$/'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
-            'terms_accepted' => ['accepted'],
+            'terms_accepted' => ['required','accepted'],
         ];
     }
 
@@ -90,7 +90,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
 }; 
 ?>
 
-<div class="d-flex flex-column justify-content-start px-2 pt-4 px-lg-4 mb-2" style="height: 88vh">
+<div class="d-flex flex-column justify-content-start px-2 pt-4 px-lg-4 mb-2" style="height: fit-content;">
     <div class="mx-auto w-100" style="max-width: 480px;">
         <div class="text-center">
             <h2 class="h3 mb-2 fw-bold text-dark">{{ __('Create your account') }}</h2>
@@ -122,7 +122,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                             @endif
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('name')" class="invalid-feedback" />
+                    <x-input-error :messages="$errors->get('name')" class="text-danger" />
                 </div>
 
                 <!-- Email Address -->
@@ -146,7 +146,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                             @endif
                         @enderror
                     </div>
-                    <x-input-error :messages="$errors->get('email')" class="invalid-feedback" />
+                    <x-input-error :messages="$errors->get('email')" class="text-danger" />
                 </div>
 
                 <!-- Password -->
@@ -213,7 +213,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                         </div>
                     {{-- @endif --}}
                     
-                    <x-input-error :messages="$errors->get('password')" class="invalid-feedback" />
+                    <x-input-error :messages="$errors->get('password')" class="text-danger" />
                 </div>
 
                 <!-- Confirm Password -->
@@ -235,14 +235,14 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                             </div>
                         @endif
                     </div>
-                    <x-input-error :messages="$errors->get('password_confirmation')" class="invalid-feedback" />
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="text-danger" />
                 </div>
 
                 <!-- Terms and Conditions -->
                 <div class="mb-3 form-check">
                     <input wire:model.live="terms_accepted" id="terms" type="checkbox" class="form-check-input" required>
                     <label for="terms" class="form-check-label">{{ __('I agree to the') }}<a href="#" class="text-decoration-none"> {{ __('Terms and Conditions') }}</a> {{ __('and') }}<a href="#" class="text-decoration-none"> {{ __('Privacy Policy') }}</a></label>
-                    <x-input-error :messages="$errors->get('terms_accepted')" class="invalid-feedback" />
+                    <x-input-error :messages="$errors->get('terms_accepted')" class="text-danger" style="list-style: none"/>
                 </div>
 
                 <!-- Submit Button -->

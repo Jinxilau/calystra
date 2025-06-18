@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
 
-            // $table->string('booking_number')->unique();
+            // Client Information
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // client
-            // $table->foreignId('service_id')->constrained();
-            
-            
             // Event Details
             $table->string('event_type'); // e.g., wedding, corporate, etc.
             $table->date('event_date');
@@ -26,24 +23,24 @@ return new class extends Migration
             $table->text('event_location')->nullable();
             $table->string('event_name')->nullable(); // Optional name for the event
             $table->integer('guest_count')->nullable();
+            // Status
+            $table->enum('status', ['approved', 'pending', 'denied'])->default('pending');
+            // Photographer Assignment
+            $table->text('notes')->nullable(); // special requests or notes
             
+            $table->timestamps();
+            
+            // $table->foreignId('photographer_id')->nullable()->constrained('photographers')->onDelete('set null'); // Many to many so dont need this 
+            // $table->enum('deposit_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
             // Pricing
             // $table->decimal('service_price', 10, 2);
             // $table->decimal('addons_total', 10, 2)->default(0);
             // $table->decimal('total_amount', 10, 2);
-            
-            // Status
-            $table->enum('status', ['approved', 'pending', 'denied'])->default('pending');
-            // $table->enum('deposit_status', ['pending', 'partial', 'paid', 'refunded'])->default('pending');
-            
-            $table->foreignId('photographer_id')->nullable()->constrained('photographers')->onDelete('set null');
-            $table->foreignId('assigned_by')->nullable()->constrained('users')->onDelete('set null');
-            $table->text('notes')->nullable(); // special requests or notes
-            
-            $table->timestamps();
+            // $table->foreignId('service_id')->constrained();
+            // $table->string('booking_number')->unique();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      */

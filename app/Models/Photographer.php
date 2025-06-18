@@ -17,9 +17,13 @@ class Photographer extends Model
         // 'hourly_rate'
     ];
 
-    public function bookings()
+    public function bookings() // Many-to-many relationship with Booking with the pivot table 'booking_photographer'
     {
-        return $this->hasMany(Booking::class);
+        return $this->belongsToMany(Booking::class, 'booking_photographer')
+                    ->withPivot([
+                        'assigned_by'
+                    ])
+                    ->withTimestamps();
     }
 
     public function availability()
@@ -27,6 +31,5 @@ class Photographer extends Model
         return $this->hasMany(PhotographerAvailability::class);
     }
 
-    
     //
 }
