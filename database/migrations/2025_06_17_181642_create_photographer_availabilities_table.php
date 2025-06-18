@@ -15,16 +15,15 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('photographer_id')->constrained('photographers')->onDelete('cascade');
-            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
-            // $table->boolean('is_available')->default(true); // Optional if want to track availability status
+            $table->dateTime('start_date'); // Combined date + time (e.g., '2025-06-20 09:00:00')
+            $table->dateTime('end_date');   // Combined date + time (e.g., '2025-06-20 17:00:00')
             $table->string('reason'); 
             
             $table->timestamps();
-
-            $table->unique(['photographer_id', 'date', 'start_time'], 'photographer_unique_slot'); // Ensure unique availability per photographer per time slot
+            
+            $table->unique(['photographer_id', 'start_date', 'end_date'], 'photographer_unique_slot'); // Ensure unique availability per photographer per time slot
+            // $table->boolean('is_available')->default(true); // Optional if want to track availability status
+            // $table->foreignId('booking_id')->nullable()->constrained('bookings')->onDelete('cascade'); // This is no need because it is in the bookings table
         });
     }
 

@@ -93,4 +93,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class);
     }
+
+    public function photographerAssignments()
+    {
+        return $this->hasMany(BookingPhotographer::class, 'assigned_by');
+    }
 }

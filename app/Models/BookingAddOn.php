@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class BookingAddOn extends Model
 {
@@ -14,14 +15,6 @@ class BookingAddOn extends Model
         // 'total_price',
         'notes'
     ];
-
-    // app/Models/AddOn.php
-    public function bookings()
-    {
-        return $this->belongsToMany(Booking::class, 'booking_add_ons')
-            ->withPivot('quantity', 'unit_price', 'total_price')
-            ->withTimestamps();
-    }
 
     public function booking()
     {
