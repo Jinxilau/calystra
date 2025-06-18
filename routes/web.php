@@ -42,6 +42,14 @@ Route::post('/logout', function () {
     return redirect('/');
 })->middleware('auth')->name('logout');
 
+Route:: get('/contact', function(){
+    return view ('contact');
+})->name('contact');
+
+Route::get('/aboutUs', function () {
+    return view('aboutUs');
+})->name('aboutUs');
+
 // Route::view('profile', 'profile')->middleware(['auth'])->name('profile');
 
 // Route::get('/settings/profile', function () {

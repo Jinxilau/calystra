@@ -24,7 +24,7 @@
 <!-- Services Section -->
 <section id="services" class="services">
     <div class="container">
-        <div class="section-title fade-in">
+        
             <h2>Our Photography Services</h2>
             <p>Professional photography tailored to your needs with easy online booking</p>
         </div>
