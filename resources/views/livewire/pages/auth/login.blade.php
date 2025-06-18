@@ -17,11 +17,15 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
     {
         $this->validate();
 
-        $this->form->authenticate();
+        try{
+            $this->form->authenticate();
+            Session::regenerate(); // Regenerate session to prevent session fixation attacks
+            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: false);
+        }catch(ValidationException $e) {
+            $this->addError('form.email', $e->errors()['form.email'][0]);
+            $this->addError('form.password', $e->errors()['form.password'][0] ?? '');
+        }
 
-        Session::regenerate(); // Regenerate session to prevent session fixation attacks
-
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
 
     /**
@@ -64,7 +68,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                     <div class="position-relative">
                         <x-text-input wire:model.blur="form.email" id="email" class="form-control" type="email" name="email" placeholder="{{ __('Enter your email') }}" required autofocus autocomplete="username" />
                         @error('form.email')
-                        <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                        <div class="position-absolute end-0 translate-middle-y pe-3" style="top: 20px;">
                             <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                             </svg>
@@ -80,7 +84,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                     <div class="position-relative">
                         <x-text-input wire:model.blur="form.password" id="password" class="form-control" type="password" name="password" placeholder="{{ __('Enter your password') }}" required autocomplete="current-password" />
                         @error('form.password')
-                        <div class="position-absolute top-50 end-0 translate-middle-y pe-3">
+                        <div class="position-absolute end-0 translate-middle-y pe-3" style="top: 20px;">
                             <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                             </svg>
@@ -89,6 +93,12 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                     </div>
                     <x-input-error :messages="$errors->get('form.password')" class="invalid-feedback" />
                 </div>
+
+                @error('form.password')
+                <div class="invalid-feedback d-block">
+                    {{ $message }}
+                </div>
+                @enderror
 
                 <!-- Remember Me & Forgot Password -->
                 <div class="d-flex justify-content-between align-items-center mb-3">

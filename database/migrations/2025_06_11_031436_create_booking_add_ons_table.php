@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('booking_add_ons', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('booking_id')->constrained()->onDelete('cascade');
-            $table->foreignId('add_on_id')->constrained()->onDelete('cascade');
+            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
+            $table->foreignId('add_on_id')->constrained('add_ons')->onDelete('cascade');
             $table->integer('quantity')->default(1);
             // $table->decimal('unit_price', 10, 2);
             // $table->decimal('total_price', 10, 2);
