@@ -18,6 +18,11 @@ class BookingForm extends Component
 {
     use WithFileUploads;
 
+    // Form state
+    public $currentStep = 1;
+    public $totalSteps = 4;
+    public $showSuccessMessage = false;
+
     // Payment Details
 
     public $payment_type = 'deposit'; // Default payment type
@@ -78,11 +83,6 @@ class BookingForm extends Component
         ];
     }
 
-    // Form state
-    public $currentStep = 1;
-    public $totalSteps = 4;
-    public $showSuccessMessage = false;
-
     public function mount()
     { // Initialize component 
         if (Auth::check()) {
@@ -113,41 +113,41 @@ class BookingForm extends Component
     private function validateCurrentStep()
     {
         switch ($this->currentStep) {
-        case 1:
-            $this->validate([
-                'event_name' => 'required|string|max:100',
-                'event_type' => 'required|string',
-                'event_date' => 'required|date|after:today',
-                'start_time' => 'required|date_format:H:i',
-                'event_location' => 'nullable|string|max:1000',
-                'guest_count' => 'nullable|integer|min:0|max:1000',
-            ]);
-            break;
-        case 2:
-            $this->validate([
-                'customer_name' => 'required|string|max:255',
-                // 'contact_email' => 'required|email|max:255',
-                'customer_phone' => 'required|string|max:20',
-            ]);
-            break;
-        case 3: // TODO: Add validation for add-ons
-            // $this->validate([
-            //     'customer_name' => 'required|string|max:255',
-            //     // 'contact_email' => 'required|email|max:255',
-            //     'customer_phone' => 'required|string|max:20',
-            // ]);
-            break;
-        case 4:
-            $this->validate([
-                'notes' => 'nullable|string|max:1000',
-                // 'paymentMethod' => 'required|in:bank_transfer,online_banking,cash',
-                'receipt' => 'required|image|max:2048', // TODO: 2MB max
-                // 'paymentReference' => 'required|string|max:100',
-                // 'customerNotes' => 'nullable|string|max:500'
-            ]);
+            case 1:
+                $this->validate([
+                    'event_name' => 'required|string|max:100',
+                    'event_type' => 'required|string',
+                    'event_date' => 'required|date|after:today',
+                    'start_time' => 'required|date_format:H:i',
+                    'event_location' => 'nullable|string|max:1000',
+                    'guest_count' => 'nullable|integer|min:0|max:1000',
+                ]);
+                break;
+            case 2:
+                $this->validate([
+                    'customer_name' => 'required|string|max:255',
+                    // 'contact_email' => 'required|email|max:255',
+                    'customer_phone' => 'required|string|max:20',
+                ]);
+                break;
+            case 3: // TODO: Add validation for add-ons
+                // $this->validate([
+                //     'customer_name' => 'required|string|max:255',
+                //     // 'contact_email' => 'required|email|max:255',
+                //     'customer_phone' => 'required|string|max:20',
+                // ]);
+                break;
+            case 4:
+                $this->validate([
+                    'notes' => 'nullable|string|max:1000',
+                    // 'paymentMethod' => 'required|in:bank_transfer,online_banking,cash',
+                    'receipt' => 'required|image|max:2048', // TODO: 2MB max
+                    // 'paymentReference' => 'required|string|max:100',
+                    // 'customerNotes' => 'nullable|string|max:500'
+                ]);
 
-            $this->submitForm(); // Submit the form if validation passes
-            break;
+                $this->submitForm(); // Submit the form if validation passes
+                break;
         }
     }
 
@@ -198,21 +198,21 @@ class BookingForm extends Component
 
     public function decrementQuantity($addonId)
     {
-        if($this->addonQuantities[$addonId] > 1) {
+        if ($this->addonQuantities[$addonId] > 1) {
             $this->addonQuantities[$addonId]--;
             // $this->calculateTotal();
         }
     }
 
-    public function updateQuantity($addonId, $quantity)
-    {
-        if ($quantity <= 0) {
-            $this->toggleAddon($addonId);
-            return;
-        }
-        
-        $this->addonQuantities[$addonId] = max(1, $quantity);
-    }
+    // public function updateQuantity($addonId, $quantity)
+    // {
+    //     if ($quantity <= 0) {
+    //         $this->toggleAddon($addonId);
+    //         return;
+    //     }
+
+    //     $this->addonQuantities[$addonId] = max(1, $quantity);
+    // }
 
     public function submitForm()
     {
@@ -293,7 +293,8 @@ class BookingForm extends Component
     public function render()
     {
         return view('livewire.booking-form', [
-            'eventTypes' => $this->eventTypes, // Use computed property for event types
+            'eventTypes' => $this->eventTypes,
+            // Use computed property for event types
         ]);
     }
 }

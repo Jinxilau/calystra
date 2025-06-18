@@ -9,6 +9,7 @@ use Livewire\Volt\Volt;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\User\Dashboard as UserDashboard;
 use App\Http\Controllers\FavoriteController;
+use App\Livewire\BookingForm;
 
 // Route::view('/', 'welcome')->name('welcome'); // Public welcome page
 Route::get('/', function () {
@@ -33,17 +34,13 @@ Route::get('/dashboard', function () {
 //     return redirect('/dashboard');
 // })->middleware('auth');
 
-Route::get('/user/booking', function () {
-    return view('user.booking');
-})->middleware('auth')->name('booking');
-
 Route::post('/logout', function () {
-    Auth::logout(); 
+    Auth::logout();
     return redirect('/');
 })->middleware('auth')->name('logout');
 
-Route:: get('/contact', function(){
-    return view ('contact');
+Route::get('/contact', function () {
+    return view('contact');
 })->name('contact');
 
 Route::get('/aboutUs', function () {
@@ -72,6 +69,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function (
     //Delete Image
     Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
     // Add more admin routes here
+    Route::get('/admin/managePhotographer', function () {
+        return view('admin.managePhotographer');
+    })->name('managePhotographer');
 });
 
 // Normal user routes
@@ -88,7 +88,14 @@ Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function ()
     Route::get('/favorites', [FavoriteController::class, 'myFavorites'])->name('favorites.index');
     Route::post('/favorites/add/{id}', [FavoriteController::class, 'addFavorite'])->name('favorites.add');
     Route::post('/favorites/delete/{id}', [FavoriteController::class, 'deleteFavorite'])->name('favorites.delete');
-    Route::get('/user/profile', function() { return view('profile');})->name('profile');
+
+    Route::get('/user/profile', function () {
+        return view('user.profile');
+    })->name('profile');
+
+    Route::get('/user/booking', function () {
+        return view('user.booking');
+    })->name('booking');
 
     // Add more user routes here
 });
