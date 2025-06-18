@@ -10,8 +10,21 @@ class BookingController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Booking::with('user:id,fullname')
+        $query = Booking::with('user:id,fullname', 'addOns')
             ->select('id', 'user_id', 'event_type', 'event_date', 'start_time', 'event_location', 'guest_count', 'status');
+
+
+        $search = $request->get('search');
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('event_type', 'like', "%{$search}%")
+                    ->orWhere('event_location', 'like', "%{$search}%")
+                    ->orWhere('status', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($userQuery) use ($search) {
+                        $userQuery->where('fullname', 'like', "%{$search}%");
+                    });
+            });
+        }
 
         // Sort by nearest or farthest
         if ($request->get('sort') == 'nearest') {
