@@ -3,7 +3,7 @@
 @section('title', 'Calystra Studio - Professional Photography in Malaysia')
 
 @section('assets')
-{{-- @vite('resources\css\home.css') --}}
+@vite('resources\css\home.css')
 @endsection
 
 @section('content')
@@ -22,73 +22,84 @@
 </section>
 
 <!-- Services Section -->
+<!-- Services Section -->
 <section id="services" class="services">
     <div class="container">
-        
-            <h2>Our Photography Services</h2>
-            <p>Professional photography tailored to your needs with easy online booking</p>
-        </div>
-        <div class="services-grid">
-            <a href="{{ route('wedding') }}" class="link">
-                <div class="service-card fade-in">
-                    <img src="{{asset('images/wedding.png')}}" class="service-image" alt="">
-                    <div class="service-icon">💒</div>
-                    <h3>Wedding Photography</h3>
-                    <p>Capture your special day with our expert wedding photographers. From intimate ceremonies to grand celebrations.</p>
-                    <ul class="service-features">
-                        <li>Pre-wedding consultation</li>
-                        <li>Full-day coverage</li>
-                        <li>Professional editing</li>
-                        <li>Online gallery delivery</li>
-                        <li>Customizable packages</li>
-                    </ul>
-                </div>
-            </a>
-            <a href="{{ route('corporate') }}" class="link">
-                <div class="service-card fade-in">
-                    <img src="{{asset('images/event.png')}}" class="service-image" alt="">
-                    <div class="service-icon">🏢</div>
-                    <h3>Corporate Events</h3>
-                    <p>Professional event photography for corporate functions, conferences, and business gatherings.</p>
-                    <ul class="service-features">
-                        <li>Event planning support</li>
-                        <li>Multiple photographers</li>
-                        <li>Quick turnaround</li>
-                        <li>High-resolution images</li>
-                        <li>Commercial licensing</li>
-                    </ul>
-                </div>
-            </a>
-            <a href="{{ route('fashion') }}" class="link">
-                <div class="service-card fade-in">
-                    <div class="service-icon">👠</div>
-                    <img src="{{asset('images/fashion.png')}}" class="service-image" alt="">
-                    <h3>Fashion & Style</h3>
-                    <p>Stylish fashion and personal style photoshoots available in-studio or at curated outdoor locations.</p>
-                    <ul class="service-features">
-                        <li>Studio or on-location fashion shoots</li>
-                        <li>Wardrobe styling and fashion props included</li>
-                        <li>Multiple outfit changes encouraged</li>
-                        <li>High-end professional retouching</li>
-                        <li>Portfolio and print packages available</li>
-                    </ul>
-                </div>
-            </a>
-            <a href="{{ route('convo') }}" class="link">
-                <div class="service-card fade-in">
-                    <img src="{{asset('images/convo.png')}}" class="service-image" alt="">
-                    <div class="service-icon">👨‍🎓</div>
-                    <h3>Convocation</h3>
-                    <p>Celebrate your academic achievement with professional convocation photoshoots in-studio or at meaningful locations.</p>
-                    <ul class="service-features">
-                        <li>Studio or on-location convocation shoots</li>
-                        <li>Graduation robes and props provided (optional)</li>
-                        <li>Family and group photo options</li>
-                        <li>Professional editing and retouching</li>
-                        <li>Print and digital packages available</li>
-                    </ul>
-                </div>
-            </a>
+        <h2>Our Photography Services</h2>
+        <p>Professional photography tailored to your needs with easy online booking</p>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <a href="{{ route('wedding') }}" class="link">
+                    <div class="service-card fade-in">
+                        <img src="{{asset('images/wedding.png')}}" class="service-image" alt="">
+                        <div class="service-icon">💒</div>
+                        <h3>Wedding Photography</h3>
+                        <p>Capture your special day with our expert wedding photographers...</p>
+                        <ul class="service-features">
+                            <li>Pre-wedding consultation</li>
+                            <li>Full-day coverage</li>
+                            <li>Professional editing</li>
+                            <li>Online gallery delivery</li>
+                            <li>Customizable packages</li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <a href="{{ route('corporate') }}" class="link">
+                    <div class="service-card fade-in">
+                        <img src="{{asset('images/event.png')}}" class="service-image" alt="">
+                        <div class="service-icon">🏢</div>
+                        <h3>Corporate Events</h3>
+                        <p>Professional event photography for corporate functions...</p>
+                        <ul class="service-features">
+                            <li>Event planning support</li>
+                            <li>Multiple photographers</li>
+                            <li>Quick turnaround</li>
+                            <li>High-resolution images</li>
+                            <li>Commercial licensing</li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <a href="{{ route('fashion') }}" class="link">
+                    <div class="service-card fade-in">
+                        <div class="service-icon">👠</div>
+                        <img src="{{asset('images/fashion.png')}}" class="service-image" alt="">
+                        <h3>Fashion & Style</h3>
+                        <p>Stylish fashion and personal style photoshoots...</p>
+                        <ul class="service-features">
+                            <li>Studio or on-location shoots</li>
+                            <li>Wardrobe styling</li>
+                            <li>Outfit changes encouraged</li>
+                            <li>High-end retouching</li>
+                            <li>Portfolio packages</li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-6 mb-4">
+                <a href="{{ route('convo') }}" class="link">
+                    <div class="service-card fade-in">
+                        <img src="{{asset('images/convo.png')}}" class="service-image" alt="">
+                        <div class="service-icon">👨‍🎓</div>
+                        <h3>Convocation</h3>
+                        <p>Celebrate your academic achievement with professional shoots...</p>
+                        <ul class="service-features">
+                            <li>Studio or on-location</li>
+                            <li>Robes and props optional</li>
+                            <li>Group photo options</li>
+                            <li>Retouching included</li>
+                            <li>Digital and print packages</li>
+                        </ul>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 </section>
