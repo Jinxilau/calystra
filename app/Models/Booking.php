@@ -35,7 +35,7 @@ class Booking extends Model
     public function addOns()
     {
         return $this->belongsToMany(AddOn::class, 'booking_add_ons')
-            ->withPivot('quantity', 'unit_price')
+            ->withPivot('quantity')
             ->withTimestamps();
     }
 
