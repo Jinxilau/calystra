@@ -228,6 +228,7 @@
                         @if($currentStep == 4)
                         <div class="space-y-6">
                             <!-- Additional Information Section -->
+                            {{ dd($currentStep) }}
                             <div class="mb-4">
                                 <h5 class="text-primary border-bottom pb-2"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
                                 <div class="mb-3">

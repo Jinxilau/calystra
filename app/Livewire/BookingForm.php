@@ -18,11 +18,6 @@ class BookingForm extends Component
 {
     use WithFileUploads;
 
-    // Form state
-    public $currentStep = 1;
-    public $totalSteps = 4;
-    public $showSuccessMessage = false;
-
     // Payment Details
 
     public $payment_type = 'deposit'; // Default payment type
@@ -38,7 +33,7 @@ class BookingForm extends Component
 
 
     // Event Details
-    #[Validate('required|string|in:wedding,corporate,family,portrait,event,other')]
+    #[Validate('required|string|in:wedding,corporate,fashion,convo')]
     public $event_type;
     #[Validate('required|date|after:today')]
     public $event_date;
@@ -60,6 +55,11 @@ class BookingForm extends Component
     public $availableAddOns;
     public $addonQuantities = []; // To track quantities of selected add-ons
 
+        // Form state
+    public $currentStep = 1;
+    public $totalSteps = 4;
+    public $showSuccessMessage = false;
+
     public $categories = [
         'time_extension' => 'Time Extensions', // TODO: asdklj
         'prints' => 'Prints & Albums',
@@ -73,13 +73,9 @@ class BookingForm extends Component
     {
         return [
             'wedding' => 'Wedding Photography',
-            'corporate' => 'Corporate Events',
             'convo' => 'Convocation Photography',
             'fashion' => 'Fashion & Styles',
-            'family' => 'Family Portraits',
-            'portrait' => 'Individual Portraits',
-            'event' => 'General Events',
-            'other' => 'Other'
+            'corporate' => 'Corporate Events',
         ];
     }
 
@@ -130,13 +126,6 @@ class BookingForm extends Component
                     'customer_phone' => 'required|string|max:20',
                 ]);
                 break;
-            case 3: // TODO: Add validation for add-ons
-                // $this->validate([
-                //     'customer_name' => 'required|string|max:255',
-                //     // 'contact_email' => 'required|email|max:255',
-                //     'customer_phone' => 'required|string|max:20',
-                // ]);
-                break;
             case 4:
                 $this->validate([
                     'notes' => 'nullable|string|max:1000',
@@ -163,19 +152,19 @@ class BookingForm extends Component
         $this->availableAddOns = AddOn::active()->orderBy('name')->get();
     }
 
-    public function loadSelectedAddOns() // TODO: Load selected add-ons for the booking if it exists
-    {
-        // if (!$this->bookingId) {
-        //     $bookingAddOns = BookingAddOn::where('booking_id', $this->bookingId)->get();
+    // public function loadSelectedAddOns() // TODO: Load selected add-ons for the booking if it exists
+    // {
+    //     // if (!$this->bookingId) {
+    //     //     $bookingAddOns = BookingAddOn::where('booking_id', $this->bookingId)->get();
 
-        //     foreach ($bookingAddOns as $bookingAddOn) {
-        //         $this->selectedAddOns[$bookingAddOn->add_on_id] = [
-        //             'quantity' => $bookingAddOn->quantity,
-        //             'notes' => $bookingAddOn->notes
-        //         ];
-        //     }
-        // }
-    }
+    //     //     foreach ($bookingAddOns as $bookingAddOn) {
+    //     //         $this->selectedAddOns[$bookingAddOn->add_on_id] = [
+    //     //             'quantity' => $bookingAddOn->quantity,
+    //     //             'notes' => $bookingAddOn->notes
+    //     //         ];
+    //     //     }
+    //     // }
+    // }
 
     public function toggleAddon($addonId)
     {
@@ -193,7 +182,6 @@ class BookingForm extends Component
     public function incrementQuantity($addonId)
     {
         $this->addonQuantities[$addonId] = ($this->addonQuantities[$addonId] ?? 0) + 1;
-        // $this->calculateTotal();
     }
 
     public function decrementQuantity($addonId)
