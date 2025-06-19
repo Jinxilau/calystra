@@ -8,8 +8,8 @@
 
 @section('content')
 <!-- Hero Section -->
-<section id="home" class="hero ">
-    <div class="container d-md-flex align-items-center justify-content-between py-3 py-md-0">
+<section id="home" class="hero py-5">
+    <div class="container d-md-flex align-items-center justify-content-between">
         <div class="hero-content fade-in mb-2 mb-md-0">
             <h1>Capture Your Perfect Moments</h1>
             <p>Professional photography services in Malaysia. From weddings to corporate events, we make every moment unforgettable with our streamlined booking system.</p>
