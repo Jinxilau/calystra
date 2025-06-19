@@ -47,7 +47,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
      */
     public function register(): void
     {
-        $validated = $this->validate(); // rule()
+        $validated = $this->validate(rules()); // rule()
 
         // Remove terms_accepted from validated data before creating user
         unset($validated['terms_accepted']);
@@ -172,7 +172,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                                 @php
                                     $strength = $this->passwordStrength;
                                     $score = array_sum($strength);
-                                    $colors = ['bg-danger', 'bg-warning', 'bg-warning', 'bg-success', 'bg-success'];
+                                    $colors = ['bg-danger', 'bg-danger', 'bg-warning', 'bg-warning', 'bg-success', 'bg-success'];
                                 @endphp
                                 @for($i = 0; $i < 4; $i++)
                                     <div class="h-1 rounded flex-grow-1 {{ $i < $score ? $colors[$score] : 'bg-light' }}"></div>
