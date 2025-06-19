@@ -10,7 +10,11 @@ class BookingController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Booking::with('user:id,fullname', 'addOns')
+        $query = Booking::with(
+            'user:id,fullname',
+            'bookingAddOns:id,booking_id,add_on_id,quantity',
+            'bookingAddOns.addOn:id,name,description'
+        )
             ->select('id', 'user_id', 'event_type', 'event_date', 'start_time', 'event_location', 'guest_count', 'status');
 
 
