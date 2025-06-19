@@ -15,7 +15,7 @@
 
 <body class="d-flex flex-column min-vh-100">
     <!-- Navigation -->
-    <nav id="navbar" class="" style="z-index: 1051; max-height: 90px; padding: min(24px, 1.5vw) 0px">
+    <nav id="navbar" class="" style="z-index: 1051; max-height: 90px; padding: 24px 10px">
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="bi bi-list h2 text-white" id="hambur"></i>
@@ -24,7 +24,7 @@
                 <a href="{{ route('home') }}">
                     <img src="{{ asset('images\icon\icon_white.png') }}" alt="Logo" id="logo-icon" class="logo-icon" style="object-fit: cover; overflow: visible; width: 130px; height: 30px; position: relative; z-index: 1050; top: 5px;">
                 </a>
-                <div class="logo d-none d-md-block" id="logo" style="font-size: clamp(12px, 2.5vw, 28px)">Calystra Studio</div>
+                <div class="logo" id="logo" style="font-size: clamp(12px, 2.3vw, 28px)">Calystra Studio</div>
             </div>
             <ul class="nav-links pe-md-3 pe-lg-0 pe-0 mb-0" style="gap: 2vw">
                 <li><a href="{{ route('home') }}">Home</a></li>

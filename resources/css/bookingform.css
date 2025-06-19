@@ -456,12 +456,12 @@ body {
 }
 
 .stepper.actived .stepper-head-icon{
-    background-color: #0d6efd;
+    background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
 }
 
 .stepper.completed .stepper-head-icon{
-    background-color: #1c9a00;
+    background-image: #1c9a00;
     color: white;
 }
 
@@ -469,7 +469,7 @@ body {
     background-color: #0d6efd;
 } */
 .stepper.completed .stepper-head-line {
-    background-color: #1c9a00;
+    background-color: #005a9a;
 }
 
 .hover-bg-light {

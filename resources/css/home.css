@@ -9,7 +9,7 @@ body {
     line-height: 1.6;
     color: #1a1a1a;
     overflow-x: hidden;
-    padding-top: calc(65px - 1.2vw);
+    padding-top: 70px;
 }
 
 .container {
@@ -58,6 +58,12 @@ nav.scrolled {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+@media (max-width: 900px) {
+    .logo {
+        display: none;
+    }
 }
 
 .nav-links {
@@ -260,7 +266,8 @@ nav.scrolled {
 .service-icon {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: rgba(165, 165, 165, 0.489);
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
     border-radius: 15px;
     display: flex;
     align-items: center;
@@ -493,5 +500,5 @@ footer {
 
 /* Optional: Add a subtle color change on hover */
 .service-card:hover h3 {
-    color: #ff6b6b; /* Change to your brand color */
+    color: rgb(174, 246, 246); /* Change to your brand color */
 }
