@@ -201,13 +201,14 @@
                                                 <div class="d-flex align-items-center justify-content-center my-2">
                                                     <div class="d-flex align-items-center gap-2">
                                                         <!-- Quantity controls (commented out as in original) -->
-                                                        <button class="btn btn-sm btn-outline-primary rounded-circle p-0" wire:click="decrementQuantity({{ $addon->id }})" style="width: 24px; height: 24px;">
+                                                        <button class="btn btn-sm btn-outline-primary rounded-circle p-0" wire:click.prevent="decrementQuantity({{ $addon->id }})" style="width: 24px; height: 24px;">
                                                             <i class="bi bi-dash"></i>
                                                         </button>
                                                         
+                                                        {{-- <input type="number" readonly class="form-control form-control-sm text-center" style="width: 60px;"> --}}
                                                         <input type="number" readonly wire:model="addonQuantities.{{ $addon->id }}" wire:change="updateQuantity({{ $addon->id }}, $event.target.value)" class="form-control form-control-sm text-center" style="width: 60px;">
                                                         
-                                                        <button class="btn btn-sm btn-outline-primary rounded-circle p-0" wire:click="incrementQuantity({{ $addon->id }})" style="width: 24px; height: 24px;">
+                                                        <button class="btn btn-sm btn-outline-primary rounded-circle p-0" wire:click.prevent="incrementQuantity({{ $addon->id }})" style="width: 24px; height: 24px;">
                                                             <i class="bi bi-plus"></i>
                                                         </button>
                                                     </div>
