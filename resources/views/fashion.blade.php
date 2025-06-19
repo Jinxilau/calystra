@@ -16,7 +16,7 @@
 @endif
 
 <div class="container pt-3">
-    <h1 class="text-center mb-4">Wedding Gallery</h1>
+    <h1 class="text-center mb-4">Fashion Gallery</h1>
 
     <div class="row row-cols-1 row-cols-md-4 g-4">
         @foreach($fashionImages as $image)
