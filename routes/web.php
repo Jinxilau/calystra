@@ -75,7 +75,7 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function (
 });
 
 // Normal user routes
-Route::middleware(['auth', RoleMiddleware::class . ':user',])->group(function () {
+Route::middleware(['auth', RoleMiddleware::class . ':admin,user',])->group(function () {
     // Route::get('/user/dashboard', UserDashboard::class)->name('user.dashboard');
     //show wedding image to user
     Route::get('/wedding', [ImageController::class, 'showWeddingGallery'])->name('wedding');

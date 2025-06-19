@@ -60,7 +60,7 @@ class BookingForm extends Component
     public $totalSteps = 4;
     public $showSuccessMessage = false;
 
-    public $categories = [
+    public $categories = [ 
         'time_extension' => 'Time Extensions', // TODO: asdklj
         'prints' => 'Prints & Albums',
         'digital' => 'Digital Services',
