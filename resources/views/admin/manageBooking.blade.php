@@ -149,14 +149,15 @@
     <!-- Collapsible Row for add on -->
     <tr class="collapse" id="addonsRow{{ $booking->id }}">
         <td colspan="12">
-            @if($booking->addOns->isEmpty())
+            @if($booking->bookingAddOns->isEmpty())
             <div class="text-muted">No add-ons selected for this booking.</div>
             @else
             <ul class="list-group">
-                @foreach($booking->addOns as $addon)
+                @foreach($booking->bookingAddOns as $bookingAddon)
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ $addon->name }}
-                    <small class="text-muted">{{ $addon->description }}</small>
+                    {{ $bookingAddon->addOn->name }}
+                    {{$bookingAddon->quantity}}
+                    <small class="text-muted">{{ $bookingAddon->addOn->description }}</small>
                 </li>
                 @endforeach
             </ul>
