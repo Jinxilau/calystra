@@ -3,21 +3,43 @@
 @section('title', 'Calystra Studio - Professional Photography in Malaysia')
 
 @section('assets')
-@vite('resources\css\home.css')
+{{-- @vite('resources\css\home.css') --}}
 @endsection
 
 @section('content')
 <!-- Hero Section -->
-<section id="home" class="hero">
-    <div class="container">
-        <div class="hero-content fade-in">
+<section id="home" class="hero py-3 py-md-0">
+    <div class="container d-md-flex align-items-center justify-content-between">
+        <div class="hero-content fade-in mb-2 mb-md-0">
             <h1>Capture Your Perfect Moments</h1>
             <p>Professional photography services in Malaysia. From weddings to corporate events, we make every moment unforgettable with our streamlined booking system.</p>
             <div class="hero-buttons">
-                <a href="{{ route('booking') }}" class="btn-primary">Start Booking</a>
+                <a href="{{ route('booking') }}" class="btn-primary text-dark">Start Booking</a>
                 <a href="#services" class="btn-secondary">View Services</a>
             </div>
         </div>
+        <div id="carouselExampleFade" class="carousel slide carousel-fade">
+            <div class="carousel-inner" style="width: 100%; height: auto; max-width: 600px; min-width: 200px; border: 5px solid #fff; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+                <div class="carousel-item active">
+                    <img src="{{asset('images/wedding3.png')}}" class="d-block w-100" alt="Calystra Studio - Professional Photography">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{asset('images/wedding5.png')}}" class="d-block w-100" alt="Calystra Studio - Professional Photography">
+                </div>
+                <div class="carousel-item">
+                    <img src="{{asset('images/wedding6.png')}}" class="d-block w-100" alt="Calystra Studio - Professional Photography">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+            {{-- <img src="{{asset('images/wedding3.png')}}" alt="Calystra Studio - Professional Photography" style=""> --}}
     </div>
 </section>
 

@@ -9,7 +9,7 @@ body {
     line-height: 1.6;
     color: #1a1a1a;
     overflow-x: hidden;
-    padding-top: 75px;
+    padding-top: calc(65px - 1.2vw);
 }
 
 .container {
@@ -23,11 +23,12 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(20px);
     z-index: 1000;
     padding: 1rem 0;
     transition: all 0.3s ease;
+    color: white;
 }
 
 nav.scrolled {
@@ -35,13 +36,22 @@ nav.scrolled {
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-.nav-container {
+/* .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fafafa 75%, #969696 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo.scrolled {
     font-size: 1.8rem;
     font-weight: 700;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -58,15 +68,20 @@ nav.scrolled {
 
 .nav-links a {
     text-decoration: none;
-    color: #333;
+    color: white;
     font-weight: 500;
     transition: color 0.3s ease;
     position: relative;
 }
 
+.nav-links.scrolled a {
+    color: #333;
+}
+
 .nav-links a:hover {
     color: #667eea;
 }
+
 
 .nav-links a::after {
     content: '';
@@ -84,7 +99,7 @@ nav.scrolled {
 }
 
 .cta-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #566ccd 0%, #791dd4 100%);
     color: white;
     padding: 0.8rem 2rem;
     border: none;
@@ -103,23 +118,13 @@ nav.scrolled {
 
 /* Hero Section */
 .hero {
-    min-height: 92vh;
+    min-height: 95vh;
     display: flex;
     align-items: center;
     position: relative;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* background: linear-gradient(135deg, #3e2905 20%, #eba937 75%, #725014 100%); */
+    background-color: rgb(59, 59, 59);
     overflow: hidden;
-}
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>');
-    opacity: 0.3;
 }
 
 .hero-content {
