@@ -23,7 +23,7 @@
             </button>
             <div class="d-flex align-items-center gap-2">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset('images\icon\icon_white.png') }}" alt="Logo" id="logo-icon" class="logo-icon" style="object-fit: cover; overflow: visible; width: 130px; height: 30px; position: relative; z-index: 1050; top: 5px;">
+                    <img src="{{ asset('images/icon/icon_white.png') }}" alt="Logo" id="logo-icon" class="logo-icon" style="object-fit: cover; overflow: visible; width: 130px; height: 30px; position: relative; z-index: 1050; top: 5px;">
                 </a>
                 <div class="logo d-none d-md-block" id="logo" style="font-size: clamp(12px, 2.5vw, 28px)">Calystra Studio</div>
             </div>
@@ -116,6 +116,17 @@
     </footer>
 
     <!-- Scripts -->
+    <script>
+        const logo_icon = document.getElementById('logo-icon');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                logo_icon.src = "{{ asset('images/icon/icon_black.png') }}"; // Change logo link on scroll
+            } else {
+                logo_icon.src = "{{ asset('images/icon/icon_white.png')}}"; // Change logo link on scroll
+            }
+        });
+    </script>
     @vite('resources\js\app.js')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
     @livewireScripts

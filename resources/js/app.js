@@ -20,7 +20,6 @@ window.addEventListener('scroll', () => {
     const navbar = document.getElementById('navbar');
     const navitem = document.querySelector('.nav-links');
     const logo = document.querySelector('#navbar .logo');
-    const logo_icon = document.getElementById('logo-icon');
     const user_btn = document.getElementById('userDropdown');
     const hambur = document.getElementById('hambur');
     const login = document.getElementById('login');
@@ -34,7 +33,6 @@ window.addEventListener('scroll', () => {
         navbar.classList.add('scrolled');
         navitem.classList.add('scrolled');
         logo.classList.add('scrolled');
-        logo_icon.src = 'images/icon/icon_black.png'; // Change logo link on scroll
         if(user_btn){
             user_btn.classList.remove('text-light'); user_btn.classList.add('text-dark'); 
             user_btn.classList.remove('border-light'); user_btn.classList.add('border-dark'); 
@@ -50,7 +48,6 @@ window.addEventListener('scroll', () => {
         navbar.classList.remove('scrolled');
         navitem.classList.remove('scrolled');
         logo.classList.remove('scrolled');
-        logo_icon.src = 'images/icon/icon_white.png'; // Change logo link on scroll
         if(user_btn){
             user_btn.classList.remove('text-dark'); user_btn.classList.add('text-light'); 
             user_btn.classList.remove('border-dark'); user_btn.classList.add('border-light'); 
