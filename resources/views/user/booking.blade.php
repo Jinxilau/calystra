@@ -17,21 +17,7 @@
     {{-- Booking Form --}}
     @livewire('booking-form')
     
-    {{-- <section id="testimonials" class="testimonials-section">
-        <div class="container">
-            <h2 class="section-title">What Our Clients Say</h2>
-            <div class="testimonial-card fade-in">
-                <p>"Calystra Studio captured our wedding day perfectly! The photos are stunning and the team was so professional."</p>
-                <p class="client-name">- Sarah & John</p>
-            </div>
-            <div class="testimonial-card fade-in">
-                <p>"We hired Calystra for our corporate event and they exceeded our expectations. Highly recommend!"</p>
-                <p class="client-name">- Mark, CEO of TechCorp</p>
-            </div>
-        </div>
-    </section>
-    <section id="faq" class="faq-section">
-        <div class="container">
+        {{-- <div class="container">
             <h2 class="section-title">Frequently Asked Questions</h2>
             <div class="faq-item fade-in">
                 <h3>How do I book a session?</h3>
@@ -41,13 +27,6 @@
                 <h3>What is your cancellation policy?</h3>
                 <p>We require at least 48 hours notice for cancellations. Please contact us as soon as possible if you need to cancel or reschedule.</p>
             </div>
-        </div>
-    </section>
-    <section id="contact" class="contact-section">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <p>If you have any questions or need assistance, feel free to reach out to us.</p>
-            <p>Email:<a href="mailto:jinxilau9@gmail.com">jinxilau9@gmail.com</a>
         </div>
     </section> --}}
 @endsection
