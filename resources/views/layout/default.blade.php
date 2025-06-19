@@ -15,57 +15,66 @@
 
 <body class="d-flex flex-column min-vh-100">
     <!-- Navigation -->
-    <nav id="navbar">
-        <div class="container">
-            <div class="nav-container">
-                <div class="mobile-menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="logo">Calystra Studio</div>
-                <ul class="nav-links pe-md-3 pe-lg-0 pe-0 mb-0">
-                    <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="{{ url('/') }}#services">Services</a></li>
-                    <li><a href="{{ route('aboutUs')}}">About</a></li>
-                    <li><a href="{{route('contact')}}">Contact</a></li>
-                </ul>
-                <div class="d-flex align-items-center justify-content-end gap-2">
-                    <a href="{{ route('booking') }}" class="cta-button px-2 py-2 px-md-3 py-md-2" style="width:max-content">Book Now</a>
-    
-                    @auth
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; z-index: 1050;">
-                            {{ auth()->user()->name }}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="position: absolute; z-index: 1051;">
-                            <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
-                            <li><hr class="dropdown-divider"></li>
-                            {{-- <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li> --}}
-                            <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ route('favorites.index') }}">My favourites</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button class="dropdown-item text-danger" type="submit">Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    @else
-                    <div class="auth-buttons">
-                        <a href="{{ route('login') }}" class="btn btn-outline-primary me-2" wire:navigate>Login</a>
-                        @if(Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn btn-primary" wire:navigate>Register</a>
-                        @endif
-                    </div>
-                    @endauth
+    <nav id="navbar" class="" style="z-index: 1051; max-height: 90px; padding: min(24px, 1.5vw) 0px">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <button class="navbar-toggler d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list h2 text-white" id="hambur"></i>
+            </button>
+            <div class="d-flex align-items-center gap-2">
+                <a href="{{ route('home') }}">
+                    <img src="{{ asset('images\icon\icon_white.png') }}" alt="Logo" id="logo-icon" class="logo-icon" style="object-fit: cover; overflow: visible; width: 130px; height: 30px; position: relative; z-index: 1050; top: 5px;">
+                </a>
+                <div class="logo d-none d-md-block" id="logo" style="font-size: clamp(12px, 2.5vw, 28px)">Calystra Studio</div>
+            </div>
+            <ul class="nav-links pe-md-3 pe-lg-0 pe-0 mb-0" style="gap: 2vw">
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('home') }}#services">Services</a></li>
+                <li><a href="{{ route('aboutUs')}}">About</a></li>
+                <li><a href="{{route('contact')}}">Contact</a></li>
+            </ul>
+            <div class="d-flex align-items-center justify-content-end gap-2">
+                <a href="{{ route('booking') }}" class="cta-button px-2 py-2 px-md-3 py-md-2" style="width:max-content; white-space: nowrap">Book Now</a>
 
+                @auth
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle border rounded-pill text-light border-light" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="position: relative; z-index: 1050;">
+                        {{ auth()->user()->name }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="position: absolute; z-index: 1051;">
+                        <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
+                        <li><hr class="dropdown-divider"></li>
+                        {{-- <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li> --}}
+                        <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('favorites.index') }}">My favourites</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button class="dropdown-item text-danger" type="submit">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
+                @else
+                <div class="auth-buttons d-md-flex gap-1" style="width: 14vw; min-width: 80px;">
+                    <a href="{{ route('login') }}" id="login" class="btn btn-outline-light" wire:navigate style="width: 100%">Login</a>
+                    <a href="{{ route('register') }}" id="register" class="btn btn-light" wire:navigate style="width: 100%">Register</a>
+                </div>
+                @endauth
             </div>
         </div>
     </nav>
+    <div class="collapse" id="navbarToggleExternalContent" style="z-index: 1050; width:100%; position: fixed; top: 74px;">
+        <div class="p-4 bg-dark text-light">
+            <ul class="nav-links pe-md-3 pe-lg-0 pe-0 mb-0" style="display: block;">
+                <li class="h5"><a href="{{ route('home') }}">Home</a></li>
+                <li class="h5"><a href="{{ route('home') }}#services">Services</a></li>
+                <li class="h5"><a href="{{ route('aboutUs')}}">About</a></li>
+                <li class="h5"><a href="{{route('contact')}}">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
     <!-- Main Content -->
     @yield('content')
     
@@ -95,8 +104,8 @@
                     <p><a href="#booking">Book Now</a></p>
                     <p><a href="{{route('aboutUs')}}">About Us</a></p>
                     <p><a href="{{route('contact')}}">Contact</a></p>
-                    <p><a href="#gallery">Portfolio</a></p>
-                    <p><a href="#gallery">FAQ</a></p>
+                    <p><a href="{{ route('home')}}#services">Portfolio</a></p>
+                    {{-- <p><a href="#">FAQ</a></p> --}}
                 </div>
             </div>
             <div class="footer-bottom">
