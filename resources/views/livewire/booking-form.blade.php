@@ -192,7 +192,7 @@
                                                     @endif
 
                                                     @if($addon->price)
-                                                    <span class="text-primary fw-bold">RM {{ number_format($addon->price, 2) }}</span>
+                                                    <span class="text-primary fw-bold" style="margin: ">RM {{ number_format($addon->price, 2) }}</span>
                                                     @endif
                                                     
                                                 </div>
@@ -294,32 +294,31 @@
                                 </div>
                             </div>
                             <!-- Payment Method Selection -->
-                            <div class="mb-4">
+                            {{-- <div class="mb-4">
                                 <label class="form-label mb-2">Payment Method</label>
-                                
                                 <div class="mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" wire:change="$refresh" value="bank_transfer" id="bankTransfer" name="paymentMethod">
+                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" value="bank_transfer" id="bankTransfer">
                                         <label class="form-check-label" for="bankTransfer">Bank Transfer</label>
                                     </div>
-                                
+                                </div>
+                                <div class="mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" wire:change="$refresh" value="online_banking" id="onlineBanking" name="paymentMethod">
+                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" value="online_banking" id="onlineBanking">
                                         <label class="form-check-label" for="onlineBanking">Online Banking</label>
                                     </div>
-                                
+                                </div>
+                                <div class="mb-3">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" wire:change="$refresh" value="cash" id="cash" name="paymentMethod">
-                                        <label class="form-check-label" for="cashDeposit">Cash</label>
+                                        <input class="form-check-input" type="radio" wire:model="paymentMethod" value="cash" id="cashDeposit">
+                                        <label class="form-check-label" for="cashDeposit">Cash Deposit</label>
                                     </div>
                                 </div>
                                 @error('paymentMethod') 
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
-                            </div>
+                            </div> --}}
                             <!-- Receipt Upload -->
-                            <div wire:key="receipt-section">
-                            @if(in_array($paymentMethod, ['bank_transfer', 'online_banking']))
                             <div class="mb-4">
                                 <label for="receipt" class="form-label">Upload Payment Receipt <span class="text-danger">*</span></label>
                                 <div class="d-flex justify-content-center w-100">
@@ -350,8 +349,6 @@
                                         <span class="text-primary small">Uploading receipt...</span>
                                     </div>
                                 </div>
-                            </div>
-                            @endif
                             </div>
                             <!-- Important Notes -->
                             <div class="mb-4 p-3 bg-warning bg-opacity-10 border border-warning rounded">

@@ -19,7 +19,7 @@ class BookingForm extends Component
     use WithFileUploads;
 
     // Payment Details
-    public $paymentMethod;
+
     public $payment_type = 'deposit'; // Default payment type
     public $depositAmount = 200.00; // Default deposit amount
     // public $paymentMethod = 'bank_transfer';

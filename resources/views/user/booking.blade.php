@@ -4,6 +4,7 @@
 @section('assets')
     @vite('resources\css\bookingform.css')
 @endsection
+
 @section('content')
     {{-- Booking Section --}}
     <section id="booking" class="booking-section row justify-content-center">
@@ -15,9 +16,7 @@
 
     {{-- Booking Form --}}
     @livewire('booking-form')
-    @vite('resources/js/app.js')
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    @livewireScripts
+    
     {{-- <section id="testimonials" class="testimonials-section">
         <div class="container">
             <h2 class="section-title">What Our Clients Say</h2>
