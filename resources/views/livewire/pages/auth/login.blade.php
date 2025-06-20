@@ -103,7 +103,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                 <!-- Remember Me & Forgot Password -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="form-check">
-                        <input wire:model="form.remember" id="remember" type="checkbox" class="form-check-input" name="remember">
+                        <input wire:model="form.remember" id="remember" type="checkbox" class="form-check-input border border-dark" name="remember">
                         <label for="remember" class="form-check-label">
                             {{ __('Remember me') }}
                         </label>
@@ -111,7 +111,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 
                     @if (Route::has('password.request'))
                     <div>
-                        <a class="text-decoration-none" href="{{ route('password.request') }}" wire:navigate>
+                        <a class="text-dark" href="{{ route('password.request') }}" wire:navigate>
                             {{ __('Forgot password?') }}
                         </a>
                     </div>
@@ -120,7 +120,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 
                 <!-- Submit Button -->
                 <div class="mb-3">
-                    <x-primary-button class="w-100 btn btn-primary" wire:loading.attr="disabled" wire:target="login">
+                    <x-primary-button class="w-100 btn btn-dark" wire:loading.attr="disabled" wire:target="login">
                         <!-- Visible when not loading -->
                         <span wire:loading.remove wire:target="login">
                             {{ __('Sign in') }}
@@ -140,7 +140,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                 <div class="text-center">
                     <p class="text-muted">
                         {{ __("Don't have an account?") }}
-                        <a href="{{ route('register') }}" wire:navigate class="text-decoration-none">{{ __('Sign up') }}</a>
+                        <a href="{{ route('register') }}" wire:navigate class="text-dark">{{ __('Sign up') }}</a>
                     </p>
                 </div>
             </form>
