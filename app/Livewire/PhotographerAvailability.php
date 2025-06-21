@@ -74,14 +74,14 @@ class PhotographerAvailability extends Component
 
     public function edit($id)
     {
-        $availability = PhotographerAvailability::findOrFail($id);
+        $availability = ModelsPhotographerAvailability::findOrFail($id);
         
         $this->editingId = $id;
         $this->photographer_id = $availability->photographer_id;
-        $this->start_date = $availability->start_date->format('Y-m-d');
-        $this->start_time = $availability->start_date->format('H:i');
-        $this->end_date = $availability->end_date->format('Y-m-d');
-        $this->end_time = $availability->end_date->format('H:i');
+        $this->start_date = Carbon::parse($availability->start_date)->format('Y-m-d');
+        $this->start_time = Carbon::parse($availability->start_date)->format('H:i');
+        $this->end_date = Carbon::parse($availability->end_date)->format('Y-m-d');
+        $this->end_time = Carbon::parse($availability->end_date)->format('H:i');
         $this->reason = $availability->reason;
         
         $this->isEditing = true;
@@ -164,7 +164,7 @@ class PhotographerAvailability extends Component
         $this->resetErrorBag();
     }
 
-    public function cancelForm()
+    public function closeForm()
     {
         $this->resetForm();
         $this->showForm = false;
