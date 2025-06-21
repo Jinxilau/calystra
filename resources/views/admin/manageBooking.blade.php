@@ -132,7 +132,7 @@
         <span class="badge bg-danger">Denied</span>
         @endif
     </td>
-    <td>
+    <td class="d-flex flex-column" style="max-width: 200px">
         <!-- Update Booking -->
         <form action="{{ route('booking.update', $booking->id) }}" method="POST">
             @csrf
@@ -143,6 +143,7 @@
                 <option value="denied" {{$booking->status == 'denied' ? 'selected' : ''}}>Denied</option>
             </select>
         </form>
+        <livewire:photographer-assignment :booking="$booking->id"/>
     </td>
     </tr>
 

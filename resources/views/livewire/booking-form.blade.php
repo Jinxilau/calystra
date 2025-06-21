@@ -57,7 +57,7 @@
     <div class="row justify-content-center mt-5 mt-md-0">
         <div class="col-lg-10">
             <div class="card shadow-lg booking-form-container">
-                <div class="card-header bg-dark text-light">
+                <div class="card-header bg-dark bg-gradient text-light">
                     <h3 class="card-title text- mb-0"><i class="fas fa-camera me-2"></i> @if($currentStep == 1)Event Details @elseif($currentStep == 2) Customer Information @elseif($currentStep == 3) Add-ons Selection @elseif($currentStep == 4)Review & Deposit Payment @endif</h3>
                 </div>
                 <div class="card-body p-4">
@@ -71,7 +71,7 @@
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="event_type" class="form-label">Event Type <span class="text-danger">*</span></label>
-                                    <select class="form-select @error('event_type') is-invalid @enderror" id="event_type" wire:model="event_type">
+                                    <select class="form-select border border-dark @error('event_type') is-invalid @enderror" id="event_type" wire:model="event_type">
                                         <option value="">Select event type...</option>
                                         {{-- Using the argument passed --}}
                                         @foreach($eventTypes as $key => $label) 
@@ -121,7 +121,7 @@
                                 
                                 <div class="col-md-4 mb-3">
                                     <label for="guest_count" class="col-form-label custom-count">Guest Count</label> <span class="form-text text-secondary">(Optional)</span>
-                                    <input type="number" class="form-control @error('guest_count') is-invalid @enderror" id="guest_count" wire:model="guest_count" min="1" max="1000" placeholder="1" value="1">
+                                    <input type="number" class="form-control border border-dark @error('guest_count') is-invalid @enderror" id="guest_count" wire:model="guest_count" min="1" max="1000" placeholder="1" value="1">
                                     @error('guest_count')
                                         <div class="invalid-feedback alert-danger">{{ $message }}</div>
                                     @enderror
@@ -381,7 +381,7 @@
 
                             @if($currentStep < $totalSteps)
                                 <div></div>
-                                <button type="button" wire:click="nextStep" class="btn btn-secondary px-4">Next Step</button>
+                                <button type="button" wire:click="nextStep" class="btn btn-secondary bg-gradient px-4">Next Step</button>
                             @else
                             <!-- Submit Button -->
                             <div class="d-grid">

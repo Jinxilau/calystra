@@ -7,13 +7,12 @@ window.addEventListener('scroll', () => {
     const navbar = document.getElementById('navbar');
     const navitem = document.querySelector('.nav-links');
     const logo = document.querySelector('#navbar .logo');
-    const logo_icon = document.getElementById('logo-icon');
+    // const logo_icon = document.getElementById('logo-icon');
     const user_btn = document.getElementById('userDropdown');
     const hambur = document.getElementById('hambur');
     const login = document.getElementById('login');
     const register = document.getElementById('register');
 
-    console.log(hambur);
     // console.log(collap);
     if (window.scrollY > 100) {
         hambur.classList.add('text-dark');

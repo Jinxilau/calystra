@@ -9,6 +9,7 @@ use Livewire\Volt\Volt;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
 use App\Livewire\User\Dashboard as UserDashboard;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\Testing;
 use App\Livewire\BookingForm;
 
 // Route::view('/', 'welcome')->name('welcome'); // Public welcome page
@@ -69,9 +70,11 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function (
     //Delete Image
     Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
     // Add more admin routes here
-    Route::get('/admin/managePhotographer', function () {
-        return view('admin.managePhotographer');
-    })->name('managePhotographer');
+    // Route::get('/admin/managePhotographer', function () {
+    //     return view('admin.managePhotographer');
+    // })->name('managePhotographer');
+
+    // Route::get('/admin/managePhotographer1', [Testing::class, 'index'])->name('managePhotographer');
 });
 
 // Normal user routes

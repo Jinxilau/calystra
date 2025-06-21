@@ -11,19 +11,18 @@ class BookingPhotographer extends Pivot
         'booking_id',
         'photographer_id',
     ];
-
-    public function booking()
-    {
-        return $this->belongsTo(Booking::class);
-    }
-
-    public function photographer()
-    {
-        return $this->belongsTo(Photographer::class);
-    }
-
+    
     public function assignedBy()
     {
         return $this->belongsTo(User::class, 'assigned_by');
     }
+
+    public function booking() {
+        return $this->belongsTo(Booking::class);
+    }
+
+    public function photographer() {
+        return $this->belongsTo(Photographer::class);
+    }
+
 }

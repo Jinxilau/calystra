@@ -1,22 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'My App')</title>
+    @yield('assets')
+    {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    @livewireStyles
+    <style>
+        .nav-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            /* Lightens the background */
+            transition: background-color 0.3s ease-in-out;
+            /* Smooth transition */
+        }
+    </style>
 </head>
 
-<style>
-    .nav-item:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        /* Lightens the background */
-        transition: background-color 0.3s ease-in-out;
-        /* Smooth transition */
-    }
-</style>
-
 <body>
+    {{-- Top Nav --}}
     <nav class="navbar bg-body-tertiary" style="position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
         <div class="container-fluid">
             <a class="navbar-brand">Calystra Studio</a>
@@ -28,6 +34,7 @@
         </div>
     </nav>
 
+    {{-- Side Nav --}}
     <div class="container-fluid min-vh-100 ">
         <div class="row min-vh-100">
             <!-- Sidebar -->
@@ -59,6 +66,11 @@
                             <h5>Manage Image</h5>
                         </a>
                     </li>
+                    {{-- <li class="nav-item">
+                        <a class="nav-link {{ request()->is('admin/managePhotographer') ? 'active' : '' }}" href="{{ route('managePhotographer') }}">
+                            <h5>Manage Photographer</h5>
+                        </a>
+                    </li> --}}
                 </ul>
                 <form method="POST" action="{{ route('logout') }}" class="mt-auto pb-2">
                     @csrf
@@ -66,13 +78,16 @@
                 </form>
             </div>
 
-            <!-- Content Section -->
+            <!-- Main Content Section -->
             <div class="col-md-10" style="margin-left: 16.67%; padding-top: 65px;">
                 @yield('content')
             </div>
         </div>
     </div>
 
+    {{-- Bootstrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    @livewireScripts
 </body>
 
 </html>
