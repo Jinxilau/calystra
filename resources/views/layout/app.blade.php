@@ -18,6 +18,10 @@
             transition: background-color 0.3s ease-in-out;
             /* Smooth transition */
         }
+
+        nav-link.active {
+            color: white;
+        }
     </style>
 </head>
 
@@ -57,7 +61,7 @@
                 </div>
                 <ul class="nav flex-column px-3">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('admin/manageBooking') ? 'active' : '' }}" href="{{ route('manageBooking') }}">
+                        <a class="nav-link {{ request()->routeIs('manageBooking') ? 'active' : '' }}" href="{{ route('manageBooking') }}">
                             <h5>Manage Booking</h5>
                         </a>
                     </li>
@@ -66,11 +70,11 @@
                             <h5>Manage Image</h5>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/managePhotographer') ? 'active' : '' }}" href="{{ route('managePhotographer') }}">
-                            <h5>Manage Photographer</h5>
+                            <h5>Manage Photographer Availability</h5>
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
                 <form method="POST" action="{{ route('logout') }}" class="mt-auto pb-2">
                     @csrf

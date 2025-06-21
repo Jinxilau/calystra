@@ -70,9 +70,9 @@ Route::middleware(['auth', RoleMiddleware::class . ':admin',])->group(function (
     //Delete Image
     Route::delete('/admin/upload_image/{id}', [ImageController::class, 'destroy'])->name('image.destroy');
     // Add more admin routes here
-    // Route::get('/admin/managePhotographer', function () {
-    //     return view('admin.managePhotographer');
-    // })->name('managePhotographer');
+    Route::get('/admin/managePhotographer', function () {
+        return view('admin.managePhotographer');
+    })->name('managePhotographer');
 
     // Route::get('/admin/managePhotographer1', [Testing::class, 'index'])->name('managePhotographer');
 });

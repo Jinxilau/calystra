@@ -60,7 +60,7 @@ class PhotographerAssignment extends Component
         if ($this->searchTerm) {
             $query->where(function($q) {
                 $q->where('name', 'like', '%' . $this->searchTerm . '%')
-                  ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
+                ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
             });
         }
 
@@ -97,8 +97,6 @@ class PhotographerAssignment extends Component
                 $query->where('status', '!=', 'denied')
                     ->where(function ($q) use ($eventStart, $eventEnd) {
                         $q->whereRaw('DATE(event_date) = ?', [$eventStart->toDateString()]);
-                        //   ->whereRaw('TIME(start_time) < ?', [$eventEnd->toTimeString()])
-                        //   ->whereRaw('ADDTIME(start_time, "08:00:00") > ?', [$eventStart->toTimeString()]);
                     });
             })->exists();
 
@@ -131,15 +129,13 @@ class PhotographerAssignment extends Component
                     ->where('id', '!=', $this->booking->id) // Exclude current booking
                     ->where(function ($q) use ($eventStart, $eventEnd) {
                         $q->whereRaw('DATE(event_date) = ?', [$eventStart->toDateString()]);
-                        //   ->whereRaw('TIME(start_time) < ?', [$eventEnd->toTimeString()])
-                        //   ->whereRaw('ADDTIME(start_time, "08:00:00") > ?', [$eventStart->toTimeString()]);
                     });
             })->with('booking')->get();
 
         foreach ($conflictingBookings as $bookingPhotographer) {
             $conflicts[] = [
                 'type' => 'booking',
-                'details' => 'Conflicting booking: ' . $bookingPhotographer->booking->event_name . ' on ' . $bookingPhotographer->booking->event_date
+                'details' => 'Conflicting booking: #' . $bookingPhotographer->booking->id ." ". $bookingPhotographer->booking->event_name . ' on ' . $bookingPhotographer->booking->event_date
             ];
         }
 
@@ -148,13 +144,13 @@ class PhotographerAssignment extends Component
             ->where(function ($query) use ($eventStart, $eventEnd) {
                 $query->where(function ($q) use ($eventStart, $eventEnd) {
                     $q->where('start_date', '<=', $eventStart)
-                      ->where('end_date', '>=', $eventStart);
+                    ->where('end_date', '>=', $eventStart);
                 })->orWhere(function ($q) use ($eventStart, $eventEnd) {
                     $q->where('start_date', '<=', $eventEnd)
-                      ->where('end_date', '>=', $eventEnd);
+                    ->where('end_date', '>=', $eventEnd);
                 })->orWhere(function ($q) use ($eventStart, $eventEnd) {
                     $q->where('start_date', '>=', $eventStart)
-                      ->where('end_date', '<=', $eventEnd);
+                    ->where('end_date', '<=', $eventEnd);
                 });
             })->get();
 

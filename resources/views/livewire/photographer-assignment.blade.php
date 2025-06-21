@@ -92,22 +92,24 @@
                 </div>
 
                 <!-- Filters -->
-                <div class="px-3">
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label">Search Photographers</label>
-                            <input type="text" wire:model.live="searchTerm" placeholder="Search by name or email..." class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Filter by Specialization</label>
-                            <select wire:model.live="specializationFilter" class="form-select">
-                                <option value="">All Specializations</option>
-                                <option value="Wedding">Wedding</option>
-                                <option value="Corporate">Corporate</option>
-                                <option value="Portrait">Portrait</option>
-                                <option value="Event">Event</option>
-                            </select>
-                        </div>
+                <div class="px-3" wire:keydown.enter.stop>
+                    <div>
+                        <form action="" class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Search Photographers</label>
+                                <input type="text" wire:model.live="searchTerm" placeholder="Search by name or email..." class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Filter by Specialization</label>
+                                <select wire:model.live="specializationFilter" class="form-select">
+                                    <option value="">All Specializations</option>
+                                    <option value="Wedding">Wedding</option>
+                                    <option value="Corporate">Corporate</option>
+                                    <option value="Portrait">Portrait</option>
+                                    <option value="Event">Event</option>
+                                </select>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -157,7 +159,7 @@
                                             <!-- Conflicts -->
                                             @if(!$photographer['is_available'] && count($photographer['conflicts']) > 0)
                                             <div class="mt-2">
-                                                <button wire:click="toggleAvailabilityDetails({{ $photographer['id'] }})" class="btn btn-link p-0 text-danger text-decoration-none">
+                                                <button wire:click.prevent="toggleAvailabilityDetails({{ $photographer['id'] }})" class="btn btn-link p-0 text-danger text-decoration-none">
                                                     <i class="bi bi-exclamation-triangle me-1"></i>
                                                     View Conflicts ({{ count($photographer['conflicts']) }})
                                                 </button>
@@ -216,9 +218,9 @@
         </div>
     </div>
 
-    <span class="badge bg-success bg-opacity-10 text-success small">
+    {{-- <span class="badge bg-success bg-opacity-10 text-success small">
         {{ session('success') }}
-    </span>
+    </span> --}}
     @endif
     @if (session('error'))
     <div class="d-inline-block">

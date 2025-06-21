@@ -8,11 +8,10 @@ class PhotographerAvailability extends Model
 {
     protected $fillable = [
         'photographer_id',
-        'date',
-        'start_time',
-        'end_time',
-        'is_available',
+        'start_date',
+        'end_date',
         'reason'
+        // 'is_available',
     ];
 
     public function photographer()

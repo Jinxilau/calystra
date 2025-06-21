@@ -1,13 +1,13 @@
 @extends('layout.app')
-@yield('title', 'Manage Photographer')
+{{-- @yield('title', 'Manage Photographer') --}}
 
 @section('content')
 <div class="container">
-    <h3 class="mb-4">Manage Photographer</h3>
+    <h3 class="mb-1">Photographer Availability</h3>
 
-    {{-- Assign Photographer Section --}}
-    {{-- <livewire:photographer-assignment :booking="$booking"/> --}}
+
+    {{-- Photographer Availability Section --}}
+    @livewire('photographer-availability')
 
 </div>
-
 @endsection
