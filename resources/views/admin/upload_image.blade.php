@@ -34,7 +34,7 @@
                     <div class="mb-3">
                         <label for="imageType" class="form-label">Image Type</label>
                         <select class="form-control" id="imageType" name="imageType" required>
-                            <option value="">-- Select Type --</option>
+                            <option value="" hidden>-- Select Type --</option>
                             <option value="wedding">Wedding</option>
                             <option value="event">Event</option>
                             <option value="fashion">Fashion</option>
@@ -44,7 +44,7 @@
 
                     <div class="mb-3">
                         <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="image" name="image" required>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Upload</button>
