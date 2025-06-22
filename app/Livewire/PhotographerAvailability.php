@@ -12,6 +12,11 @@ class PhotographerAvailability extends Component
 {
     use WithPagination;
 
+    public $showPhotographerForm = false;
+    public $photographer_name = '';
+    public $photographer_email = '';
+    public $photographer_phone = '';
+
     // Form properties
     public $photographer_id = '';
     public $start_date = '';
@@ -31,6 +36,40 @@ class PhotographerAvailability extends Component
     public $filterEndDate = '';
     
     protected $paginationTheme = 'bootstrap';
+
+    public function showAddPhotographerForm(){
+        $this->resetPhotographerForm();
+        $this->showPhotographerForm = true;
+    }
+
+    public function closePhotographerForm(){
+        $this->showPhotographerForm = false;
+    }
+
+    public function resetPhotographerForm(){
+        $this->photographer_name = '';
+        $this->photographer_email = '';
+        $this->photographer_phone = '';
+        $this->resetErrorBag(['photographer_name', 'photographer_email', 'photographer_phone']);
+    }
+
+    public function savePhotographer(){
+        $this->validate([
+            'photographer_name' => 'required|string|max:255',
+            'photographer_email' => 'required|email|unique:photographers,email',
+            'photographer_phone' => 'required|string|max:20',
+        ]);
+
+        Photographer::create([
+            'name' => $this->photographer_name,
+            'email' => $this->photographer_email,
+            'phone' => $this->photographer_phone,
+        ]);
+
+        session()->flash('message', 'Photographer added successfully.');
+        $this->showPhotographerForm = false;
+        $this->mount();
+    }
 
     public function rules() // this method is automatically run when you invoke $this->validate
     {

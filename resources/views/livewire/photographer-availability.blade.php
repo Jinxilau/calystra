@@ -1,9 +1,12 @@
 <div class="container-fluid py-4">
     {{-- Be like water. --}}
     <div class="d-flex justify-content-end align-items-center mb-4">
+        <button wire:click="showAddPhotographerForm" class="btn btn-success me-2">
+            <i class="fas fa-user-plus me-1"></i> Add Photographer
+        </button>
         <button wire:click="showCreateForm" class="btn btn-primary">
             <i class="fas fa-plus me-2"></i>Add Unavailable Period
-        </button>
+        </button> 
     </div>
 
     @if (session()->has('message'))
@@ -88,6 +91,44 @@
         </div>
     </div>
     @endif
+
+    @if($showPhotographerForm)
+    <div class="modal show d-block mb-4" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.145);" wire:click.prevent="closePhotographerForm">
+        <div class="modal-dialog modal-md modal-dialog-centered" wire:click.stop>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Photographer</h5>
+                    <button type="button" wire:click="closePhotographerForm" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form wire:submit.prevent="savePhotographer">
+                        <div class="mb-3">
+                            <label for="photographer_name" class="form-label">Name</label>
+                            <input type="text" wire:model="photographer_name" class="form-control @error('photographer_name') is-invalid @enderror">
+                            @error('photographer_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="photographer_email" class="form-label">Email</label>
+                            <input type="email" wire:model="photographer_email" class="form-control @error('photographer_email') is-invalid @enderror">
+                            @error('photographer_email') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="photographer_phone" class="form-label">Phone</label>
+                            <input type="text" wire:model="photographer_phone" class="form-control @error('photographer_phone') is-invalid @enderror">
+                            @error('photographer_phone') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success" wire:loading.attr="disabled">Save</button>
+                            <button type="button" wire:click="closePhotographerForm" class="btn btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
 
     {{-- Filters --}}
     <div class="card mb-4">
