@@ -47,7 +47,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
      */
     public function register(): void
     {
-        $validated = $this->validate(rules()); // rule()
+        $validated = $this->validate(); // rule()
 
         // Remove terms_accepted from validated data before creating user
         unset($validated['terms_accepted']);
