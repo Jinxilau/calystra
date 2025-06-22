@@ -50,30 +50,26 @@
                             {{-- Start Date & Time --}}
                             <div class="col-md-3 mb-3">
                                 <label for="start_date" class="form-label">Start Date <span class="text-danger">*</span></label>
-                                <input type="date" wire:model="start_date" class="form-control @error('start_date') is-invalid @enderror" 
-                                       id="start_date" min="{{ date('Y-m-d') }}">
+                                <input type="date" wire:model="start_date" class="form-control @error('start_date') is-invalid @enderror" id="start_date">
                                 @error('start_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
         
                             <div class="col-md-3 mb-3">
                                 <label for="start_time" class="form-label">Start Time <span class="text-danger">*</span></label>
-                                <input type="time" wire:model="start_time" class="form-control @error('start_time') is-invalid @enderror" 
-                                       id="start_time">
+                                <input type="time" wire:model="start_time" class="form-control @error('start_time') is-invalid @enderror" id="start_time">
                                 @error('start_time') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
         
                             {{-- End Date & Time  --}}
                             <div class="col-md-3 mb-3">
                                 <label for="end_date" class="form-label">End Date <span class="text-danger">*</span></label>
-                                <input type="date" wire:model="end_date" class="form-control @error('end_date') is-invalid @enderror" 
-                                       id="end_date" min="{{ date('Y-m-d') }}">
+                                <input type="date" wire:model="end_date" class="form-control @error('end_date') is-invalid @enderror" id="end_date">
                                 @error('end_date') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
         
                             <div class="col-md-3 mb-3">
                                 <label for="end_time" class="form-label">End Time <span class="text-danger">*</span></label>
-                                <input type="time" wire:model="end_time" class="form-control @error('end_time') is-invalid @enderror" 
-                                       id="end_time">
+                                <input type="time" wire:model="end_time" class="form-control @error('end_time') is-invalid @enderror" id="end_time">
                                 @error('end_time') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -147,9 +143,13 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2">
+                                    @if($availability->photographer->profile_photo)
+                                    <img src="{{ Storage::url('images/' . $photographer->profile_photo) }}" alt="{{ $photographer->name }}" class="rounded-circle me-1" width="24" height="24">
+                                    @else
+                                    <span class="rounded-circle bg-light d-flex align-items-center justify-content-center me-1" style="width: 24px; height: 24px; font-size: 0.7rem">
                                         {{ substr($availability->photographer->name, 0, 1) }}
-                                    </div>
+                                    </span>
+                                    @endif
                                     {{ $availability->photographer->name }}
                                 </div>
                             </td>

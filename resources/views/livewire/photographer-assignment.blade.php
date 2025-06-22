@@ -22,7 +22,8 @@
             @foreach($booking->photographers as $photographer)
                 <div class="d-flex align-items-center">
                     @if($photographer->profile_photo)
-                        <img src="{{ Storage::url($photographer->profile_photo) }}" alt="{{ $photographer->name }}" class="rounded-circle me-1" width="24" height="24">
+                        {{-- {{dd(Storage::url('images/' . $photographer->profile_photo))}} --}}
+                        <img src="{{ Storage::url('images/' . $photographer->profile_photo) }}" alt="{{ $photographer->name }}" class="rounded-circle me-1" width="24" height="24">
                     @else
                         <span class="rounded-circle bg-light d-flex align-items-center justify-content-center me-1" style="width: 24px; height: 24px; font-size: 0.7rem">
                             {{ substr($photographer->name, 0, 1) }}

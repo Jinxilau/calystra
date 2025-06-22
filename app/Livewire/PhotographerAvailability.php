@@ -32,7 +32,7 @@ class PhotographerAvailability extends Component
     
     protected $paginationTheme = 'bootstrap';
 
-    public function rules()
+    public function rules() // this method is automatically run when you invoke $this->validate
     {
         return [
             'photographer_id' => 'required|exists:photographers,id',

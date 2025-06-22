@@ -67,34 +67,40 @@
 
 
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Preview</th>
-                    <th scope="col">File Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($images as $image)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td><img src="{{ asset('storage/images/'. $image->filename) }}" width="100" alt="Image"></td>
-                    <td>{{ $image->filename }}</td>
-                    <td>{{$image->image_type }}</td>
-                    <td>
-                        <form action="{{ route('image.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Preview</th>
+                                <th scope="col">File Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($images as $image)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td><img src="{{ asset('storage/images/'. $image->filename) }}" width="100" alt="Image"></td>
+                                <td>{{ $image->filename }}</td>
+                                <td>{{$image->image_type }}</td>
+                                <td>
+                                    <form action="{{ route('image.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        </div>
     </div>
 </div>
 @endsection

@@ -184,7 +184,7 @@
                                         <div class="col-12 col-md-6 col-lg-4 mt-0">
                                             <div class="border rounded px-3 {{ in_array($addon->id, $selectedAddOns) ? 'border-primary bg-primary bg-opacity-10' : 'border-light-subtle' }}">
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" id="addon-{{ $addon->id }}" wire:click="toggleAddon({{ $addon->id }})" {{ in_array($addon->id, $selectedAddOns) ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="form-check-input border border-dark" id="addon-{{ $addon->id }}" wire:click="toggleAddon({{ $addon->id }})" {{ in_array($addon->id, $selectedAddOns) ? 'checked' : '' }}>
                                                     <label class="form-check-label fw-semibold" for="addon-{{ $addon->id }}">{{ $addon->name }}</label>
                                                     
                                                     @if($addon->description)

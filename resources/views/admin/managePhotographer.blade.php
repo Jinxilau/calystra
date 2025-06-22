@@ -2,7 +2,7 @@
 {{-- @yield('title', 'Manage Photographer') --}}
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <h3 class="mb-1">Photographer Availability</h3>
 
 
