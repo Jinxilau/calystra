@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->text('specialization')->nullable(); // Wedding, Corporate, Portrait, etc.
-            $table->text('bio')->nullable();
+            // $table->text('bio')->nullable();
             $table->string('profile_photo')->nullable();
             $table->boolean('is_active')->default(true);
 

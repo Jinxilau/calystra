@@ -18,12 +18,12 @@ return new class extends Migration
             $table->decimal('amount', 10, 2)->default(200.00);
             $table->string('receipt_path')->nullable();
             
-            $table->enum('status', ['pending_verification', 'verified', 'rejected'])->default('pending_verification');
-            $table->text('admin_notes')->nullable();
-            $table->foreignId('reviewed_by')->nullable()->constrained('users');
             
             $table->timestamps();
             
+            // $table->enum('status', ['pending_verification', 'verified', 'rejected'])->default('pending_verification');
+            // $table->text('admin_notes')->nullable();
+            // $table->foreignId('reviewed_by')->nullable()->constrained('users');
             // $table->enum('payment_type', ['deposit', 'full_payment', 'remaining_balance']);
             // $table->enum('payment_method', ['bank_transfer', 'online_banking', 'cash', 'credit_card']);
         });

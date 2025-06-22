@@ -11,9 +11,9 @@ class Photographer extends Model
         'email',
         'phone',
         'specialization',
-        'bio',
         'profile_photo',
         'is_active',
+        // 'bio',
         // 'hourly_rate'
     ];
 
