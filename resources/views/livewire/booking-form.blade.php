@@ -197,7 +197,7 @@
                                                     
                                                 </div>
                                                 @if(in_array($addon->id, $selectedAddOns))
-                                                @if(!is_null($addon->quantity))
+                                                @if($addon->quantity)
                                                 <div class="d-flex align-items-center justify-content-center my-2">
                                                     <div class="d-flex align-items-center gap-2">
                                                         <!-- Quantity controls (commented out as in original) -->

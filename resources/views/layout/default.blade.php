@@ -44,6 +44,9 @@
                         <li><h6 class="dropdown-header">{{ auth()->user()->email }}</h6></li>
                         <li><hr class="dropdown-divider"></li>
                         {{-- <li><a class="dropdown-item" href="{{ route('dashboard') }}">Dashboard</a></li> --}}
+                        @if(Auth::user()->role === 'admin')
+                        <li><a class="dropdown-item" href="{{ route('manageBooking') }}">Admin Panel</a></li>
+                        @endif
                         <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
                         <li><a class="dropdown-item" href="{{ route('favorites.index') }}">My favourites</a></li>
                         <li><hr class="dropdown-divider"></li>

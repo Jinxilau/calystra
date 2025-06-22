@@ -161,7 +161,7 @@
                             </td>
                             <td>
                                 <span class="badge bg-info">
-                                    {{ number_format(\Carbon\Carbon::parse($availability->start_date)->diffInDays($availability->end_date) + 1,1) }} days
+                                    {{ number_format(\Carbon\Carbon::parse($availability->start_date)->diffInDays($availability->end_date) + 1,0) }} days
                                 </span>
                             </td>
                             <td>{{ $availability->reason }}</td>

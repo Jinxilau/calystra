@@ -130,7 +130,7 @@
                                         <!-- Profile Photo -->
                                         <div class="flex-shrink-0 pe-3">
                                             @if($photographer['profile_photo'])
-                                            <img src="{{ Storage::url($photographer['profile_photo']) }}" alt="{{ $photographer['name'] }}" class="rounded-circle" width="48" height="48">
+                                            <img src="{{ Storage::url('images/' . $photographer['profile_photo']) }}" alt="{{ $photographer['name'] }}" class="rounded-circle" width="48" height="48">
                                             @else
                                             <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
                                                 <span class="text-muted fw-medium">{{ substr($photographer['name'], 0, 1) }}</span>

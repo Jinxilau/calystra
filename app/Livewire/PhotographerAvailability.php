@@ -36,7 +36,7 @@ class PhotographerAvailability extends Component
     {
         return [
             'photographer_id' => 'required|exists:photographers,id',
-            'start_date' => 'required|date|after_or_equal:today',
+            'start_date' => 'required|date',
             'start_time' => 'required',
             'end_date' => 'required|date|after_or_equal:start_date',
             'end_time' => 'required',
