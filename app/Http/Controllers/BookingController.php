@@ -77,4 +77,3 @@ class BookingController extends Controller
         return redirect()->back()->with('success', 'Booking updated successfully');
     }
 }
-    
