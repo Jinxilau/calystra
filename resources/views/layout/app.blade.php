@@ -148,7 +148,7 @@ use Illuminate\Support\Facades\Auth;
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center py-3 {{ request()->is('admin/managePhotographer') ? 'active' : '' }}" href="{{ route('managePhotographer') }}">
                             <i class="bi bi-person-video3 me-3"></i>
-                            <span class="fw-medium">Photographer Availability</span>
+                            <span class="fw-medium">Manage Photograher</span>
                         </a>
                     </li>
                 </ul>

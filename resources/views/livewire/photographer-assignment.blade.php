@@ -120,7 +120,7 @@
                         @if(count($availablePhotographers) > 0)
                         <div class="list-group">
                                 @foreach($availablePhotographers as $photographer)
-                                <div class="list-group-item mb-3 {{ $photographer['is_available'] ? 'border-success bg-success bg-opacity-10' : 'border-danger bg-danger bg-opacity-10' }}">
+                                <div class="list-group-item {{ $photographer['is_available'] ? 'border-success bg-success bg-opacity-10' : 'border-danger bg-danger bg-opacity-10' }}">
                                     <div class="d-flex align-items-start">
                                         <!-- Checkbox -->
                                         <div class="form-check pe-3 pt-1">
