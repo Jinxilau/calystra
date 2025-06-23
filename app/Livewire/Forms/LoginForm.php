@@ -35,14 +35,14 @@ class LoginForm extends Form
         if (! Auth::attempt($this->only(['email', 'password']), $this->remember)) {
             RateLimiter::hit($this->throttleKey());
 
-            $errorMessage = trans('auth.failed');
+            $errorMessage = trans('Invalid Email or Password');
             
             // Check if email exists to give more specific feedback
-            if (! User::where('email', $this->email)->exists()) {
-                $errorMessage = trans('Email not found');
-            } elseif (! Hash::check($this->password, User::where('email', $this->email)->first()->password)) {
-                $errorMessage = trans('Passwords do not match');
-            }
+            // if (! User::where('email', $this->email)->exists()) {
+            //     $errorMessage = trans('Email not found');
+            // } elseif (! Hash::check($this->password, User::where('email', $this->email)->first()->password)) {
+            //     $errorMessage = trans('Passwords do not match');
+            // }
 
             throw ValidationException::withMessages([
                 'form.email' => $errorMessage,

@@ -7,7 +7,7 @@
         </div>
         <h2 class="h3 fw-bold mb-3">Booking Submitted Successfully!</h2>
         <p class="text-muted mb-4">Thank you for choosing Calystra Studio. We'll contact you within 24 hours to confirm your booking.</p>
-        <button wire:click="resetForm" class="btn btn-primary px-4">Make Another Booking</button>
+        <button wire:click="resetForm" class="btn px-4 text-light" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">Make Another Booking</button>
     </div>
     @else
     {{-- Progress Indicator --}}
@@ -57,21 +57,21 @@
     <div class="row justify-content-center mt-5 mt-md-0">
         <div class="col-lg-10">
             <div class="card shadow-lg booking-form-container">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0"><i class="fas fa-camera me-2"></i> @if($currentStep == 1)Event Details @elseif($currentStep == 2) Customer Information @elseif($currentStep == 3) Add-ons Selection @elseif($currentStep == 4)Review & Deposit Payment @endif</h3>
+                <div class="card-header bg-dark bg-gradient text-light">
+                    <h3 class="card-title text- mb-0"><i class="fas fa-camera me-2"></i> @if($currentStep == 1)Event Details @elseif($currentStep == 2) Customer Information @elseif($currentStep == 3) Add-ons Selection @elseif($currentStep == 4)Review & Deposit Payment @endif</h3>
                 </div>
                 <div class="card-body p-4">
                     <form wire:submit="nextStep">
                         {{-- Step 1: Event Details --}}
                         @if($currentStep == 1)
                         <div class="mb-4">
-                            <h5 class="text-primary border-bottom pb-2">
+                            <h5 class="text-dark border-bottom pb-2">
                                 <i class="fas fa-calendar-alt me-2"></i>Event Details
                             </h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="event_type" class="form-label">Event Type <span class="text-danger">*</span></label>
-                                    <select class="form-select @error('event_type') is-invalid @enderror" id="event_type" wire:model="event_type">
+                                    <select class="form-select border border-dark @error('event_type') is-invalid @enderror" id="event_type" wire:model="event_type">
                                         <option value="">Select event type...</option>
                                         {{-- Using the argument passed --}}
                                         @foreach($eventTypes as $key => $label) 
@@ -121,7 +121,7 @@
                                 
                                 <div class="col-md-4 mb-3">
                                     <label for="guest_count" class="col-form-label custom-count">Guest Count</label> <span class="form-text text-secondary">(Optional)</span>
-                                    <input type="number" class="form-control @error('guest_count') is-invalid @enderror" id="guest_count" wire:model="guest_count" min="1" max="1000" placeholder="1" value="1">
+                                    <input type="number" class="form-control border border-dark @error('guest_count') is-invalid @enderror" id="guest_count" wire:model="guest_count" min="1" max="1000" placeholder="1" value="1">
                                     @error('guest_count')
                                         <div class="invalid-feedback alert-danger">{{ $message }}</div>
                                     @enderror
@@ -133,7 +133,7 @@
                         {{-- Step 2: Contact Information --}}
                         @if($currentStep == 2)
                         <div class="mb-4">
-                            <h5 class="text-primary border-bottom pb-2"><i class="fas fa-user me-2"></i>Customer Information</h5>
+                            <h5 class="text-dark border-bottom pb-2"><i class="fas fa-user me-2"></i>Customer Information</h5>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="customer_name" class="form-label custom-name">Full Name <span class="text-danger">*</span></label>
@@ -174,7 +174,7 @@
                             
                             @foreach($availableAddOns->groupBy('type') as $type => $addOns)
                             <div class="card mb-2 overflow-hidden">
-                                <div class="card-header bg-gradient bg-primary text-white py-1">
+                                <div class="card-header bg-gradient bg-info-subtle border border-info text-dark py-1">
                                     <h4 class="h5 mb-0">{{ $categories[$type] ?? ucfirst(str_replace('_', ' ', $type)) }}</h4>
                                 </div>
                                 
@@ -184,7 +184,7 @@
                                         <div class="col-12 col-md-6 col-lg-4 mt-0">
                                             <div class="border rounded px-3 {{ in_array($addon->id, $selectedAddOns) ? 'border-primary bg-primary bg-opacity-10' : 'border-light-subtle' }}">
                                                 <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" id="addon-{{ $addon->id }}" wire:click="toggleAddon({{ $addon->id }})" {{ in_array($addon->id, $selectedAddOns) ? 'checked' : '' }}>
+                                                    <input type="checkbox" class="form-check-input border border-dark" id="addon-{{ $addon->id }}" wire:click="toggleAddon({{ $addon->id }})" {{ in_array($addon->id, $selectedAddOns) ? 'checked' : '' }}>
                                                     <label class="form-check-label fw-semibold" for="addon-{{ $addon->id }}">{{ $addon->name }}</label>
                                                     
                                                     @if($addon->description)
@@ -197,7 +197,7 @@
                                                     
                                                 </div>
                                                 @if(in_array($addon->id, $selectedAddOns))
-                                                @if(!is_null($addon->quantity))
+                                                @if($addon->quantity)
                                                 <div class="d-flex align-items-center justify-content-center my-2">
                                                     <div class="d-flex align-items-center gap-2">
                                                         <!-- Quantity controls (commented out as in original) -->
@@ -230,7 +230,7 @@
                         <div class="space-y-6">
                             <!-- Additional Information Section -->
                             <div class="mb-4">
-                                <h5 class="text-primary border-bottom pb-2"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
+                                <h5 class="text-dark border-bottom pb-2"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
                                 <div class="mb-3">
                                     <label for="notes" class="col-form-label">Special Notes</label> <span class="form-text text-secondary">(Optional)</span>
                                     <textarea class="form-control @error('notes') is-invalid @enderror" id="notes" wire:model="notes" rows="4" placeholder="Any special requirements, preferences, or additional information..."></textarea>
@@ -351,9 +351,9 @@
                                 </div>
                             </div>
                             <!-- Important Notes -->
-                            <div class="mb-4 p-3 bg-warning bg-opacity-10 border border-warning rounded">
-                                <h3 class="h6 fw-medium text-warning mb-2">Important Notes:</h3>
-                                <ul class=" small text-warning-emphasis mb-0">
+                            <div class="mb-4 p-3 bg-danger-subtle bg-opacity-25 border border-danger rounded">
+                                <h3 class="h6 fw-medium text-danger mb-2">Important Notes:</h3>
+                                <ul class=" small text-danger-emphasis mb-0">
                                     <li class="mb-1">Please ensure the payment amount matches exactly: RM {{ number_format($depositAmount, 2) }}</li>
                                     <li class="mb-1">Your booking will be confirmed within 24 hours after payment verification</li>
                                     <li class="mb-1">Keep your payment receipt for records</li>
@@ -381,11 +381,11 @@
 
                             @if($currentStep < $totalSteps)
                                 <div></div>
-                                <button type="button" wire:click="nextStep" class="btn btn-primary px-4">Next Step</button>
+                                <button type="button" wire:click="nextStep" class="btn btn-secondary bg-gradient px-4">Next Step</button>
                             @else
                             <!-- Submit Button -->
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-lg text-white" wire:loading.attr="disabled">
+                                <button type="submit" class="btn btn-lg text-white" wire:loading.attr="disabled" style="background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
                                     <span wire:loading.remove wire:target="nextStep" class="submit-button"></i>Submit Booking Request</span>
                                     <span wire:loading wire:target="nextStep">
                                         <span class="spinner-border spinner-border-sm me-2" role="status"></span>

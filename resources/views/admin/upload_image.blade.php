@@ -34,7 +34,7 @@
                     <div class="mb-3">
                         <label for="imageType" class="form-label">Image Type</label>
                         <select class="form-control" id="imageType" name="imageType" required>
-                            <option value="">-- Select Type --</option>
+                            <option value="" hidden>-- Select Type --</option>
                             <option value="wedding">Wedding</option>
                             <option value="event">Event</option>
                             <option value="fashion">Fashion</option>
@@ -44,7 +44,7 @@
 
                     <div class="mb-3">
                         <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="image" name="image" required>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Upload</button>
@@ -67,34 +67,40 @@
 
 
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Preview</th>
-                    <th scope="col">File Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($images as $image)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td><img src="{{ asset('storage/images/'. $image->filename) }}" width="100" alt="Image"></td>
-                    <td>{{ $image->filename }}</td>
-                    <td>{{$image->image_type }}</td>
-                    <td>
-                        <form action="{{ route('image.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Preview</th>
+                                <th scope="col">File Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($images as $image)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td><img src="{{ asset('storage/images/'. $image->filename) }}" width="100" alt="Image"></td>
+                                <td>{{ $image->filename }}</td>
+                                <td>{{$image->image_type }}</td>
+                                <td>
+                                    <form action="{{ route('image.destroy', $image->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this image?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        </div>
     </div>
 </div>
 @endsection

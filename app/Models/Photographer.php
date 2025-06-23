@@ -11,18 +11,17 @@ class Photographer extends Model
         'email',
         'phone',
         'specialization',
-        'bio',
         'profile_photo',
         'is_active',
+        // 'bio',
         // 'hourly_rate'
     ];
 
     public function bookings() // Many-to-many relationship with Booking with the pivot table 'booking_photographer'
     {
         return $this->belongsToMany(Booking::class, 'booking_photographer')
-                    ->withPivot([
-                        'assigned_by'
-                    ])
+                    ->using(BookingPhotographer::class)
+                    ->withPivot('assigned_by')
                     ->withTimestamps();
     }
 

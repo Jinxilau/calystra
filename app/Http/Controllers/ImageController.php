@@ -40,10 +40,9 @@ class ImageController extends Controller
     {
         $image = Image::findOrFail($id);
 
-        if (Storage::exists('public/images/' . $image->filename)) {
-            Storage::delete('public/images/' . $image->filename);
+        if (Storage::disk('public')->exists('images/' . $image->filename)) {
+            Storage::disk('public')->delete('images/' . $image->filename);
         }
-
         $image->delete();
 
         return redirect()->back()->with('success', 'Image deleted successfully.');

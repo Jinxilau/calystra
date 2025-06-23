@@ -67,15 +67,15 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                     <x-input-label for="email" :value="__('Email address')" class="form-label" />
                     <div class="position-relative">
                         <x-text-input wire:model.blur="form.email" id="email" class="form-control" type="email" name="email" placeholder="{{ __('Enter your email') }}" required autofocus autocomplete="username" />
-                        @error('form.email')
+                        {{-- @error('form.email')
                         <div class="position-absolute end-0 translate-middle-y pe-3" style="top: 20px;">
                             <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                             </svg>
                         </div>
-                        @enderror
+                        @enderror --}}
                     </div>
-                    <x-input-error :messages="$errors->get('form.email')" class="text-danger" />
+                    {{-- <x-input-error :messages="$errors->get('form.email')" class="text-danger" /> --}}
                 </div>
 
                 <!-- Password -->
@@ -83,27 +83,30 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                     <x-input-label for="password" :value="__('Password')" class="form-label" />
                     <div class="position-relative">
                         <x-text-input wire:model.blur="form.password" id="password" class="form-control" type="password" name="password" placeholder="{{ __('Enter your password') }}" required autocomplete="current-password" />
-                        @error('form.password')
+                        {{-- @error('form.password')
                         <div class="position-absolute end-0 translate-middle-y pe-3" style="top: 20px;">
                             <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                             </svg>
                         </div>
-                        @enderror
+                        @enderror --}}
                     </div>
-                    <x-input-error :messages="$errors->get('form.password')" class="text-danger" />
+                    {{-- <x-input-error :messages="$errors->get('form.password')" class="text-danger" /> --}}
                 </div>
 
-                {{-- @error('form.password')
-                <div class="d-block">
-                    {{ $message }}
+                @if ($errors->any())
+                <div class="d-flex justify-content-start align-items-center">
+                    <svg width="20" height="20" fill="red" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <p class="text-danger m-0 p-0">{{$errors->first()}}</p>
                 </div>
-                @enderror --}}
+                @endif
 
                 <!-- Remember Me & Forgot Password -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="form-check">
-                        <input wire:model="form.remember" id="remember" type="checkbox" class="form-check-input" name="remember">
+                        <input wire:model="form.remember" id="remember" type="checkbox" class="form-check-input border border-dark" name="remember">
                         <label for="remember" class="form-check-label">
                             {{ __('Remember me') }}
                         </label>
@@ -111,7 +114,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 
                     @if (Route::has('password.request'))
                     <div>
-                        <a class="text-decoration-none" href="{{ route('password.request') }}" wire:navigate>
+                        <a class="text-dark" href="{{ route('password.request') }}" wire:navigate>
                             {{ __('Forgot password?') }}
                         </a>
                     </div>
@@ -120,7 +123,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
 
                 <!-- Submit Button -->
                 <div class="mb-3">
-                    <x-primary-button class="w-100 btn btn-primary" wire:loading.attr="disabled" wire:target="login">
+                    <x-primary-button class="w-100 btn btn-dark" wire:loading.attr="disabled" wire:target="login">
                         <!-- Visible when not loading -->
                         <span wire:loading.remove wire:target="login">
                             {{ __('Sign in') }}
@@ -140,7 +143,7 @@ new #[Layout('layouts.guest'), Title('Login')] class extends Component
                 <div class="text-center">
                     <p class="text-muted">
                         {{ __("Don't have an account?") }}
-                        <a href="{{ route('register') }}" wire:navigate class="text-decoration-none">{{ __('Sign up') }}</a>
+                        <a href="{{ route('register') }}" wire:navigate class="text-dark">{{ __('Sign up') }}</a>
                     </p>
                 </div>
             </form>

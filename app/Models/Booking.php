@@ -28,34 +28,33 @@ class Booking extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function service()
-    // {
-    //     return $this->belongsTo(Service::class);
-    // }
-
-    public function addOns()
-    {
-        return $this->belongsToMany(AddOn::class, 'booking_add_ons')
-            ->withPivot('quantity')
-            ->withTimestamps();
-    }
-
-    public function photographers()
-    {
-        return $this->belongsToMany(Photographer::class, 'booking_photographer')
-            ->withPivot([
-                'assigned_by',
-            ])
-            ->withTimestamps();
-    }
-
-
     public function payments()
     {
         return $this->hasOne(Payment::class);
     }
 
+    public function addOns()
+    {
+        return $this->belongsToMany(AddOn::class, 'booking_add_ons')
+            ->using(BookingAddOn::class)
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
 
+    public function bookingAddOns()
+    {
+        return $this->hasMany(BookingAddOn::class);
+    }
+
+    public function photographers()
+    {
+        return $this->belongsToMany(Photographer::class, 'booking_photographer')
+            ->using(BookingPhotographer::class)
+            ->withPivot('assigned_by')
+            ->withTimestamps();
+    }
+
+    
     // public function assignedBy()
     // {
     //     return $this->belongsTo(User::class, 'assigned_by');
@@ -72,9 +71,9 @@ class Booking extends Model
     //     return $this->payments()->where('status', 'completed')->sum('amount');
     // }
 
-    public function bookingAddOns()
-    {
-        return $this->hasMany(BookingAddOn::class);
-    }
+    // public function service()
+    // {
+    //     return $this->belongsTo(Service::class);
+    // }
 
 }

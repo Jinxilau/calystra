@@ -47,7 +47,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
      */
     public function register(): void
     {
-        $validated = $this->validate(rules()); // rule()
+        $validated = $this->validate(); // rule()
 
         // Remove terms_accepted from validated data before creating user
         unset($validated['terms_accepted']);
@@ -241,13 +241,13 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                 <!-- Terms and Conditions -->
                 <div class="mb-3 form-check">
                     <input wire:model.live="terms_accepted" id="terms" type="checkbox" class="form-check-input" required>
-                    <label for="terms" class="form-check-label">{{ __('I agree to the') }}<a href="#" class="text-decoration-none"> {{ __('Terms and Conditions') }}</a> {{ __('and') }}<a href="#" class="text-decoration-none"> {{ __('Privacy Policy') }}</a></label>
+                    <label for="terms" class="form-check-label">{{ __('I agree to the') }}<a href="#" class="text-dark"> {{ __('Terms and Conditions') }}</a> {{ __('and') }}<a href="#" class="text-dark"> {{ __('Privacy Policy') }}</a></label>
                     <x-input-error :messages="$errors->get('terms_accepted')" class="text-danger" style="list-style: none"/>
                 </div>
 
                 <!-- Submit Button -->
                 <div class="mb-3">
-                    <x-primary-button class="w-100 btn btn-primary" wire:loading.attr="disabled" wire:target="register">
+                    <x-primary-button class="w-100 btn btn-dark" wire:loading.attr="disabled" wire:target="register">
                         <span wire:loading wire:target="register" class="">
                             <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                         </span>
@@ -259,7 +259,7 @@ new #[Layout('layouts.guest'), Title('Register')] class extends Component
                 <div class="text-center">
                     <p class="small text-muted"> 
                         {{ __('Already have an account?') }}
-                        <a href="{{ route('login') }}" wire:navigate class="text-decoration-none">{{ __('Sign in') }}</a>
+                        <a href="{{ route('login') }}" wire:navigate class="text-dark">{{ __('Sign in') }}</a>
                     </p>
                 </div>
             </form>

@@ -16,16 +16,17 @@ class AddOn extends Model
     ];
 
     // app/Models/AddOn.php
+    public function bookings() 
+    {
+        return $this->belongsToMany(Booking::class, 'booking_add_ons')
+            ->using(BookingAddOn::class)
+            ->withPivot('quantity')
+            ->withTimestamps();
+    }
+
     public function bookingAddOns()
     {
         return $this->hasMany(BookingAddOn::class);
-    }
-
-    public function bookings()
-    {
-        return $this->belongsToMany(Booking::class, 'booking_add_ons')
-            ->withPivot('quantity', 'unit_price', 'total_price')
-            ->withTimestamps();
     }
 
     public function scopeActive($query)

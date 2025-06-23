@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('fullname')->nullable(); // Optional phone number
             $table->string('phone')->nullable(); // Optional phone number
             $table->boolean('is_active')->default(true); // Active status
-            $table->string('profile_picture')->nullable(); // Optional profile picture
+            // $table->string('profile_picture')->nullable(); // Optional profile picture
         });
     }
 

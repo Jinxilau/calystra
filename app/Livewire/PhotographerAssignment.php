@@ -3,187 +3,165 @@
 namespace App\Livewire;
 
 use App\Models\Booking;
-use App\Models\BookingPhotographer;
 use App\Models\Photographer;
+use App\Models\BookingPhotographer;
 use App\Models\PhotographerAvailability;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class PhotographerAssignment extends Component
 {
     public $booking;
-    public $selectedPhotographer = '';
+    
+    // Photographer
+    public $selectedPhotographers = [];
     public $availablePhotographers = [];
-    public $assignedPhotographers = [];
-    public $showAssignModal = false;
+
+    // View
+    public $showModal = false;
     public $searchTerm = '';
-    public $filterSpecialization = '';
-    public $showAvailabilityDetails = false;
-    public $photographerAvailability = [];
+    public $specializationFilter = '';
+    public $showAvailabilityDetails = [];
 
     protected $rules = [
-        'selectedPhotographer' => 'required|exists:photographers,id',
+        'selectedPhotographers' => 'required|array|min:1',
+        'selectedPhotographers.*' => 'exists:photographers,id'
     ];
 
     protected $messages = [
-        'selectedPhotographer.required' => 'Please select a photographer to assign.',
-        'selectedPhotographer.exists' => 'Selected photographer is not valid.',
+        'selectedPhotographers.required' => 'Please select at least one photographer.',
+        'selectedPhotographers.min' => 'Please select at least one photographer.'
     ];
 
-    public function mount($bookingId)
+    public function mount(Booking $booking)
     {
-        $this->booking = Booking::with(['user', 'assignedPhotographers.photographer'])->findOrFail($bookingId);
-        $this->loadAssignedPhotographers();
+        $this->booking = $booking;
         $this->loadAvailablePhotographers();
+        $this->loadCurrentAssignments();
     }
 
-    public function loadAssignedPhotographers()
+    public function loadCurrentAssignments()
     {
-        $this->assignedPhotographers = $this->booking->assignedPhotographers()
-            ->with('photographer')
-            ->get()
-            ->toArray();
+        $this->selectedPhotographers = $this->booking->photographers()->pluck('photographers.id')->toArray();
     }
 
     public function loadAvailablePhotographers()
     {
-        $eventDate = Carbon::parse($this->booking->event_date);
-        $startTime = Carbon::parse($this->booking->event_date . ' ' . $this->booking->start_time);
+        $eventStart = Carbon::parse($this->booking->event_date . ' ' . $this->booking->start_time); // '2025-06-21 14:30:00'
 
-        // Get photographers who are not already assigned to this booking
-        $alreadyAssignedIds = collect($this->assignedPhotographers)->pluck('photographer_id');
+        // Assuming 8-hour event duration
+        $eventEnd = $eventStart->copy()->addHours(8);
 
-        $query = Photographer::where('is_active', true)
-            ->whereNotIn('id', $alreadyAssignedIds);
+        $query = Photographer::where('is_active', true);
 
         // Apply search filter
-        if (!empty($this->searchTerm)) {
-            $query->where(function ($q) {
+        if ($this->searchTerm) {
+            $query->where(function($q) {
                 $q->where('name', 'like', '%' . $this->searchTerm . '%')
-                    ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
+                ->orWhere('email', 'like', '%' . $this->searchTerm . '%');
             });
         }
 
         // Apply specialization filter
-        if (!empty($this->filterSpecialization)) {
-            $query->where('specialization', 'like', '%' . $this->filterSpecialization . '%');
+        if ($this->specializationFilter) {
+            $query->where('specialization', 'like', '%' . $this->specializationFilter . '%');
         }
 
-        $photographers = $query->get();
+        $photographers = $query->get(); // Execute the query and fetch the result
 
-        // Check availability for each photographer
-        $this->availablePhotographers = $photographers->map(function ($photographer) use ($eventDate, $startTime) {
-            $isAvailable = $this->checkPhotographerAvailability($photographer->id, $eventDate, $startTime);
-
+        $this->availablePhotographers = $photographers->map(function ($photographer) use ($eventStart, $eventEnd) {
+            $isAvailable = $this->checkPhotographerAvailability($photographer, $eventStart, $eventEnd);
+            $conflicts = $this->getPhotographerConflicts($photographer, $eventStart, $eventEnd);
+            
             return [
                 'id' => $photographer->id,
                 'name' => $photographer->name,
                 'email' => $photographer->email,
                 'phone' => $photographer->phone,
                 'specialization' => $photographer->specialization,
-                'bio' => $photographer->bio,
                 'profile_photo' => $photographer->profile_photo,
                 'is_available' => $isAvailable,
-                'availability_status' => $isAvailable ? 'Available' : 'Not Available'
+                'conflicts' => $conflicts,
+                'availability_status' => $isAvailable ? 'Available' : 'Conflicts Found' // If conflict then conflics found
             ];
-        })->sortBy([
-            ['is_available', 'desc'], // Available photographers first
-            ['name', 'asc'] // Then sort by name
-        ])->values()->toArray();
+        })->toArray();
     }
 
-    public function checkPhotographerAvailability($photographerId, $eventDate, $startTime)
+    private function checkPhotographerAvailability($photographer, $eventStart, $eventEnd)
     {
         // Check if photographer has any conflicting bookings
-        $conflictingBookings = BookingPhotographer::where('photographer_id', $photographerId)
-            ->whereHas('booking', function ($query) use ($eventDate) {
-                $query->where('event_date', $eventDate->format('Y-m-d'))
-                    ->where('status', '!=', 'denied');
-            })
-            ->exists();
+        $conflictingBookings = BookingPhotographer::where('photographer_id', $photographer->id)
+            ->whereHas('booking', function ($query) use ($eventStart, $eventEnd) {
+                $query->where('status', '!=', 'denied')
+                    ->where(function ($q) use ($eventStart, $eventEnd) {
+                        $q->whereRaw('DATE(event_date) = ?', [$eventStart->toDateString()]);
+                    });
+            })->exists();
 
-        if ($conflictingBookings) {
-            return false;
+        // Check photographer availability table
+        $unavailablePeriods = PhotographerAvailability::where('photographer_id', $photographer->id)
+        ->where(function ($query) use ($eventStart, $eventEnd) {
+            $query->where(function ($q) use ($eventStart, $eventEnd) {
+                $q->where('start_date', '<=', $eventStart)
+                ->where('end_date', '>=', $eventStart);
+            })->orWhere(function ($q) use ($eventStart, $eventEnd) {
+                $q->where('start_date', '<=', $eventEnd)
+                ->where('end_date', '>=', $eventEnd);
+            })->orWhere(function ($q) use ($eventStart, $eventEnd) {
+                $q->where('start_date', '>=', $eventStart)
+                ->where('end_date', '<=', $eventEnd);
+            });
+        })->exists();
+
+        return !$conflictingBookings && !$unavailablePeriods; // Returns true only when both is true.
+    }
+
+    private function getPhotographerConflicts($photographer, $eventStart, $eventEnd)
+    {
+        $conflicts = [];
+
+        // Check conflicting bookings
+        $conflictingBookings = BookingPhotographer::where('photographer_id', $photographer->id)
+            ->whereHas('booking', function ($query) use ($eventStart, $eventEnd) {
+                $query->where('status', '!=', 'denied')
+                    ->where('id', '!=', $this->booking->id) // Exclude current booking
+                    ->where(function ($q) use ($eventStart, $eventEnd) {
+                        $q->whereRaw('DATE(event_date) = ?', [$eventStart->toDateString()]);
+                    });
+            })->with('booking')->get();
+
+        foreach ($conflictingBookings as $bookingPhotographer) {
+            $conflicts[] = [
+                'type' => 'booking',
+                'details' => 'Conflicting booking: #' . $bookingPhotographer->booking->id ." ". $bookingPhotographer->booking->event_name . ' on ' . $bookingPhotographer->booking->event_date
+            ];
         }
 
-        // Check photographer availability schedule
-        $unavailableSlots = PhotographerAvailability::where('photographer_id', $photographerId)
-            ->where(function ($query) use ($eventDate, $startTime) {
-                $query->where(function ($q) use ($eventDate, $startTime) {
-                    // Check if event time overlaps with unavailable slots
-                    $q->whereDate('start_date', '<=', $eventDate->format('Y-m-d'))
-                        ->whereDate('end_date', '>=', $eventDate->format('Y-m-d'));
+        // Check unavailable periods
+        $unavailablePeriods = PhotographerAvailability::where('photographer_id', $photographer->id)
+            ->where(function ($query) use ($eventStart, $eventEnd) {
+                $query->where(function ($q) use ($eventStart, $eventEnd) {
+                    $q->where('start_date', '<=', $eventStart)
+                    ->where('end_date', '>=', $eventStart);
+                })->orWhere(function ($q) use ($eventStart, $eventEnd) {
+                    $q->where('start_date', '<=', $eventEnd)
+                    ->where('end_date', '>=', $eventEnd);
+                })->orWhere(function ($q) use ($eventStart, $eventEnd) {
+                    $q->where('start_date', '>=', $eventStart)
+                    ->where('end_date', '<=', $eventEnd);
                 });
-            })
-            ->exists();
+            })->get();
 
-        return !$unavailableSlots;
-    }
-
-    public function showAssignPhotographerModal()
-    {
-        $this->showAssignModal = true;
-        $this->selectedPhotographer = '';
-    }
-
-    public function closeAssignModal()
-    {
-        $this->showAssignModal = false;
-        $this->selectedPhotographer = '';
-        $this->resetValidation();
-    }
-
-    public function assignPhotographer()
-    {
-        $this->validate();
-
-        try {
-            DB::beginTransaction();
-
-            // Check if photographer is still available
-            $photographer = Photographer::findOrFail($this->selectedPhotographer);
-            $eventDate = Carbon::parse($this->booking->event_date);
-            $startTime = Carbon::parse($this->booking->event_date . ' ' . $this->booking->start_time);
-
-            if (!$this->checkPhotographerAvailability($photographer->id, $eventDate, $startTime)) {
-                $this->addError('selectedPhotographer', 'Selected photographer is no longer available for this date and time.');
-                return;
-            }
-
-            // Create the assignment
-            BookingPhotographer::create([
-                'booking_id' => $this->booking->id,
-                'photographer_id' => $this->selectedPhotographer,
-                'assigned_by' => Auth::id(),
-            ]);
-
-            DB::commit();
-
-            $this->loadAssignedPhotographers();
-            $this->loadAvailablePhotographers();
-            $this->closeAssignModal();
-
-            session()->flash('success', 'Photographer assigned successfully!');
-        } catch (\Exception $e) {
-            DB::rollback();
-            $this->addError('selectedPhotographer', 'Failed to assign photographer. Please try again.');
+        foreach ($unavailablePeriods as $period) {
+            $conflicts[] = [
+                'type' => 'unavailable',
+                'details' => 'Unavailable: ' . $period->reason . ' (' . Carbon::parse($period->start_date)->format('M d, Y H:i') . ' - ' . Carbon::parse($period->end_date)->format('M d, Y H:i') . ')'
+            ];
         }
-    }
 
-    public function removePhotographer($assignmentId)
-    {
-        try {
-            BookingPhotographer::findOrFail($assignmentId)->delete();
-
-            $this->loadAssignedPhotographers();
-            $this->loadAvailablePhotographers();
-
-            session()->flash('success', 'Photographer removed successfully!');
-        } catch (\Exception $e) {
-            session()->flash('error', 'Failed to remove photographer assignment.');
-        }
+        return $conflicts;
     }
 
     public function updatedSearchTerm()
@@ -191,29 +169,88 @@ class PhotographerAssignment extends Component
         $this->loadAvailablePhotographers();
     }
 
-    public function updatedFilterSpecialization()
+    public function updatedSpecializationFilter()
     {
         $this->loadAvailablePhotographers();
     }
 
-    public function showPhotographerAvailability($photographerId)
+    public function togglePhotographer($photographerId)
     {
-        $this->photographerAvailability = PhotographerAvailability::where('photographer_id', $photographerId)
-            ->orderBy('start_date')
-            ->get()
-            ->toArray();
-
-        $this->showAvailabilityDetails = true;
+        if (in_array($photographerId, $this->selectedPhotographers)) {
+            $this->selectedPhotographers = array_diff($this->selectedPhotographers, [$photographerId]);
+        } else {
+            $this->selectedPhotographers[] = $photographerId;
+        }
     }
 
-    public function closeAvailabilityModal()
+    public function toggleAvailabilityDetails($photographerId)
     {
-        $this->showAvailabilityDetails = false;
-        $this->photographerAvailability = [];
+        if (isset($this->showAvailabilityDetails[$photographerId])) {
+            unset($this->showAvailabilityDetails[$photographerId]);
+        } else {
+            $this->showAvailabilityDetails[$photographerId] = true;
+        }
     }
 
+    public function clearAssignment() {
+        try {
+            $query = DB::table('booking_photographer')->where('booking_id', $this->booking->id);
+            //code...
+            if($query->exists())
+            {
+                $query->delete();
+                session()->flash('success', 'All photographers unassigned successfully');
+            }else
+            {
+                session()->flash('error', 'There is no photographer to assigned');
+            }
+        } catch (\Exception $e) {
+            //throw $th;
+            session()->flash('error', 'Failed to clear assignments: '.$e->getMessage());
+            report($e); // Log the error
+        }
+    }
 
-    public function render() // This method is responsible for rendering the view associated with this Livewire component
+    public function assignPhotographers()
+    {
+        $this->validate();
+
+        try {
+            // Remove existing assignments
+            BookingPhotographer::where('booking_id', $this->booking->id)->delete();
+
+            // Add new assignments
+            foreach ($this->selectedPhotographers as $photographerId) {
+                BookingPhotographer::create([
+                    'booking_id' => $this->booking->id,
+                    'photographer_id' => $photographerId,
+                    'assigned_by' => Auth::id()
+                ]);
+            }
+
+            session()->flash('success', 'Photographers assigned successfully!');
+            $this->showModal = false;
+            $this->dispatch('photographer-assigned');
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to assign photographers. Please try again.');
+        }
+    }
+
+    public function openModal()
+    {
+        $this->showModal = true;
+        $this->loadAvailablePhotographers();
+        $this->loadCurrentAssignments();
+    }
+
+    public function closeModal()
+    {
+        $this->showModal = false;
+        $this->reset(['searchTerm', 'specializationFilter', 'showAvailabilityDetails']);
+    }
+
+    public function render()
     {
         return view('livewire.photographer-assignment');
     }

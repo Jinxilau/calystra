@@ -26,7 +26,7 @@ class User extends Authenticatable
         'password',
         'fullname', // Optional full name
         'phone', // Optional phone number
-        'profile_picture', // Optional profile picture URL
+        // 'profile_picture', // Optional profile picture URL
     ];
 
     /**
