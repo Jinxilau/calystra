@@ -15,7 +15,7 @@
 </div>
 @endif
 
-<div class="container pt-3">
+<div class="container pt-5">
     <h1 class="text-center mb-4">Convocation Gallery</h1>
 
     <div class="row row-cols-1 row-cols-md-4 g-4">
