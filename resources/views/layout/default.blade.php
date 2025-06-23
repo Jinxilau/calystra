@@ -60,8 +60,8 @@
                 </div>
                 @else
                 <div class="auth-buttons d-md-flex gap-1" style="width: 14vw; min-width: 80px;">
-                    <a href="{{ route('login') }}" id="login" class="btn btn-outline-light" wire:navigate style="width: 100%">Login</a>
-                    <a href="{{ route('register') }}" id="register" class="btn btn-light" wire:navigate style="width: 100%">Register</a>
+                    <a href="{{ route('login') }}" id="login" class="btn btn-sm btn-outline-light" wire:navigate style="width: 100%">Login</a>
+                    <a href="{{ route('register') }}" id="register" class="btn btn-sm btn-light" wire:navigate style="width: 100%">Register</a>
                 </div>
                 @endauth
             </div>
